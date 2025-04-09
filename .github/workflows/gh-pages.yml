@@ -35,6 +35,7 @@ jobs:
       - name: Build documentation
         run: |
           cd docs
+          make clean
           make html
 
       - name: Add .nojekyll
