@@ -18,10 +18,24 @@ from deprecation import deprecated
 from numba import njit, prange
 
 
-# Sup ADF Test
 @deprecated
 @njit(parallel=True)
 def sadfuller_stat(y: NDArray[float64], r0: float, rstep: float, kmax: int) -> float:
+    """
+    Calculates the Sup ADF statistic by rolling over the interval [r0, 1].
+
+    .. math::
+        \sup_{r \in [r_0, 1]} \text{ADF}(y_{0:r})
+
+    Parameters:
+        y (NDArray[float64]): Time series values.
+        r0 (float): Minimum index.
+        rstep (float): Step size.
+        kmax (int): Max lag.
+
+    Returns:
+        float: Sup ADF statistic.
+    """
     stat: float = -inf
     for r in prange(r0, 1 + rstep, rstep):
         stat = max(stat, rolling_adfuller_stat(y, 0, r, kmax))
@@ -35,20 +49,22 @@ def __sadfuller_dist_from_random_walks__(
     """
     Calculates the asymptotic distribution of the Sup ADF test statistics based on a series of simulated random walks.
 
-    Args:
-        random_walks (NDArray[float64]): Simulated random walks of size (`nreps`, `nobs`).
-        r0 (float): Minimum index to evaluate the test statistics.
-        rstep (float): Step size for the index.
+    .. math::
+        \text{SupADF}_{j, i} = \max(\text{SupADF}_{j, i}, \text{ADF}(y_j, r_1, r_2))
+
+    Parameters:
+        random_walks (NDArray[float64]): Simulated random walks of size (nreps, nobs).
+        r0 (float): Minimum index.
+        rstep (float): Step size.
 
     Returns:
-        NDArray[float64]: Array of size (`nreps`, int((1 - r0) / rstep) + 1) containing the test statistics.
+        NDArray[float64]: Distribution matrix of Sup ADF statistics.
     """
     nreps: int = random_walks.shape[0]
     r1r2_grid: NDArray[float64] = __r1r2_combinations__(r0, rstep)
     ntups: int = len(r1r2_grid)
     nstat: int = size_rgrid(r0, rstep)
-    stats: NDArray[float64] = repeat(-inf, nreps * nstat)
-    stats = stats.reshape((nreps, nstat))
+    stats: NDArray[float64] = repeat(-inf, nreps * nstat).reshape((nreps, nstat))
     for j in range(nreps):
         for i in prange(ntups):
             r1: int = r1r2_grid[i][0]
@@ -60,22 +76,22 @@ def __sadfuller_dist_from_random_walks__(
     return stats
 
 
-# Backward Sup ADF Test
-
-
 @njit(parallel=True)
 def bsadf_stat(y: NDArray[float64], r0: float, r2: float, kmax: int) -> float:
     """
     Calculates the Backward Sup ADF test statistic.
 
-    Args:
-        y (NDArray[float64]): Values of the time series.
-        r0 (float): Minimum index to evaluate the test statistics.
-        r2 (float): Index to evaluate the test statistics.
-        kmax (int): Maximum lag to use in the test.
+    .. math::
+        \text{BSADF}(r_2) = \max_{r_1 \in [0, r_2 - r_0]} \text{ADF}(y, r_1, r_2)
+
+    Parameters:
+        y (NDArray[float64]): Time series values.
+        r0 (float): Minimum index.
+        r2 (float): End index.
+        kmax (int): Max lag.
 
     Returns:
-        float: The Backward Sup ADF test statistic.
+        float: BSADF statistic.
     """
     stat: float = -inf
     for r1 in prange(r2 - r0 + 1):
@@ -88,16 +104,19 @@ def bsadf_stat_all_series(
     y: NDArray[float64], r0: float, rstep: float, kmax: int
 ) -> NDArray[float64]:
     """
-    Calculates the Backward Sup ADF test statistics for all possible combinations of r1 and r2.
+    Calculates BSADF statistics over all possible (r1, r2) combinations.
 
-    Args:
-        y (NDArray[float64]): Values of the time series.
-        r0 (float): Minimum index to evaluate the test statistics.
-        rstep (float): Step size for the index.
-        kmax (int): Maximum lag to use in the test.
+    .. math::
+        \text{BSADF}_i = \max_{r_1 \in [0, r_2 - r_0]} \text{ADF}(y, r_1, r_2)
+
+    Parameters:
+        y (NDArray[float64]): Time series values.
+        r0 (float): Minimum index.
+        rstep (float): Step size.
+        kmax (int): Max lag.
 
     Returns:
-        NDArray[float64]: Array of size (`int(floor((1 - r0) / rstep) + 1)`,) containing the test statistics.
+        NDArray[float64]: Array of test statistics.
     """
     r1r2_grid: NDArray[float64] = __r1r2_combinations__(r0, rstep)
     ntups: int = len(r1r2_grid)
@@ -114,17 +133,20 @@ def bsadf_stat_all_series(
 @njit(parallel=False)
 def __r1r2_combinations__(r0: float, rstep: float) -> NDArray[float64]:
     """
-    Creates a vector with all possible combinations of (r1, r2) to evaluate the BSADF test. `r2` ranges from `r0` to `1`, and `r1` ranges from `0` to `r2 - r0`.
+    Creates a grid of all (r1, r2) index pairs to evaluate BSADF.
 
-    Args:
-        r0 (float): Minimum index to evaluate the test statistics.
-        rstep (float): Step size for the index.
+    .. math::
+        r_2 \in [r_0, 1], \quad r_1 \in [0, r_2 - r_0]
+
+    Parameters:
+        r0 (float): Minimum index.
+        rstep (float): Step size.
 
     Notes:
-        - The final vector has size equal to `n * (n + 1) / 2`, where `n` is the number of steps from `r0` to `1` with step size `rstep`, or `n = int((1 - r0) / rstep) + 1)`.
+        - Vector size: :math:`n(n+1)/2` where :math:`n = \lfloor (1 - r_0)/rstep \rfloor + 1`
 
     Returns:
-        NDArray[float64]: Vector containing the combinations of (r1, r2).
+        NDArray[float64]: Grid of (r1, r2) pairs.
     """
     n: int = size_rgrid(r0, rstep)
     size = n * (n + 1) // 2
@@ -146,17 +168,20 @@ def bsadfuller_critval(
     test_size: Iterable | float = TEST_SIZE,
 ) -> NDArray[float64]:
     """
-    Calculates the critical values of the Backward Sup ADF test from Monte Carlo simulations.
+    Calculates critical values of BSADF statistics from Monte Carlo simulations.
 
-    Args:
-        r0 (float): Minimum index to evaluate the test statistics.
-        rstep (float): Step size for the index.
-        nreps (int): Number of Monte Carlo simulations to perform.
-        nobs (int | None, optional): Number of observations to use in the Monte Carlo Simulation. Defaults to None, using `1 / rstep`.
-        testsize (list[float] | float, optional): Significance levels to use for the critical values. Defaults to TEST_SIZE (see `psytest.utils.constants`).
+    .. math::
+        \text{CV}_{i,\alpha} = \text{Quantile}_{1 - \alpha}(\text{BSADF}_i)
+
+    Parameters:
+        r0 (float): Minimum index.
+        rstep (float): Step size.
+        nreps (int): Number of replications.
+        nobs (int | None): Number of observations. Defaults to :math:`1/rstep`.
+        test_size (Iterable | float): Significance levels.
 
     Returns:
-        NDArray[float64]: Vector of size (`int((1 - r0) / rstep) + 1`, `len(testsize)`) containing the critical values for the test statistics.
+        NDArray[float64]: Critical values matrix.
     """
     if nobs is None:
         nobs: int = int(1 / rstep)

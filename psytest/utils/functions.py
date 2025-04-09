@@ -11,7 +11,10 @@ def r0_default(nobs: int) -> int:
     """
     Calculates the default r0 parameter following Phillips, Shi & Yu (2015) as a function of the number of observations.
 
-    Args:
+    .. math::
+        r_0 = 0.01 \times 0.08 \times \sqrt{n}
+
+    Parameters:
         nobs (int): Number of observations
 
     Returns:
@@ -22,9 +25,12 @@ def r0_default(nobs: int) -> int:
 
 def minlength_default(nobs: int, delta: float) -> int:
     """
-    Calculates the minimum bubble length based on the number of observations
+    Calculates the minimum bubble length based on the number of observations.
 
-    Args:
+    .. math::
+        \text{min\_length} = \frac{\delta \log(n)}{n}
+
+    Parameters:
         nobs (int): Number of observations
         delta (float): Multiplier parameter for bubble length
 
@@ -37,10 +43,12 @@ def minlength_default(nobs: int, delta: float) -> int:
 def index_combinations(start: int, stop: int) -> list[tuple[int, int]]:
     """
     Generates the combinations of two indices, where the first index is less than the second index. The result is a tuple of indices (r1, r2) such as:
-    * r1 = 0, ..., r2 - start
-    * r2 = start, ..., stop
 
-    Args:
+    .. math::
+        r_1 = 0, \ldots, r_2 - \text{start} \\
+        r_2 = \text{start}, \ldots, \text{stop}
+
+    Parameters:
         start (int): The initial index to start the combinations
         stop (int): The final index to stop the combinations
 
@@ -66,9 +74,12 @@ def random_walk(nreps: int, nobs: int) -> NDArray[float64]:
     """
     Generates a monte carlo simulation of random walks.
 
-    Args:
-        nreps (int): number of repetitions.
-        nobs (int): number of observations.
+    .. math::
+        RW_{i, t} = \sum_{s=1}^{t} \frac{\varepsilon_{i, s}}{\sqrt{n}}
+
+    Parameters:
+        nreps (int): Number of repetitions.
+        nobs (int): Number of observations.
 
     Returns:
         NDArray[float64]: Matrix of shape (nreps, nobs) with the random walks.
@@ -82,16 +93,17 @@ def simulate_markov(
     nobs: int, p=0.975, beta_list: list[float] = [1.01, 1]
 ) -> tuple[list[float], list[float]]:
     """
-    Simulates a markov process with two regimes. The two regimes differ in their beta parameter, one potentially explosive (beta > 1) and the other stationary (beta < 1). The markov matrix is set as constant with the parameter `p` giving the probability of remaining in the same regime. The process is simulated using a normal distribution for the error term. The process is defined as:
+    Simulates a Markov process with two regimes. The two regimes differ in their beta parameter, one potentially explosive (:math:`\beta > 1`) and the other stationary (:math:`\beta < 1`). The Markov matrix is fixed with the parameter :math:`p` giving the probability of remaining in the same regime. The process is simulated using a normal distribution for the error term. The process is defined as:
+
     .. math::
+        y_t = \beta_t y_{t-1} + \varepsilon_t
 
-        y_t = beta * y_{t-1} + e_t
-    where :math:`e_t` is a normal error term and :math:`beta` is the parameter of the process. The process starts at 0 and the first error term is generated from a normal distribution.
+    where :math:`\varepsilon_t \sim \mathcal{N}(0, 1)`.
 
-    Args:
+    Parameters:
         nobs (int): Number of observations for the process
-        p (float, optional): Probability of switch. Defaults to 0.975.
-        beta_list (list[float], optional): List of betas for the process. Defaults to [1.01, 1].
+        p (float, optional): Probability of staying in the same regime. Defaults to 0.975.
+        beta_list (list[float], optional): List of beta values for the regimes. Defaults to [1.01, 1].
 
     Raises:
         - TypeError: If `p` is not a float.
@@ -134,12 +146,16 @@ def simulate_markov(
         y[t] = beta[t] * y[t - 1] + err[t - 1]
     return beta, y
 
+
 @njit
-def size_rgrid(r0: float, rstep:float) -> int:
+def size_rgrid(r0: float, rstep: float) -> int:
     """
     Calculates the size of the rgrid starting at `r0` and with step `rstep`.
 
-    Args:
+    .. math::
+        \text{size} = \left\lfloor \frac{1 - r_0}{\text{rstep}} \right\rfloor + 1
+
+    Parameters:
         r0 (float): Minimum index to evaluate the test statistics.
         rstep (float): Step size for the index.
     """

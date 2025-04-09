@@ -16,7 +16,6 @@ from numpy import (
 )
 from numpy.linalg import inv
 from numpy.typing import NDArray
-from numba import njit, prange
 from psytest.utils.functions import random_walk
 from psytest.utils.constants import KMAX
 
@@ -24,14 +23,19 @@ from psytest.utils.constants import KMAX
 @njit(parallel=False)
 def adfuller_stat(y: NDArray[float64], kmax: int) -> float:
     """
-    Calculates the test statistics for the Augmented Dickey-Fuller test.
+    Calculates the test statistic for the Augmented Dickey-Fuller test.
 
-    Args:
+    .. math::
+        ADF = \frac{\hat{\beta}}{\sqrt{\widehat{\text{Var}}(\hat{\beta})}}
+
+    where :math:`\hat{\beta}` is the coefficient of :math:`y_{t-1}` in the regression and :math:`\widehat{\text{Var}}(\hat{\beta})` is its estimated variance.
+
+    Parameters:
         y (NDArray[float64]): The time series data.
         kmax (int): Maximum lag to use in the test.
 
     Returns:
-        float64: The test statistics.
+        float64: The test statistic.
     """
     nobs: int = len(y)
     y_diff: NDArray[float64] = diff(y)
@@ -54,9 +58,9 @@ def adfuller_stat(y: NDArray[float64], kmax: int) -> float:
 
 def adfuller_dist(nobs: int, nreps: int, kmax: int) -> NDArray[float64]:
     """
-    Simulates tha asymptotic distribution of the Augmented Dickey-Fuller test.
+    Simulates the asymptotic distribution of the Augmented Dickey-Fuller test statistic.
 
-    Args:
+    Parameters:
         nobs (int): Number of observations in the time series.
         nreps (int): Number of simulations to perform.
         kmax (int): Maximum lag to use in the test.
@@ -73,20 +77,20 @@ def adfuller_dist(nobs: int, nreps: int, kmax: int) -> NDArray[float64]:
     return adf_dist
 
 
-# Rolling ADF TEST
-
-
 @njit
 def rolling_adfuller_stat(
     y: NDArray[float64], r1: float = 0, r2: float = 1.0, kmax: int = KMAX
 ) -> float:
     """
-    Calculates the Augmented Dickey-Fuller test statistic for a window of the time series
+    Calculates the Augmented Dickey-Fuller test statistic for a window of the time series.
 
-    Args:
+    .. math::
+        ADF(r_1, r_2) = ADF(y_{r_1:r_2})
+
+    Parameters:
         y (NDArray[float64]): Values of the time series.
         r1 (float, optional): Start index. Defaults to 0.
-        r2 (float | None, optional): End index. Defaults to 1.
+        r2 (float, optional): End index. Defaults to 1.
         kmax (int, optional): Maximum lag to use in the test. Defaults to KMAX.
 
     Notes:
@@ -114,7 +118,12 @@ def rolling_adfuller_cdf(wiener: NDArray[float64], r1: float, r2: float) -> floa
     """
     Calculates the cumulative asymptotic distribution of the Augmented Dickey-Fuller test statistic based on a Wiener process.
 
-    Args:
+    .. math::
+        \text{CDF}_{ADF}(r_1, r_2) = \frac{1}{\sqrt{rw} \sqrt{rw \cdot \sum W^2 - (\sum W)^2}} \left[\frac{1}{2} rw (W_2^2 - W_1^2 - rw) - \sum W (W_2 - W_1) \right]
+
+    where :math:`rw = i_2 - i_1`, :math:`W_t` is the Wiener process, and the sums are over the interval :math:`[i_1, i_2]`.
+
+    Parameters:
         wiener (NDArray[float64]): Values of the Wiener process.
         r1 (float): Start index.
         r2 (float): End index.

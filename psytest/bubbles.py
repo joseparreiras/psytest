@@ -1,6 +1,5 @@
 from numpy.typing import NDArray
-from numpy import object_
-from numpy import float64, int64, bool_, array, arange, ndarray
+from numpy import object_, float64, int64, bool_, array, arange, ndarray
 from psytest.utils.functions import r0_default, minlength_default
 from psytest.sadftest import bsadf_stat_all_series, bsadfuller_critval
 from collections.abc import Generator
@@ -20,21 +19,19 @@ class PSYBubbles:
         """
         Class to perform the Phillips, Shi & Yu (2015) test for bubbles in time series data.
 
-        Args:
-            y (NDArray[float64]): Values of the time series to be tested.
-            r0 (float | None, optional): Minimum window size for the test. Defaults to None, using the default value from `r0_default` (see paper).
-            rstep (float | None, optional): Step size to evaluate the test. Defaults to None, using 1 / nobs.
-            kmax (int, optional): Maximum number of lags to include in the ADF test. Defaults to 0.
-            minlength (int | None, optional): Minimum bubble length. Defaults to None, using the default value from `minlength_default` (see paper). Must be provided if `delta` is not provided.
-            delta (float | None, optional): Parameter to calculate the default `minlength`. Defaults to None. Must be provided if `minlength` is not provided.
+        .. math::
+            r_0 = \text{min window}, \quad r_{\text{step}} = \text{step size}, \quad k_{\max} = \text{max lag}
+
+        Parameters:
+            y (NDArray[float64]): Time series values.
+            r0 (float | None, optional): Minimum window size :math:`r_0`. Defaults to `r0_default`.
+            rstep (float | None, optional): Step size :math:`r_{\text{step}}`. Defaults to :math:`1/n`.
+            kmax (int, optional): Maximum lag :math:`k_{\max}`. Defaults to 0.
+            minlength (int | None, optional): Minimum bubble length.
+            delta (float | None, optional): Used to compute default minlength via :math:`\delta \log(n)/n`.
 
         Raises:
-            ValueError: If `y` is not a 1D array or if `y` is not a number array.
-            ValueError: If `y` has less than 2 elements.
-            ValueError: If `r0` is not in the range [0, 1].
-            ValueError: If `rstep` is not in the range (0, 1].
-            ValueError: If `kmax` is less than 0.
-            ValueError: If neither `minlength` nor `delta` is provided.
+            ValueError: For invalid input types or values.
         """
         if not isinstance(y, ndarray):
             y = array(y)
@@ -68,10 +65,10 @@ class PSYBubbles:
 
     def r2grid(self) -> NDArray[float64]:
         """
-        Grid of r2 to be used in the BSADF test
+        Grid of :math:`r_2` values for the BSADF test.
 
         Returns:
-            NDArray[float64]: Grid of r2 values
+            NDArray[float64]: Grid :math:`\{r_2\}` from :math:`r_0` to 1 with step :math:`r_{\text{step}}`.
         """
         return arange(self.r0, 1 + 1e-16, self.rstep)
 
@@ -79,28 +76,25 @@ class PSYBubbles:
         """
         Retrieves the BSADF test statistic.
 
-        Args:
-            force (bool, optional): Force recalculation of the test statistic. Defaults to False.
+        .. math::
+            \text{BSADF}_{r_2} = \max_{r_1 \in [0, r_2 - r_0]} \text{ADF}(y_{r_1:r_2})
 
-        Notes:
-            - If this command has been run before and `force` is set to False, the cached value will be returned.
+        Parameters:
+            force (bool, optional): If True, forces recalculation.
 
-        Raises:
-            TypeError: If `force` is not a boolean.
         Returns:
-            dict[int, float]: Dictionary with the test statistic for each r2 value.
+            dict[int, float]: Test statistic by :math:`r_2`.
         """
         if not isinstance(force, bool):
             raise TypeError("`force` must be a boolean")
 
-        if force or not hasattr(self, "_teststat"):
-            # Calculate if forced or nonexistant
+        if force or not hasattr(self, "__teststat"):
             stat: NDArray[float64] = bsadf_stat_all_series(
                 self.y, self.r0, self.rstep, self.kmax
             )
-            self._teststat: dict[int, float] = dict(zip(self.r2grid(), stat))
+            self.__teststat: dict[int, float] = dict(zip(self.r2grid(), stat))
 
-        return self._teststat
+        return self.__teststat
 
     def critval(
         self,
@@ -109,25 +103,18 @@ class PSYBubbles:
         test_size: list[float] | float = [0.10, 0.05, 0.01],
     ) -> dict[int, NDArray[float64]]:
         """
-        Retrieves the critical values for the BSADF test.
+        Retrieves BSADF critical values using Monte Carlo.
 
-        Args:
-            nreps (int): Number of repetitions for the Monte Carlo simulation.
-            force (bool, optional): Force recalculation of the critical values. Defaults to False.
-            test_size (list[float] | float, optional): One or many test sizes to calculate the critical values. Defaults to [0.10, 0.05, 0.01].
+        .. math::
+            \text{CV}_{r_2, \alpha} = \text{Quantile}_{1 - \alpha}(\text{BSADF}_{r_2})
 
-        Notes:
-            - If this command has been run before the cached value will be returned unless `force` is set to True or `test_size` contains differnt values than previously used.
-
-        Raises:
-            TypeError: If `nreps` is not an integer.
-            ValueError: If `nreps` is less than 1.
-            TypeError: If `force` is not a boolean.
-            TypeError: If `test_size` is not a list or a float.
-            ValueError: If any of the provided `test_size` are not in the range (0, 1).
+        Parameters:
+            nreps (int): Number of simulations.
+            force (bool, optional): Force recalculation.
+            test_size (list[float] | float, optional): Significance levels :math:`\alpha`.
 
         Returns:
-            dict[int, NDArray[float64]]: Dictionary with the critical values for each r2 value.
+            dict[int, NDArray[float64]]: Critical values for each :math:`r_2`.
         """
         if not isinstance(nreps, int):
             raise TypeError("`nreps` must be an integer")
@@ -149,40 +136,34 @@ class PSYBubbles:
 
         if (
             force
-            or not hasattr(self, "_critval")
-            or getattr(self, "_nreps", None) != nreps
-            or getattr(self, "_testsize", None) != test_size
+            or not hasattr(self, "__critval")
+            or getattr(self, "__nreps", None) != nreps
+            or getattr(self, "__testsize", None) != test_size
         ):
             cval: NDArray[float64] = bsadfuller_critval(
                 self.r0, self.rstep, nreps, self.nobs, test_size
             ).T
-            self._critval: dict[int, NDArray[float64]] = dict(zip(self.r2grid(), cval))
-            self._nreps: int = nreps
-            self._testsize: list[float] | float = test_size
+            self.__critval: dict[int, NDArray[float64]] = dict(zip(self.r2grid(), cval))
+            self.__nreps: int = nreps
+            self.__testsize: list[float] | float = test_size
 
-        return self._critval
+        return self.__critval
 
     def find_bubbles(self, alpha: float, nreps: int | None = None) -> NDArray[object_]:
         """
-        Finds the index of the bubbles in the series.
+        Identifies the bubble periods in the time series.
 
-        Args:
-            alpha (float): The significance level for the test.
-            nreps (int | None, optional): Number of repetitions for the Monte Carlo Simulation. Defaults to None, using the value set in `critval`.
+        A bubble exists when:
 
-        Notes:
-            - This function can be run before or after the `teststat` and `critval` functions. If `teststat` and `critval` have been run before, the cached values will be used. Otherwise, the function will calculate them and `nreps` needs to be provided.
-            - The function will return the start and end index of the bubbles in the series. If the bubble is still ongoing, the end index will be None.
+        .. math::
+            \text{BSADF}_{r_2} > \text{CV}_{r_2, \alpha}
 
-        Raises:
-            - TypeError: If `alpha` is not a float.
-            - ValueError: If `alpha` is not in the range (0, 1).
-            - TypeError: If `nreps` is not an integer.
-            - ValueError: If `nreps` is less than 1.
-            - ValueError: If `nreps` is not provided and has not been set in `critval`.
+        Parameters:
+            alpha (float): Significance level :math:`\alpha`.
+            nreps (int | None, optional): Number of simulations (required if no cache).
 
         Returns:
-            NDArray[object_]: Array with the start and end index of each detected bubble.
+            NDArray[object_]: Array of bubble start and end indices.
         """
         if not isinstance(alpha, float):
             raise TypeError("`alpha` must be a float")
@@ -194,15 +175,15 @@ class PSYBubbles:
             if nreps < 1:
                 raise ValueError("`nreps` must be greater than 0")
         else:
-            if not hasattr(self, "_nreps"):
+            if not hasattr(self, "__nreps"):
                 raise ValueError("`nreps` must be provided or set in `critval`")
-            nreps: int = self._nreps
+            nreps: int = self.__nreps
 
         stat: dict[int, float] = self.teststat()
         cval: dict[int, NDArray[float64]] = self.critval(nreps=nreps, test_size=alpha)
         bubble_bool: list[NDArray[bool_]] = [stat[i] > cval[i] for i in stat.keys()]
         bubble_r2index: NDArray[object_] = array(
-            list(find_bubble_dates(bubble_bool, self.minlength))
+            list(self._find_bubble_dates(bubble_bool, self.minlength))
         )
         bubble_index: NDArray[object_] = array(
             [
@@ -210,7 +191,6 @@ class PSYBubbles:
                 for i in bubble_r2index.flatten()
             ]
         ).reshape((-1, 2))
-        # Retrieve the start and end in terms of the original index
         if hasattr(self, "index") and self.index is not None:
             bubble_dates: list[int64 | None] = []
             for start, end in bubble_index:
@@ -232,19 +212,15 @@ class PSYBubbles:
         delta: float | None = None,
     ) -> "PSYBubbles":
         """
-        Creates a PSYBubbles object from a Pandas Series.
+        Creates a PSYBubbles object from a pandas Series.
 
-        Args:
-            y (NDArray[float64]): Values of the time series to be tested.
-            index (NDArray | None, optional): Index of the time series. Defaults to None.
-            r0 (float | None, optional): Minimum window size for the test. Defaults to None, using the default value from `r0_default` (see paper).
-            rstep (float | None, optional): Step size to evaluate the test. Defaults to None, using 1 / nobs.
-            kmax (int, optional): Maximum number of lags to include in the ADF test. Defaults to 0.
-            minlength (int | None, optional): Minimum bubble length. Defaults to None, using the default value from `minlength_default` (see paper). Must be provided if `delta` is not provided.
-            delta (float | None, optional): Parameter to calculate the default `minlength`. Defaults to None. Must be provided if `minlength` is not provided.
+        Parameters:
+            y (NDArray[float64]): Time series values.
+            index (NDArray | None, optional): Index.
+            r0, rstep, kmax, minlength, delta: See PSYBubbles constructor.
 
         Returns:
-            PSYBubbles: PSYBubbles object with the specified parameters.
+            PSYBubbles: Configured object.
         """
         obj: Self = cls(
             y=y,
@@ -257,73 +233,35 @@ class PSYBubbles:
         obj.index = index
         return obj
 
+    @staticmethod
+    def _check_bubble_exists(bubble_bool: list[bool]) -> bool:
+        return bubble_bool.count(True) > 0
 
-def check_bubble_exists(bubble_bool: list[bool]) -> bool:
-    """
-    Checks if the list contains any bubbles
+    @staticmethod
+    def _check_bubble_ends(bubble_bool: list[bool]) -> bool:
+        return bubble_bool.count(False) > 0
 
-    Args:
-        bubble_bool (list[bool]): List of booleans indicating the rejection of the null hypothesis.
+    @staticmethod
+    def _is_bubble_long_enough(bubble_bool: list[bool], minlength: int) -> bool:
+        try:
+            return bubble_bool[minlength]
+        except IndexError:
+            return False
 
-    Returns:
-        bool: True if there are any bubbles, False otherwise.
-    """
-    return bubble_bool.count(True) > 0
-
-
-def check_bubble_ends(bubble_bool: list[bool]) -> bool:
-    """
-    Check if the list contains any non-bubble state.
-
-    Args:
-        bubble_bool (list[bool]): List of booleans indicating the rejection of the null hypothesis where the first element is the start of the bubble.
-
-    Returns:
-        bool: True if there are any non-bubble states, False otherwise.
-    """
-    return bubble_bool.count(False) > 0
-
-
-def is_bubble_long_enough(bubble_bool: list[bool], minlength: int) -> bool:
-    """
-    Check if the current bubble has a length greater than the minimum length.
-
-    Args:
-        bubble_bool (list[bool]): List of booleans indicating the rejection of the null hypothesis where the first element is the start of the bubble.
-        minlength (int): Minimum length of the bubble.
-
-    Returns:
-        bool: True if the bubble is long enough, False otherwise.
-    """
-    try:
-        return bubble_bool[minlength]
-    except IndexError:
-        return False
-
-
-def find_bubble_dates(
-    bubble_bool: list, minlength: int
-) -> Generator[tuple[int, int | None], None, None]:
-    """
-    Finds the index corresponding to the start and end of the bubbles from the vector of booleans indicating the rejection of the null hypothesis.
-
-    Args:
-        bubble_bool (list): List of booleans indicating the rejection of the null hypothesis.
-        minlength (int): Minimum length of the bubble.
-
-    Yields:
-        Generator[tuple[int, int | None], None, None]: Generator of tuples with the start and end index of the bubbles.
-    """
-    i0 = 0
-    while len(bubble_bool) > minlength:
-        if not check_bubble_exists(bubble_bool):
-            break
-        start: int = bubble_bool.index(True)
-        if is_bubble_long_enough(bubble_bool[start:], minlength):
-            if not check_bubble_ends(bubble_bool[start:]):
-                yield (start + i0, None)
+    @staticmethod
+    def _find_bubble_dates(
+        bubble_bool: list, minlength: int
+    ) -> Generator[tuple[int, int | None], None, None]:
+        i0 = 0
+        while len(bubble_bool) > minlength:
+            if not PSYBubbles._check_bubble_exists(bubble_bool):
                 break
-            end: int = bubble_bool[start:].index(False) + start
-            yield (start + i0, end + i0)
-        bubble_bool = bubble_bool[end:]
-        i0 += end
+            start: int = bubble_bool.index(True)
+            if PSYBubbles._is_bubble_long_enough(bubble_bool[start:], minlength):
+                if not PSYBubbles._check_bubble_ends(bubble_bool[start:]):
+                    yield (start + i0, None)
+                    break
+                end: int = bubble_bool[start:].index(False) + start
+                yield (start + i0, end + i0)
+            bubble_bool = bubble_bool[end:]
+            i0 += end
