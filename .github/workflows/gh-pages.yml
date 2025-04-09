@@ -22,7 +22,7 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r psytest/environment.yml || true  # in case you want to use this
-          pip install sphinx sphinxcontrib-bibtex
+          pip install sphinx sphinxcontrib-bibtex sphinx_rtd_theme
 
       - name: Build docs
         run: |
