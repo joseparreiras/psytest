@@ -4,21 +4,11 @@ psytest.utils package
 Submodules
 ----------
 
-psytest.utils.constants module
-------------------------------
+.. toctree::
+   :maxdepth: 4
 
-.. automodule:: psytest.utils.constants
-   :members:
-   :show-inheritance:
-   :undoc-members:
-
-psytest.utils.functions module
-------------------------------
-
-.. automodule:: psytest.utils.functions
-   :members:
-   :show-inheritance:
-   :undoc-members:
+   psytest.utils.constants
+   psytest.utils.functions
 
 Module contents
 ---------------
