@@ -1,6 +1,33 @@
 psytest package
 ===============
 
+Submodules
+----------
+
+psytest.bubbles module
+----------------------
+
+.. automodule:: psytest.bubbles
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+psytest.adftest module
+----------------------
+
+.. automodule:: psytest.adftest
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+psytest.sadftest module
+-----------------------
+
+.. automodule:: psytest.sadftest
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
 Module contents
 ---------------
 
@@ -8,12 +35,3 @@ Module contents
    :members:
    :show-inheritance:
    :undoc-members:
-
-Submodules
-----------
-
-.. toctree::
-   :maxdepth: 4
-
-   psytest.adftest
-   psytest.sadftest

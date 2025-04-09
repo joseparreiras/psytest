@@ -1,16 +1,24 @@
 psytest.utils package
 =====================
 
-Auxiliary functions and global variables for the psytest package.
-
 Submodules
 ----------
 
-.. toctree::
-   :maxdepth: 4
+psytest.utils.constants module
+------------------------------
 
-   psytest.utils.constants
-   psytest.utils.functions
+.. automodule:: psytest.utils.constants
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+psytest.utils.functions module
+------------------------------
+
+.. automodule:: psytest.utils.functions
+   :members:
+   :show-inheritance:
+   :undoc-members:
 
 Module contents
 ---------------
