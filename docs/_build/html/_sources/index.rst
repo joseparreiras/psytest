@@ -25,6 +25,10 @@ The main class of the package is the ``PSYBubbles`` class, which contains method
     model = PSYBubbles(y, delta=1.5)
     model.teststat()
 
+.. automodule:: psytest
+   :members:
+   :undoc-members:
+   :show-inheritance:
 
 .. toctree::
    :maxdepth: 3
