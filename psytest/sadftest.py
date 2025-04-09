@@ -5,7 +5,7 @@ from psytest.adftest import (
 from psytest.utils.functions import random_walk
 from psytest.utils.constants import KMAX
 from numpy.typing import NDArray
-from numpy import float64, inf, zeros, repeat, int64, arange, empty
+from numpy import float64, inf, zeros, repeat, int64, arange, empty, array, quantile
 from numba import njit, prange
 
 
@@ -30,55 +30,47 @@ def sadfuller_stat(y: NDArray[float64], r0: int, kmax: int) -> float:
     return stat
 
 
-def sadfuller_dist(
-    nobs: int, nreps: int, r0: int
-) -> tuple[NDArray[int64], NDArray[float64]]:
-    # Simulate random walks
-    rw: NDArray[float64] = random_walk(nreps, nobs)
-    # Make tuple of (j, r2, r1) combinations
-    iterator: NDArray[int64] = __jr2r1_combinations__(nobs, nreps, r0)
-    # Calculate statistic for each j
-    return (
-        arange(r0, nobs),
-        __sadfuller_dist_from_random_walks__(rw, iterator, r0),
-    )
+# def sadfuller_dist(
+#     nobs: int, nreps: int, r0: int
+# ) -> tuple[NDArray[int64], NDArray[float64]]:
+#     # Simulate random walks
+#     rw: NDArray[float64] = random_walk(nreps, nobs)
+#     # Make tuple of (j, r2, r1) combinations
+#     iterator: NDArray[int64] = __jr2r1_combinations__(nobs, nreps, r0)
+#     # Calculate statistic for each j
+#     return (
+#         arange(r0, nobs),
+#         __sadfuller_dist_from_random_walks__(rw, iterator, r0),
+#     )
 
 
 @njit(parallel=False)
-def __jr2r1_combinations__(nobs: int, nreps: int, r0: int) -> NDArray[int64]:
+def __r2r1_combinations__(nobs: int, r0: int) -> NDArray[int64]:
     total: int = nreps * (nobs - r0) * (nobs - r0)
-    result: NDArray[int64] = empty((total, 3), dtype=int64)
+    result: NDArray[int64] = empty((total, 2), dtype=int64)
 
     idx: int = 0
-    for n in range(0, nreps):
-        for r1 in range(nobs - r0):
-            for r2 in range(r0, nobs):
-                result[idx, 0] = n
-                result[idx, 1] = r1
-                result[idx, 2] = r2
-                idx += 1
+    for r2 in range(r0, nobs):
+        for r1 in range(r2 - r0):
+            result[idx, 0] = r1
+            result[idx, 1] = r2
+            idx += 1
 
     return result
 
 
 @njit(parallel=True)
 def __sadfuller_dist_from_random_walks__(
-    random_walks: NDArray[float64], iterable: NDArray[int64], r0: int
+    random_walks: NDArray[float64], nreps: int, nobs: int, r0: int
 ) -> NDArray[float64]:
-    nreps: int = len(random_walks)
-    nobs: int = len(random_walks[0])
     stats: NDArray[float64] = repeat(-inf, nreps * (nobs - r0))
     stats = stats.reshape((nreps, nobs - r0))
-    niter: int = len(iterable)
-    for i in prange(niter):
-        next_iter: NDArray[int64] = iterable[i]
-        j: int = next_iter[0]
-        r1: int = next_iter[1]
-        r2: int = next_iter[2]
-        if r1 <= r2 - r0:
-            stats[j, r2 - r0] = max(
-                stats[j, r2 - r0], rolling_adfuller_cdf(random_walks[j], r1, r2)
-            )
+    for j in prange(nreps):
+        for r2 in range(r0, nobs):
+            for r1 in range(r2 - r0):
+                stats[j, r2 - r0 - 1] = stats[j, r2 - r0] = max(
+                    stats[j, r2 - r0 - 1], rolling_adfuller_cdf(random_walks[j], r1, r2)
+                )
     return stats
 
 
@@ -133,11 +125,10 @@ def bsadf_stat_all_series(
         r1: int = r1r2_grid[i][0]
         r2: int = r1r2_grid[i][1]
         if r0 <= r2 - r1 <= maxlength:
-            stat[r2 - r0] = max(
-                stat[r2 - r0], rolling_adfuller_stat(y, r1, r2, kmax)
-            )
+            stat[r2 - r0] = max(stat[r2 - r0], rolling_adfuller_stat(y, r1, r2, kmax))
 
     return r2_grid, stat
+
 
 @njit(parallel=False)
 def __r1r2_combinations__(nobs: int, r0: int) -> NDArray[int64]:
@@ -161,3 +152,17 @@ def __r1r2_combinations__(nobs: int, r0: int) -> NDArray[int64]:
             idx += 1
 
     return result
+
+
+def bsadfuller_critval(
+    nobs: int,
+    nreps: int,
+    r0: int,
+    testsize: NDArray[float64] = array([0.10, 0.05, 0.01]),
+) -> NDArray[float64]:
+    rw: NDArray[float64] = random_walk(nreps, nobs)
+    sadf_dist: NDArray[float64] = __sadfuller_dist_from_random_walks__(
+        rw, nreps, nobs, r0
+    )
+    critval: NDArray[float64] = quantile(sadf_dist, testsize, axis=0)
+    return critval

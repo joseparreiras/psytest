@@ -12,7 +12,6 @@ from numpy import (
     empty,
     ones,
     sqrt,
-    int64,
     sum as npsum,
 )
 from numpy.linalg import inv
