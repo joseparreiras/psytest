@@ -1,0 +1,52 @@
+# 1. Load the modules
+import numpy as np
+from psytest import *
+
+# 2. Read the data (Markov switching DGP)
+
+nobs: int = 1000
+betas: list[float] = [0.5, 1.0]
+p_matrix: np.ndarray = np.array([[0.9, 0.1], [0.1, 0.9]])
+test_error: np.ndarray = np.random.normal(size=nobs)
+
+
+def simulate_markov_y(
+    nobs: int, betas: np.ndarray, p_matrix: np.ndarray, test_error: np.ndarray
+) -> tuple[np.ndarray, np.ndarray]:
+    y: np.ndarray = np.zeros(nobs)
+    beta_array: np.ndarray = np.zeros(nobs)
+    beta_array[0] = betas[0]
+
+    for t in range(1, nobs):
+        last_beta = beta_array[t - 1]
+        idx = 0 if last_beta == betas[0] else 1
+        beta_t = np.random.choice(betas, p=p_matrix[idx])
+        beta_array[t] = beta_t
+        y[t] = beta_t * y[t - 1] + test_error[t]
+
+    return y, beta_array
+
+
+y, beta_array = simulate_markov_y(nobs, np.array(betas), p_matrix, test_error)
+r0 = 10
+nreps = 1000
+
+SADFtest(y, r0).teststat()
+
+gsadf = GSADFtest(y, r0)
+
+%timeit gsadf.__teststat_func__(sadf.y, r0, 0)
+
+
+import pandas as pd
+# Create a random pandas.DataFrame of size 1000x1000
+random_df = pd.DataFrame(np.random.rand(1000, 1000))
+random_df.to_stata('stata.dta')
+random_df.to_csv('csv.csv')
+random_df.to_feather('feather.feather')
+random_df.to_parquet('parquet.parquet')
+random_df.to_json('json.json')
+random_df.to_html('html.html')
+random_df.to_pickle('pickle.pkl')
+random_df.to_string('string.txt')
+random_df.to_excel('excel.xlsx')
