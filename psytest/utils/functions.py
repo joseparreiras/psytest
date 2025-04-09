@@ -14,7 +14,7 @@ def r0_default(nobs: int) -> int:
     .. math::
         r_0 = 0.01 \\times 0.08 \\times \\sqrt{n}
 
-    Parameters:
+    Args:
         nobs (int): Number of observations
 
     Returns:
@@ -30,7 +30,7 @@ def minlength_default(nobs: int, delta: float) -> int:
     .. math::
         \\text{min\_length} = \\frac{\\delta \\log(n)}{n}
 
-    Parameters:
+    Args:
         nobs (int): Number of observations
         delta (float): Multiplier parameter for bubble length
 
@@ -48,7 +48,7 @@ def index_combinations(start: int, stop: int) -> list[tuple[int, int]]:
         r_1 = 0, \\ldots, r_2 - \\text{start} \\
         r_2 = \\text{start}, \\ldots, \\text{stop}
 
-    Parameters:
+    Args:
         start (int): The initial index to start the combinations
         stop (int): The final index to stop the combinations
 
@@ -77,7 +77,7 @@ def random_walk(nreps: int, nobs: int) -> NDArray[float64]:
     .. math::
         RW_{i, t} = \\sum_{s=1}^{t} \\frac{\\varepsilon_{i, s}}{\\sqrt{n}}
 
-    Parameters:
+    Args:
         nreps (int): Number of repetitions.
         nobs (int): Number of observations.
 
@@ -100,7 +100,7 @@ def simulate_markov(
 
     where :math:`\\varepsilon_t \\sim \\mathcal{N}(0, 1)`.
 
-    Parameters:
+    Args:
         nobs (int): Number of observations for the process
         p (float, optional): Probability of staying in the same regime. Defaults to 0.975.
         beta_list (list[float], optional): List of beta values for the regimes. Defaults to [1.01, 1].
@@ -155,7 +155,7 @@ def size_rgrid(r0: float, rstep: float) -> int:
     .. math::
         \\text{size} = \\left\\lfloor \\frac{1 - r_0}{\\text{rstep}} \\right\\rfloor + 1
 
-    Parameters:
+    Args:
         r0 (float): Minimum index to evaluate the test statistics.
         rstep (float): Step size for the index.
     """

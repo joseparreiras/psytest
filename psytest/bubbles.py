@@ -22,7 +22,7 @@ class PSYBubbles:
         .. math::
             r_0 = \\text{min window}, \\quad r_{\\text{step}} = \\text{step size}, \\quad k_{\max} = \\text{max lag}
 
-        Parameters:
+        Args:
             y (NDArray[float64]): Time series values.
             r0 (float | None, optional): Minimum window size :math:`r_0`. Defaults to `r0_default`.
             rstep (float | None, optional): Step size :math:`r_{\\text{step}}`. Defaults to :math:`1/n`.
@@ -79,7 +79,7 @@ class PSYBubbles:
         .. math::
             \\text{BSADF}_{r_2} = \\max_{r_1 \\in [0, r_2 - r_0]} \\text{ADF}(y_{r_1:r_2})
 
-        Parameters:
+        Args:
             force (bool, optional): If True, forces recalculation.
 
         Returns:
@@ -105,7 +105,7 @@ class PSYBubbles:
         """
         Retrieves BSADF critical values using Monte Carlo Simulations.
 
-        Parameters:
+        Args:
             nreps (int): Number of simulations.
             force (bool, optional): Force recalculation.
             test_size (list[float] | float, optional): Significance levels :math:`\\alpha`.
@@ -155,7 +155,7 @@ class PSYBubbles:
         .. math::
             \\text{BSADF}_{r_2} > \\text{CV}_{r_2, \\alpha}
 
-        Parameters:
+        Args:
             alpha (float): Significance level :math:`\\alpha`.
             nreps (int | None, optional): Number of simulations (required if no cache).
 
@@ -211,7 +211,7 @@ class PSYBubbles:
         """
         Creates a PSYBubbles object from a pandas Series.
 
-        Parameters:
+        Args:
             y (NDArray[float64]): Time series values.
             index (NDArray | None, optional): Index.
             r0, rstep, kmax, minlength, delta: See PSYBubbles constructor.

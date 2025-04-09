@@ -78,7 +78,7 @@
 
 
 <div class="viewcode-block" id="PSYBubbles">
-<a class="viewcode-back" href="../../psytest.bubbles.html#psytest.PSYBubbles">[docs]</a>
+<a class="viewcode-back" href="../../psytest.html#psytest.PSYBubbles">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">PSYBubbles</span><span class="p">:</span>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -95,7 +95,7 @@
 <span class="sd">        .. math::</span>
 <span class="sd">            r_0 = \\text{min window}, \\quad r_{\\text{step}} = \\text{step size}, \\quad k_{\max} = \\text{max lag}</span>
 
-<span class="sd">        Parameters:</span>
+<span class="sd">        Args:</span>
 <span class="sd">            y (NDArray[float64]): Time series values.</span>
 <span class="sd">            r0 (float | None, optional): Minimum window size :math:`r_0`. Defaults to `r0_default`.</span>
 <span class="sd">            rstep (float | None, optional): Step size :math:`r_{\\text{step}}`. Defaults to :math:`1/n`.</span>
@@ -137,7 +137,7 @@
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Either `minlength` or `delta` must be provided&quot;</span><span class="p">)</span>
 
 <div class="viewcode-block" id="PSYBubbles.r2grid">
-<a class="viewcode-back" href="../../psytest.bubbles.html#psytest.PSYBubbles.r2grid">[docs]</a>
+<a class="viewcode-back" href="../../psytest.html#psytest.PSYBubbles.r2grid">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">r2grid</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">float64</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Grid of :math:`r_2` values for the BSADF test.</span>
@@ -149,7 +149,7 @@
 
 
 <div class="viewcode-block" id="PSYBubbles.teststat">
-<a class="viewcode-back" href="../../psytest.bubbles.html#psytest.PSYBubbles.teststat">[docs]</a>
+<a class="viewcode-back" href="../../psytest.html#psytest.PSYBubbles.teststat">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">teststat</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">force</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Retrieves the BSADF test statistic.</span>
@@ -157,7 +157,7 @@
 <span class="sd">        .. math::</span>
 <span class="sd">            \\text{BSADF}_{r_2} = \\max_{r_1 \\in [0, r_2 - r_0]} \\text{ADF}(y_{r_1:r_2})</span>
 
-<span class="sd">        Parameters:</span>
+<span class="sd">        Args:</span>
 <span class="sd">            force (bool, optional): If True, forces recalculation.</span>
 
 <span class="sd">        Returns:</span>
@@ -176,7 +176,7 @@
 
 
 <div class="viewcode-block" id="PSYBubbles.critval">
-<a class="viewcode-back" href="../../psytest.bubbles.html#psytest.PSYBubbles.critval">[docs]</a>
+<a class="viewcode-back" href="../../psytest.html#psytest.PSYBubbles.critval">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">critval</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">nreps</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
@@ -186,7 +186,7 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Retrieves BSADF critical values using Monte Carlo Simulations.</span>
 
-<span class="sd">        Parameters:</span>
+<span class="sd">        Args:</span>
 <span class="sd">            nreps (int): Number of simulations.</span>
 <span class="sd">            force (bool, optional): Force recalculation.</span>
 <span class="sd">            test_size (list[float] | float, optional): Significance levels :math:`\\alpha`.</span>
@@ -229,7 +229,7 @@
 
 
 <div class="viewcode-block" id="PSYBubbles.find_bubbles">
-<a class="viewcode-back" href="../../psytest.bubbles.html#psytest.PSYBubbles.find_bubbles">[docs]</a>
+<a class="viewcode-back" href="../../psytest.html#psytest.PSYBubbles.find_bubbles">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">find_bubbles</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">nreps</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">object_</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Identifies the bubble periods in the time series.</span>
@@ -239,7 +239,7 @@
 <span class="sd">        .. math::</span>
 <span class="sd">            \\text{BSADF}_{r_2} &gt; \\text{CV}_{r_2, \\alpha}</span>
 
-<span class="sd">        Parameters:</span>
+<span class="sd">        Args:</span>
 <span class="sd">            alpha (float): Significance level :math:`\\alpha`.</span>
 <span class="sd">            nreps (int | None, optional): Number of simulations (required if no cache).</span>
 
@@ -283,7 +283,7 @@
 
 
 <div class="viewcode-block" id="PSYBubbles.from_pandas">
-<a class="viewcode-back" href="../../psytest.bubbles.html#psytest.PSYBubbles.from_pandas">[docs]</a>
+<a class="viewcode-back" href="../../psytest.html#psytest.PSYBubbles.from_pandas">[docs]</a>
     <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">from_pandas</span><span class="p">(</span>
         <span class="bp">cls</span><span class="p">,</span>
@@ -298,7 +298,7 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Creates a PSYBubbles object from a pandas Series.</span>
 
-<span class="sd">        Parameters:</span>
+<span class="sd">        Args:</span>
 <span class="sd">            y (NDArray[float64]): Time series values.</span>
 <span class="sd">            index (NDArray | None, optional): Index.</span>
 <span class="sd">            r0, rstep, kmax, minlength, delta: See PSYBubbles constructor.</span>

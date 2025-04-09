@@ -107,7 +107,7 @@
 <span class="sd">    .. math::</span>
 <span class="sd">        \\Delta y_{t} = \\alpha + \\beta y_{t-1} + \\sum_{k=2}^{kmax} \\gamma_k \\Delta y_{t-k} + \\epsilon_t</span>
 
-<span class="sd">    Parameters:</span>
+<span class="sd">    Args:</span>
 <span class="sd">        y (NDArray[float64]): The time series data.</span>
 <span class="sd">        kmax (int): Maximum lag to use in the test.</span>
 
@@ -140,7 +140,7 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Simulates the asymptotic distribution of the Augmented Dickey-Fuller test statistic.</span>
 
-<span class="sd">    Parameters:</span>
+<span class="sd">    Args:</span>
 <span class="sd">        nobs (int): Number of observations in the time series.</span>
 <span class="sd">        nreps (int): Number of simulations to perform.</span>
 <span class="sd">        kmax (int): Maximum lag to use in the test.</span>
@@ -170,7 +170,7 @@
 <span class="sd">    .. math::</span>
 <span class="sd">        \\text{ADF}(r_1, r_2) = \\text{ADF}(y_{r_1:r_2})</span>
 
-<span class="sd">    Parameters:</span>
+<span class="sd">    Args:</span>
 <span class="sd">        y (NDArray[float64]): Values of the time series.</span>
 <span class="sd">        r1 (float, optional): Start index. Defaults to 0.</span>
 <span class="sd">        r2 (float, optional): End index. Defaults to 1.</span>
@@ -204,7 +204,7 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Calculates the cumulative asymptotic distribution of the Augmented Dickey-Fuller test statistic based on a Wiener process.</span>
 
-<span class="sd">    Parameters:</span>
+<span class="sd">    Args:</span>
 <span class="sd">        wiener (NDArray[float64]): Values of the Wiener process.</span>
 <span class="sd">        r1 (float): Start index.</span>
 <span class="sd">        r2 (float): End index.</span>

@@ -27,7 +27,7 @@ def sadfuller_stat(y: NDArray[float64], r0: float, rstep: float, kmax: int) -> f
     .. math::
         \\sup_{r \\in [r_0, 1]} \\text{ADF}(y_{0:r})
 
-    Parameters:
+    Args:
         y (NDArray[float64]): Time series values.
         r0 (float): Minimum index.
         rstep (float): Step size.
@@ -49,7 +49,7 @@ def __sadfuller_dist_from_random_walks__(
     """
     Calculates the asymptotic distribution of the Sup ADF test statistics based on a series of simulated random walks.
 
-    Parameters:
+    Args:
         random_walks (NDArray[float64]): Simulated random walks of size (nreps, nobs).
         r0 (float): Minimum index.
         rstep (float): Step size.
@@ -81,7 +81,7 @@ def bsadf_stat(y: NDArray[float64], r0: float, r2: float, kmax: int) -> float:
     .. math::
         \\text{BSADF}(r_2) = \\max_{r_1 \\in [0, r_2 - r_0]} \\text{ADF}(y, r_1, r_2)
 
-    Parameters:
+    Args:
         y (NDArray[float64]): Time series values.
         r0 (float): Minimum index.
         r2 (float): End index.
@@ -103,7 +103,7 @@ def bsadf_stat_all_series(
     """
     Calculates BSADF statistics over all possible (r1, r2) combinations.
 
-    Parameters:
+    Args:
         y (NDArray[float64]): Time series values.
         r0 (float): Minimum index.
         rstep (float): Step size.
@@ -132,7 +132,7 @@ def __r1r2_combinations__(r0: float, rstep: float) -> NDArray[float64]:
     .. math::
         r_2 \\in [r_0, 1], \\quad r_1 \\in [0, r_2 - r_0]
 
-    Parameters:
+    Args:
         r0 (float): Minimum index.
         rstep (float): Step size.
 
@@ -167,7 +167,7 @@ def bsadfuller_critval(
     .. math::
         \\text{CV}_{i,\\alpha} = \\text{Quantile}_{1 - \\alpha}(\\text{BSADF}_i)
 
-    Parameters:
+    Args:
         r0 (float): Minimum index.
         rstep (float): Step size.
         nreps (int): Number of replications.

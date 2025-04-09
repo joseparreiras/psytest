@@ -98,7 +98,7 @@
 <span class="sd">    .. math::</span>
 <span class="sd">        \\sup_{r \\in [r_0, 1]} \\text{ADF}(y_{0:r})</span>
 
-<span class="sd">    Parameters:</span>
+<span class="sd">    Args:</span>
 <span class="sd">        y (NDArray[float64]): Time series values.</span>
 <span class="sd">        r0 (float): Minimum index.</span>
 <span class="sd">        rstep (float): Step size.</span>
@@ -120,7 +120,7 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Calculates the asymptotic distribution of the Sup ADF test statistics based on a series of simulated random walks.</span>
 
-<span class="sd">    Parameters:</span>
+<span class="sd">    Args:</span>
 <span class="sd">        random_walks (NDArray[float64]): Simulated random walks of size (nreps, nobs).</span>
 <span class="sd">        r0 (float): Minimum index.</span>
 <span class="sd">        rstep (float): Step size.</span>
@@ -154,7 +154,7 @@
 <span class="sd">    .. math::</span>
 <span class="sd">        \\text{BSADF}(r_2) = \\max_{r_1 \\in [0, r_2 - r_0]} \\text{ADF}(y, r_1, r_2)</span>
 
-<span class="sd">    Parameters:</span>
+<span class="sd">    Args:</span>
 <span class="sd">        y (NDArray[float64]): Time series values.</span>
 <span class="sd">        r0 (float): Minimum index.</span>
 <span class="sd">        r2 (float): End index.</span>
@@ -179,7 +179,7 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Calculates BSADF statistics over all possible (r1, r2) combinations.</span>
 
-<span class="sd">    Parameters:</span>
+<span class="sd">    Args:</span>
 <span class="sd">        y (NDArray[float64]): Time series values.</span>
 <span class="sd">        r0 (float): Minimum index.</span>
 <span class="sd">        rstep (float): Step size.</span>
@@ -209,7 +209,7 @@
 <span class="sd">    .. math::</span>
 <span class="sd">        r_2 \\in [r_0, 1], \\quad r_1 \\in [0, r_2 - r_0]</span>
 
-<span class="sd">    Parameters:</span>
+<span class="sd">    Args:</span>
 <span class="sd">        r0 (float): Minimum index.</span>
 <span class="sd">        rstep (float): Step size.</span>
 
@@ -246,7 +246,7 @@
 <span class="sd">    .. math::</span>
 <span class="sd">        \\text{CV}_{i,\\alpha} = \\text{Quantile}_{1 - \\alpha}(\\text{BSADF}_i)</span>
 
-<span class="sd">    Parameters:</span>
+<span class="sd">    Args:</span>
 <span class="sd">        r0 (float): Minimum index.</span>
 <span class="sd">        rstep (float): Step size.</span>
 <span class="sd">        nreps (int): Number of replications.</span>

@@ -5,3 +5,4 @@ psytest
    :maxdepth: 4
 
    psytest
+   psytest.utils

@@ -29,8 +29,6 @@ extensions = [
 templates_path = ['_templates']
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 
-bibtex_bibfiles = ["refs.bib"]
-
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
@@ -42,3 +40,8 @@ autodoc_default_options = {
     "show-inheritance": True,
 }
 html_static_path = ['_static']
+napoleon_google_docstring = True # Enable Google style docstrings
+
+
+# -- Bibliography configuration ----------------------------------------------
+bibtex_bibfiles = ["refs.bib"]

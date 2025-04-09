@@ -34,7 +34,7 @@ def adfuller_stat(y: NDArray[float64], kmax: int) -> float:
     .. math::
         \\Delta y_{t} = \\alpha + \\beta y_{t-1} + \\sum_{k=2}^{kmax} \\gamma_k \\Delta y_{t-k} + \\epsilon_t
 
-    Parameters:
+    Args:
         y (NDArray[float64]): The time series data.
         kmax (int): Maximum lag to use in the test.
 
@@ -64,7 +64,7 @@ def adfuller_dist(nobs: int, nreps: int, kmax: int) -> NDArray[float64]:
     """
     Simulates the asymptotic distribution of the Augmented Dickey-Fuller test statistic.
 
-    Parameters:
+    Args:
         nobs (int): Number of observations in the time series.
         nreps (int): Number of simulations to perform.
         kmax (int): Maximum lag to use in the test.
@@ -91,7 +91,7 @@ def rolling_adfuller_stat(
     .. math::
         \\text{ADF}(r_1, r_2) = \\text{ADF}(y_{r_1:r_2})
 
-    Parameters:
+    Args:
         y (NDArray[float64]): Values of the time series.
         r1 (float, optional): Start index. Defaults to 0.
         r2 (float, optional): End index. Defaults to 1.
@@ -122,7 +122,7 @@ def rolling_adfuller_cdf(wiener: NDArray[float64], r1: float, r2: float) -> floa
     """
     Calculates the cumulative asymptotic distribution of the Augmented Dickey-Fuller test statistic based on a Wiener process.
 
-    Parameters:
+    Args:
         wiener (NDArray[float64]): Values of the Wiener process.
         r1 (float): Start index.
         r2 (float): End index.
