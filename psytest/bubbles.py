@@ -110,6 +110,7 @@ class PSYBubbles:
         nreps: int,
         force: bool = False,
         test_size: list[float] | float = [0.10, 0.05, 0.01],
+        nobs: int | None = None,
     ) -> dict[int, NDArray[float64]]:
         """
         Retrieves BSADF critical values using Monte Carlo Simulations.
@@ -139,21 +140,28 @@ class PSYBubbles:
                 if size <= 0 or size >= 1:
                     raise ValueError("`test_size` must be in the range (0, 1)")
             test_size = sorted(test_size)
+        if nobs is None:
+            nobs = self.nobs
+        else:
+            if not isinstance(nobs, int):
+                raise TypeError("`nobs` must be an integer")
+            if nobs < 1:
+                raise ValueError("`nobs` must be greater than 0")
 
         if (
             force
-            or not hasattr(self, "__critval")
+            or not hasattr(self, "critvaldict")
             or getattr(self, "nreps", None) != nreps
             or getattr(self, "testsize", None) != test_size
         ):
             cval: NDArray[float64] = bsadfuller_critval(
-                self.r0, self.rstep, nreps, self.nobs, test_size
+                self.r0, self.rstep, nreps, nobs, test_size
             ).T
-            self.__critval: dict[int, NDArray[float64]] = dict(zip(self.r2grid(), cval))
+            self.critvaldict: dict[int, NDArray[float64]] = dict(zip(self.r2grid(), cval))
             self.nreps: int = nreps
             self.testsize: list[float] | float = test_size
 
-        return self.__critval
+        return self.critvaldict
 
     def find_bubbles(self, alpha: float, nreps: int | None = None) -> NDArray[object_]:
         """
