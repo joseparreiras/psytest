@@ -1,6 +1,6 @@
 from numpy.typing import NDArray
 from numpy import object_
-from numpy import float64, int64, bool_, array, arange, floor, ndarray
+from numpy import float64, int64, bool_, array, arange, ndarray
 from psytest.utils.functions import r0_default, minlength_default
 from psytest.sadftest import bsadf_stat_all_series, bsadfuller_critval
 from collections.abc import Generator
@@ -206,7 +206,7 @@ class PSYBubbles:
         )
         bubble_index: NDArray[object_] = array(
             [
-                int(floor(self.nobs * self.r2grid()[i])) if i is not None else None
+                int(self.nobs * self.r2grid()[i]) if i is not None else None
                 for i in bubble_r2index.flatten()
             ]
         ).reshape((-1, 2))

@@ -7,15 +7,11 @@ from numpy.typing import NDArray
 from numpy import (
     float64,
     inf,
-    zeros,
     repeat,
     int64,
     arange,
     empty,
-    array,
-    append,
     quantile,
-    floor,
 )
 from collections.abc import Iterable
 from deprecation import deprecated
@@ -45,19 +41,19 @@ def __sadfuller_dist_from_random_walks__(
         rstep (float): Step size for the index.
 
     Returns:
-        NDArray[float64]: Array of size (`nreps`, int(floor((1 - r0) / rstep) + 1)) containing the test statistics.
+        NDArray[float64]: Array of size (`nreps`, int((1 - r0) / rstep) + 1) containing the test statistics.
     """
     nreps: int = random_walks.shape[0]
     r1r2_grid: NDArray[float64] = __r1r2_combinations__(r0, rstep)
     ntups: int = len(r1r2_grid)
-    nstat: int = int(floor((1 - r0) / rstep) + 1)
+    nstat: int = size_rgrid(r0, rstep)
     stats: NDArray[float64] = repeat(-inf, nreps * nstat)
     stats = stats.reshape((nreps, nstat))
     for j in range(nreps):
         for i in prange(ntups):
             r1: int = r1r2_grid[i][0]
             r2: int = r1r2_grid[i][1]
-            idx: int = int(floor((r2 - r1 - r0) / rstep))
+            idx: int = int((r2 - r1 - r0) / rstep)
             stats[j, idx] = max(
                 stats[j, idx], rolling_adfuller_stat(random_walks[j], r1, r2)
             )
@@ -105,12 +101,12 @@ def bsadf_stat_all_series(
     """
     r1r2_grid: NDArray[float64] = __r1r2_combinations__(r0, rstep)
     ntups: int = len(r1r2_grid)
-    nstat: int = int(floor((1 - r0) / rstep)) + 1
+    nstat: int = size_rgrid(r0, rstep)
     stat: NDArray[float64] = repeat(-inf, nstat)
     for i in prange(ntups):
         r1: int = r1r2_grid[i][0]
         r2: int = r1r2_grid[i][1]
-        i: int = int(floor((r2 - r1 - r0) / rstep))
+        i: int = int((r2 - r1 - r0) / rstep)
         stat[i] = max(stat[i], rolling_adfuller_stat(y, r1, r2, kmax))
     return stat
 
@@ -125,12 +121,12 @@ def __r1r2_combinations__(r0: float, rstep: float) -> NDArray[float64]:
         rstep (float): Step size for the index.
 
     Notes:
-        - The final vector has size equal to `n * (n + 1) / 2`, where `n` is the number of steps from `r0` to `1` with step size `rstep`, or `n = int(floor((1 - r0) / rstep) + 1)`.
+        - The final vector has size equal to `n * (n + 1) / 2`, where `n` is the number of steps from `r0` to `1` with step size `rstep`, or `n = int((1 - r0) / rstep) + 1)`.
 
     Returns:
         NDArray[float64]: Vector containing the combinations of (r1, r2).
     """
-    n: int = int(floor((1 - r0) / rstep) + 1)
+    n: int = size_rgrid(r0, rstep)
     size = n * (n + 1) // 2
     result: NDArray[float64] = empty(shape=(size, 2), dtype=float64)
     idx: int = 0
@@ -147,7 +143,7 @@ def bsadfuller_critval(
     rstep: float,
     nreps: int,
     nobs: int | None = None,  # type: ignore[assignment]
-    test_size: list[float] | float = TEST_SIZE,
+    test_size: Iterable | float = TEST_SIZE,
 ) -> NDArray[float64]:
     """
     Calculates the critical values of the Backward Sup ADF test from Monte Carlo simulations.
@@ -157,10 +153,10 @@ def bsadfuller_critval(
         rstep (float): Step size for the index.
         nreps (int): Number of Monte Carlo simulations to perform.
         nobs (int | None, optional): Number of observations to use in the Monte Carlo Simulation. Defaults to None, using `1 / rstep`.
-        testsize (list[float] | float, optional): Significance levels to use for the critical values. Defaults to TEST_SIZE (see `psytest.constants`).
+        testsize (list[float] | float, optional): Significance levels to use for the critical values. Defaults to TEST_SIZE (see `psytest.utils.constants`).
 
     Returns:
-        NDArray[float64]: Vector of size (`int(floor((1 - r0) / rstep) + 1)`, `len(testsize)`) containing the critical values for the test statistics.
+        NDArray[float64]: Vector of size (`int((1 - r0) / rstep) + 1`, `len(testsize)`) containing the critical values for the test statistics.
     """
     if nobs is None:
         nobs: int = int(1 / rstep)

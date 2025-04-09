@@ -1,3 +1,4 @@
+from numba import njit
 from numpy import cumsum, float64, zeros, log, floor
 from numpy.typing import NDArray
 from numpy.random import normal, uniform
@@ -133,6 +134,7 @@ def simulate_markov(
         y[t] = beta[t] * y[t - 1] + err[t - 1]
     return beta, y
 
+@njit
 def size_rgrid(r0: float, rstep:float) -> int:
     """
     Calculates the size of the rgrid starting at `r0` and with step `rstep`.

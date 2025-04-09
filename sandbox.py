@@ -9,7 +9,7 @@ nobs = 2_000
 r0 = None
 
 np.random.seed(19210201)
-beta, y = simulate_markov(nobs, p=0.99, beta_list = [1.02, 0.90])
+beta, y = simulate_markov(nobs, p=0.98, beta_list = [1.02, 0.98])
 
 plt.plot(y)
 plt.show()

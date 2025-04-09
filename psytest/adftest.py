@@ -13,7 +13,6 @@ from numpy import (
     ones,
     sqrt,
     sum as npsum,
-    floor,
 )
 from numpy.linalg import inv
 from numpy.typing import NDArray
@@ -105,8 +104,8 @@ def rolling_adfuller_stat(
     if r1 > r2:
         raise ValueError("r1 should be less than r2")
     nobs: int = len(y)
-    i1: int = int(floor(r1 * nobs))
-    i2: int = int(floor(r2 * nobs))
+    i1: int = int(r1 * nobs)
+    i2: int = int(r2 * nobs)
     return adfuller_stat(y[i1:i2], kmax=kmax)
 
 
@@ -135,8 +134,8 @@ def rolling_adfuller_cdf(wiener: NDArray[float64], r1: float, r2: float) -> floa
     if r1 > r2:
         raise ValueError("`r1` should be less than `r2`")
     nobs: int = len(wiener)
-    i1: int = int(floor(r1 * nobs))
-    i2: int = int(floor(r2 * nobs))
+    i1: int = int(r1 * nobs)
+    i2: int = int(r2 * nobs)
     w2: float = wiener[i2]
     w1: float = wiener[i1]
     dt: float = 1 / nobs
