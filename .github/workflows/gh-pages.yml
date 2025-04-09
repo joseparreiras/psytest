@@ -29,6 +29,9 @@ jobs:
           cd psytest/docs
           make html
 
+      - name: Create .nojekyll
+        run: touch docs/_build/html/.nojekyll
+
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
