@@ -1,8 +1,8 @@
-from psytest.adftest import (
+from .adftest import (
     rolling_adfuller_stat,
 )
-from psytest.utils.functions import random_walk, size_rgrid
-from psytest.utils.constants import TEST_SIZE, KMAX
+from .utils.functions import random_walk, size_rgrid
+from .utils.constants import TEST_SIZE, KMAX
 from numpy.typing import NDArray
 from numpy import (
     float64,

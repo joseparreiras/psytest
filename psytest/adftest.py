@@ -16,8 +16,8 @@ from numpy import (
 )
 from numpy.linalg import inv
 from numpy.typing import NDArray
-from psytest.utils.functions import random_walk
-from psytest.utils.constants import KMAX
+from .utils.functions import random_walk
+from .utils.constants import KMAX
 
 
 @njit(parallel=False)

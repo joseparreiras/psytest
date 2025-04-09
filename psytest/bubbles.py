@@ -1,7 +1,8 @@
 from numpy.typing import NDArray
 from numpy import object_, float64, int64, bool_, array, arange, ndarray
-from psytest.utils.functions import r0_default, minlength_default
-from psytest.sadftest import bsadf_stat_all_series, bsadfuller_critval
+from .utils.functions import r0_default, minlength_default
+from .utils.constants import KMAX, TEST_SIZE, NREPS
+from .sadftest import bsadf_stat_all_series, bsadfuller_critval
 from collections.abc import Generator
 from typing import Any, Self
 
@@ -12,7 +13,7 @@ class PSYBubbles:
         y: NDArray[float64],
         r0: float | None = None,
         rstep: float | None = None,
-        kmax: int = 0,
+        kmax: int = KMAX,
         minlength: float | None = None,
         delta: float | None = None,
     ) -> None:
@@ -20,7 +21,7 @@ class PSYBubbles:
         Class to perform the Phillips, Shi & Yu (2015) test for bubbles in time series data.
 
         .. math::
-            r_0 = \\text{min window}, \\quad r_{\\text{step}} = \\text{step size}, \\quad k_{\max} = \\text{max lag}
+            r_0 = \\text{min window}, \\quad r_{\\text{step}} = \\text{step size}, \\quad k_{\\max} = \\text{max lag}
 
         Args:
             y (NDArray[float64]): Time series values.
@@ -60,7 +61,7 @@ class PSYBubbles:
                 raise TypeError("`minlength` must be a float")
             if not (0 < minlength <= 1):
                 raise ValueError("`minlength` must be in the range (0, 1]")
-            self.minlength: int = minlength
+            self.minlength: float = minlength
             self.delta: float | None = None
         elif delta is not None:
             if not isinstance(delta, float):
@@ -107,18 +108,28 @@ class PSYBubbles:
 
     def critval(
         self,
-        nreps: int,
+        nreps: int = NREPS,
         force: bool = False,
-        test_size: list[float] | float = [0.10, 0.05, 0.01],
+        test_size: list[float] | float = TEST_SIZE,
         nobs: int | None = None,
     ) -> dict[int, NDArray[float64]]:
         """
         Retrieves BSADF critical values using Monte Carlo Simulations.
 
         Args:
-            nreps (int): Number of simulations.
-            force (bool, optional): Force recalculation.
-            test_size (list[float] | float, optional): Significance levels :math:`\\alpha`.
+            nreps (int): Number of simulations. Defaults to NREPS (see .utils.constants)
+            force (bool, optional): Force recalculation. Defaults to False.
+            test_size (list[float] | float, optional): Significance levels :math:`\\alpha`. Defaults to TEST_SIZE (see .utils.constants)
+            nobs (int | None, optional): Number of observations for the simulation. Defaults to None, using the length of `y`.
+
+        Raises:
+            TypeError: If `nreps` is not an integer.
+            ValueError: If `nreps` is less than 1.
+            TypeError: If `force` is not a boolean.
+            TypeError: If `test_size` is not a list or a float.
+            ValueError: If `test_size` is not in the range (0, 1).
+            TypeError: If `nobs` is not an integer.
+            ValueError: If `nobs` is less than 1.
 
         Returns:
             dict[int, NDArray[float64]]: Critical values for each :math:`r_2`.
@@ -157,7 +168,9 @@ class PSYBubbles:
             cval: NDArray[float64] = bsadfuller_critval(
                 self.r0, self.rstep, nreps, nobs, test_size
             ).T
-            self.critvaldict: dict[int, NDArray[float64]] = dict(zip(self.r2grid(), cval))
+            self.critvaldict: dict[int, NDArray[float64]] = dict(
+                zip(self.r2grid(), cval)
+            )
             self.nreps: int = nreps
             self.testsize: list[float] | float = test_size
 
