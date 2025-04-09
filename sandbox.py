@@ -1,14 +1,11 @@
-from numpy.random import normal
 import numpy as np
-from numpy import empty
+from numpy.typing import NDArray
 import matplotlib.pyplot as plt
-from itertools import product
-from tqdm import tqdm
-from psytest.utils.functions import random_walk, simulate_markov
+from psytest.utils.functions import simulate_markov
 from psytest.bubbles import PSYBubbles
 
-nreps = 2_000
-nobs = 2_000
+nreps = 1_000
+nobs = 1_000
 r0 = None
 
 np.random.seed(19210201)
@@ -16,8 +13,8 @@ beta, y = simulate_markov(nobs)
 
 psy = PSYBubbles(np.array(y), minlength=12, r0=r0)
 
-stat = psy.bsadf()
-cval = psy.critval(nreps)
+stat: dict[int, float] = psy.bsadf()
+cval: dict[int, NDArray[np.float64]] = psy.critval(nreps)
 
 bubbles = psy.find_bubbles(alpha=0.05)
 

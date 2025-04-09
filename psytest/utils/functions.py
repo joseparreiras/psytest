@@ -1,10 +1,9 @@
-from numpy import ceil, cumsum, float64, zeros, int64, repeat, log
+from numpy import ceil, cumsum, float64, zeros, log
 from numpy.typing import NDArray
 from numpy.random import normal, uniform
 from collections.abc import Iterable, Callable
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from deprecation import deprecated
-from numba import njit, prange
 
 
 def r0_default(nobs: int) -> int:
@@ -81,7 +80,7 @@ def random_walk(nreps: int, nobs: int) -> NDArray[float64]:
 def simulate_markov(nobs: int, p=0.99) -> tuple[list[float], list[float]]:
     err: NDArray[float64] = normal(size=nobs - 1)
     y: list[float] = [0.0]
-    beta_list: list[float] = [1.02, 0.9]
+    beta_list: list[float] = [1.05, 1]
     beta: list[float] = [1]
     for t in range(1, nobs):
         cur_beta: float = beta[t - 1]
@@ -91,7 +90,7 @@ def simulate_markov(nobs: int, p=0.99) -> tuple[list[float], list[float]]:
             next_beta: float = beta_list[1 - cur_beta_idx]
         else:
             next_beta: float = cur_beta
-        next_y: float = next_beta * y[t-1] + err[t-1]
+        next_y: float = next_beta * y[t - 1] + err[t - 1]
         beta.append(next_beta)
         y.append(next_y)
         y[t] = beta[t] * y[t - 1] + err[t - 1]

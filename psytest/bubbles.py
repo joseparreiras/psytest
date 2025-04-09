@@ -13,6 +13,7 @@ class PSYBubbles:
         r0: int | None = None,
         kmax: int = 0,
         minlength: int | None = None,
+        maxlength: int | None = None,
         delta: float | None = None,
     ) -> None:
         self.y: NDArray[float64] = y
@@ -20,6 +21,7 @@ class PSYBubbles:
         self.index: NDArray | None = None
         self.r0: int = r0 or r0_default(self.nobs)
         self.kmax: int = kmax
+        self.maxlength: int = maxlength or self.nobs
         if minlength:
             self.minlength: int = minlength
             self.delta: float | None = None
@@ -32,7 +34,9 @@ class PSYBubbles:
     def bsadf(self, force: bool = False) -> dict[int, float]:
         if force or not hasattr(self, "_teststat"):
             # Calculate if forced or nonexistant
-            r2_grid, teststat = bsadf_stat_all_series(self.y, self.r0, self.kmax)
+            r2_grid, teststat = bsadf_stat_all_series(
+                y=self.y, r0=self.r0, kmax=self.kmax, maxlength=self.maxlength
+            )
             self._teststat: dict[int, float] = dict(zip(r2_grid, teststat))
 
         return self._teststat
@@ -104,3 +108,7 @@ def find_bubble_dates(
             yield (start + i0, end + i0)
         bubble_bool = bubble_bool[end:]
         i0 += end
+
+
+# TODO: Make a class method to call from Pandas Series
+# TODO: Write docstringsa

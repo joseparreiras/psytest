@@ -85,6 +85,7 @@ def __sadfuller_dist_from_random_walks__(
 # Backward Sup ADF Test
 
 
+@njit(parallel=True)
 def bsadf_stat(y: NDArray[float64], r0: int, r2: int, kmax: int) -> float:
     """
     Calculates the Backward Sup Augmented Dickey-Fuller statistics.
@@ -104,8 +105,12 @@ def bsadf_stat(y: NDArray[float64], r0: int, r2: int, kmax: int) -> float:
     return stat
 
 
+@njit(parallel=True)
 def bsadf_stat_all_series(
-    y: NDArray[float64], r0: int, kmax: int
+    y: NDArray[float64],
+    r0: int,
+    kmax: int,
+    maxlength: int,
 ) -> tuple[NDArray[int64], NDArray[float64]]:
     """
     Calculates the Backward Sup Augmented Dickey-Fuller statistics optimized for a grid of `r2`.
@@ -115,6 +120,7 @@ def bsadf_stat_all_series(
         r0 (int): Initial period to start the test
         r2_grid (NDArray[int64]): The grid to evaluate the test stat.
         kmax (int): Maximum lag to use in the test.
+        maxlength (int): Maximum length of the window to evaluate the test stat (good for very large datasets).
 
     Returns:
         tuple(NDArray[int64], NDArray[float64]): A tuple containing the evaluated `r2` and their test statistic
@@ -126,16 +132,12 @@ def bsadf_stat_all_series(
     for i in prange(len(r1r2_grid)):
         r1: int = r1r2_grid[i][0]
         r2: int = r1r2_grid[i][1]
-        if r1 <= r2 - r0:
-            try:
-                stat[r2 - r0] = max(
-                    stat[r2 - r0], rolling_adfuller_stat(y, r1, r2, kmax)
-                )
-            except ZeroDivisionError:
-                print(r1, r2)
+        if r0 <= r2 - r1 <= maxlength:
+            stat[r2 - r0] = max(
+                stat[r2 - r0], rolling_adfuller_stat(y, r1, r2, kmax)
+            )
 
     return r2_grid, stat
-
 
 @njit(parallel=False)
 def __r1r2_combinations__(nobs: int, r0: int) -> NDArray[int64]:
