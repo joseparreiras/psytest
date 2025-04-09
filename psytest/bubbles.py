@@ -31,7 +31,8 @@ class PSYBubbles:
             delta (float | None, optional): Used to compute default minlength via :math:`\\delta \\log(n)/n`.
 
         Raises:
-            ValueError: For invalid input types or values.
+            TypeError: For invalid input types.
+            ValueError: For invalid input values.
         """
         if not isinstance(y, ndarray):
             y = array(y)
@@ -55,9 +56,17 @@ class PSYBubbles:
         self.rstep: float = rstep or 1 / self.nobs
         self.kmax: int = kmax
         if minlength is not None:
+            if not isinstance(minlength, float):
+                raise TypeError("`minlength` must be a float")
+            if not (0 < minlength <= 1):
+                raise ValueError("`minlength` must be in the range (0, 1]")
             self.minlength: int = minlength
             self.delta: float | None = None
         elif delta is not None:
+            if not isinstance(delta, float):
+                raise TypeError("`delta` must be a float")
+            if delta <= 0:
+                raise ValueError("`delta` must be greater than 0")
             self.minlength: int = minlength_default(self.nobs, delta)
             self.delta: float | None = delta
         else:
@@ -134,15 +143,15 @@ class PSYBubbles:
         if (
             force
             or not hasattr(self, "__critval")
-            or getattr(self, "__nreps", None) != nreps
-            or getattr(self, "__testsize", None) != test_size
+            or getattr(self, "nreps", None) != nreps
+            or getattr(self, "testsize", None) != test_size
         ):
             cval: NDArray[float64] = bsadfuller_critval(
                 self.r0, self.rstep, nreps, self.nobs, test_size
             ).T
             self.__critval: dict[int, NDArray[float64]] = dict(zip(self.r2grid(), cval))
-            self.__nreps: int = nreps
-            self.__testsize: list[float] | float = test_size
+            self.nreps: int = nreps
+            self.testsize: list[float] | float = test_size
 
         return self.__critval
 
@@ -172,15 +181,16 @@ class PSYBubbles:
             if nreps < 1:
                 raise ValueError("`nreps` must be greater than 0")
         else:
-            if not hasattr(self, "__nreps"):
+            if not hasattr(self, "nreps"):
                 raise ValueError("`nreps` must be provided or set in `critval`")
-            nreps: int = self.__nreps
+            nreps: int = self.nreps
 
         stat: dict[int, float] = self.teststat()
         cval: dict[int, NDArray[float64]] = self.critval(nreps=nreps, test_size=alpha)
         bubble_bool: list[NDArray[bool_]] = [stat[i] > cval[i] for i in stat.keys()]
+        minlength: int = int(self.nobs * self.minlength)
         bubble_r2index: NDArray[object_] = array(
-            list(self._find_bubble_dates(bubble_bool, self.minlength))
+            list(self._find_bubble_dates(bubble_bool, minlength))
         )
         bubble_index: NDArray[object_] = array(
             [
