@@ -25,7 +25,7 @@ The benefits of this test relative to other tests in the literature is its abili
 
 The main class of the package is the `PSYBubbles` class, which contains methods to calculate the BSADF test statistics and critical values as well as finding the start and end dates of the bubbles.
 
-Check the [documentation](https://joseparreiras.github.io/docs/_build/html/index.html) for more details on how to use the package and its methods.
+Check the [documentation](docs/_build/html/index.html) for more details on how to use the package and its methods.
 
 ## Getting Started <a name = "getting_started"></a>
 
