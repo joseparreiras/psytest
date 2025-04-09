@@ -1,2 +1,0 @@
-from .adftest import ADFuller
-
