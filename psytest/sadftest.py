@@ -1,76 +1,66 @@
 from psytest.adftest import (
     rolling_adfuller_stat,
-    rolling_adfuller_cdf,
 )
-from psytest.utils.functions import random_walk
-from psytest.utils.constants import KMAX
+from psytest.utils.functions import random_walk, size_rgrid
+from psytest.utils.constants import TEST_SIZE, KMAX
 from numpy.typing import NDArray
-from numpy import float64, inf, zeros, repeat, int64, arange, empty, array, quantile
+from numpy import (
+    float64,
+    inf,
+    zeros,
+    repeat,
+    int64,
+    arange,
+    empty,
+    array,
+    append,
+    quantile,
+    floor,
+)
+from collections.abc import Iterable
+from deprecation import deprecated
 from numba import njit, prange
 
 
 # Sup ADF Test
+@deprecated
 @njit(parallel=True)
-def sadfuller_stat(y: NDArray[float64], r0: int, kmax: int) -> float:
-    """
-    Calculates the test statistics for the Sup Augmented Dickey-Fuller test.
-
-    Args:
-        y (NDArray[float64]): The time series data.
-        r0 (int): Initial period to start the test.
-        kmax (int): Maximum lag to use in the test.
-
-    Returns:
-        float64: The test statistics.
-    """
-    nobs: int = len(y)
+def sadfuller_stat(y: NDArray[float64], r0: float, rstep: float, kmax: int) -> float:
     stat: float = -inf
-    for r in prange(r0, nobs + 1):
+    for r in prange(r0, 1 + rstep, rstep):
         stat = max(stat, rolling_adfuller_stat(y, 0, r, kmax))
     return stat
 
 
-# def sadfuller_dist(
-#     nobs: int, nreps: int, r0: int
-# ) -> tuple[NDArray[int64], NDArray[float64]]:
-#     # Simulate random walks
-#     rw: NDArray[float64] = random_walk(nreps, nobs)
-#     # Make tuple of (j, r2, r1) combinations
-#     iterator: NDArray[int64] = __jr2r1_combinations__(nobs, nreps, r0)
-#     # Calculate statistic for each j
-#     return (
-#         arange(r0, nobs),
-#         __sadfuller_dist_from_random_walks__(rw, iterator, r0),
-#     )
-
-
-@njit(parallel=False)
-def __r2r1_combinations__(nobs: int, r0: int) -> NDArray[int64]:
-    total: int = nreps * (nobs - r0) * (nobs - r0)
-    result: NDArray[int64] = empty((total, 2), dtype=int64)
-
-    idx: int = 0
-    for r2 in range(r0, nobs):
-        for r1 in range(r2 - r0):
-            result[idx, 0] = r1
-            result[idx, 1] = r2
-            idx += 1
-
-    return result
-
-
 @njit(parallel=True)
 def __sadfuller_dist_from_random_walks__(
-    random_walks: NDArray[float64], nreps: int, nobs: int, r0: int
+    random_walks: NDArray[float64], r0: float, rstep: float
 ) -> NDArray[float64]:
-    stats: NDArray[float64] = repeat(-inf, nreps * (nobs - r0))
-    stats = stats.reshape((nreps, nobs - r0))
-    for j in prange(nreps):
-        for r2 in range(r0, nobs):
-            for r1 in range(r2 - r0):
-                stats[j, r2 - r0 - 1] = stats[j, r2 - r0] = max(
-                    stats[j, r2 - r0 - 1], rolling_adfuller_cdf(random_walks[j], r1, r2)
-                )
+    """
+    Calculates the asymptotic distribution of the Sup ADF test statistics based on a series of simulated random walks.
+
+    Args:
+        random_walks (NDArray[float64]): Simulated random walks of size (`nreps`, `nobs`).
+        r0 (float): Minimum index to evaluate the test statistics.
+        rstep (float): Step size for the index.
+
+    Returns:
+        NDArray[float64]: Array of size (`nreps`, int(floor((1 - r0) / rstep) + 1)) containing the test statistics.
+    """
+    nreps: int = random_walks.shape[0]
+    r1r2_grid: NDArray[float64] = __r1r2_combinations__(r0, rstep)
+    ntups: int = len(r1r2_grid)
+    nstat: int = int(floor((1 - r0) / rstep) + 1)
+    stats: NDArray[float64] = repeat(-inf, nreps * nstat)
+    stats = stats.reshape((nreps, nstat))
+    for j in range(nreps):
+        for i in prange(ntups):
+            r1: int = r1r2_grid[i][0]
+            r2: int = r1r2_grid[i][1]
+            idx: int = int(floor((r2 - r1 - r0) / rstep))
+            stats[j, idx] = max(
+                stats[j, idx], rolling_adfuller_stat(random_walks[j], r1, r2)
+            )
     return stats
 
 
@@ -78,18 +68,18 @@ def __sadfuller_dist_from_random_walks__(
 
 
 @njit(parallel=True)
-def bsadf_stat(y: NDArray[float64], r0: int, r2: int, kmax: int) -> float:
+def bsadf_stat(y: NDArray[float64], r0: float, r2: float, kmax: int) -> float:
     """
-    Calculates the Backward Sup Augmented Dickey-Fuller statistics.
+    Calculates the Backward Sup ADF test statistic.
 
     Args:
-        y: (NDArray[float64]): The time series data.
-        r0 (int): Initial period to start the test.
-        r2 (int): Final period for the test. Where to evaluate the BSADF.
+        y (NDArray[float64]): Values of the time series.
+        r0 (float): Minimum index to evaluate the test statistics.
+        r2 (float): Index to evaluate the test statistics.
         kmax (int): Maximum lag to use in the test.
 
     Returns:
-        float64: The test statistic at `r2`
+        float: The Backward Sup ADF test statistic.
     """
     stat: float = -inf
     for r1 in prange(r2 - r0 + 1):
@@ -99,70 +89,87 @@ def bsadf_stat(y: NDArray[float64], r0: int, r2: int, kmax: int) -> float:
 
 @njit(parallel=True)
 def bsadf_stat_all_series(
-    y: NDArray[float64],
-    r0: int,
-    kmax: int,
-    maxlength: int,
-) -> tuple[NDArray[int64], NDArray[float64]]:
+    y: NDArray[float64], r0: float, rstep: float, kmax: int
+) -> NDArray[float64]:
     """
-    Calculates the Backward Sup Augmented Dickey-Fuller statistics optimized for a grid of `r2`.
+    Calculates the Backward Sup ADF test statistics for all possible combinations of r1 and r2.
 
     Args:
-        y: (NDArray[float64]): The time series data.
-        r0 (int): Initial period to start the test
-        r2_grid (NDArray[int64]): The grid to evaluate the test stat.
+        y (NDArray[float64]): Values of the time series.
+        r0 (float): Minimum index to evaluate the test statistics.
+        rstep (float): Step size for the index.
         kmax (int): Maximum lag to use in the test.
-        maxlength (int): Maximum length of the window to evaluate the test stat (good for very large datasets).
 
     Returns:
-        tuple(NDArray[int64], NDArray[float64]): A tuple containing the evaluated `r2` and their test statistic
+        NDArray[float64]: Array of size (`int(floor((1 - r0) / rstep) + 1)`,) containing the test statistics.
     """
-    nobs: int = len(y)
-    r1r2_grid: NDArray[int64] = __r1r2_combinations__(nobs, r0)
-    r2_grid: NDArray[int64] = arange(r0, nobs)
-    stat: NDArray[float64] = repeat(float64(-inf), len(r2_grid))
-    for i in prange(len(r1r2_grid)):
+    r1r2_grid: NDArray[float64] = __r1r2_combinations__(r0, rstep)
+    ntups: int = len(r1r2_grid)
+    nstat: int = int(floor((1 - r0) / rstep)) + 1
+    stat: NDArray[float64] = repeat(-inf, nstat)
+    for i in prange(ntups):
         r1: int = r1r2_grid[i][0]
         r2: int = r1r2_grid[i][1]
-        if r0 <= r2 - r1 <= maxlength:
-            stat[r2 - r0] = max(stat[r2 - r0], rolling_adfuller_stat(y, r1, r2, kmax))
-
-    return r2_grid, stat
+        i: int = int(floor((r2 - r1 - r0) / rstep))
+        stat[i] = max(stat[i], rolling_adfuller_stat(y, r1, r2, kmax))
+    return stat
 
 
 @njit(parallel=False)
-def __r1r2_combinations__(nobs: int, r0: int) -> NDArray[int64]:
+def __r1r2_combinations__(r0: float, rstep: float) -> NDArray[float64]:
     """
-    Calculates all the combinations of (r1, r2) for the calcuation of the BSADF test. This function does NOT filter for r1 <= r2 - r0.
+    Creates a vector with all possible combinations of (r1, r2) to evaluate the BSADF test. `r2` ranges from `r0` to `1`, and `r1` ranges from `0` to `r2 - r0`.
 
     Args:
-        nobs (int64): Number of observations in the sample (maximum value of r2)
-        r0 (int64): Minimum window size (minimum value for r2)
+        r0 (float): Minimum index to evaluate the test statistics.
+        rstep (float): Step size for the index.
+
+    Notes:
+        - The final vector has size equal to `n * (n + 1) / 2`, where `n` is the number of steps from `r0` to `1` with step size `rstep`, or `n = int(floor((1 - r0) / rstep) + 1)`.
 
     Returns:
-        NDArray[int64]: Array of the combinations of (r1, r2)
+        NDArray[float64]: Vector containing the combinations of (r1, r2).
     """
-    total: int = (nobs - r0) ** 2
-    result: NDArray[int64] = zeros(shape=(total, 2), dtype=int64)
+    n: int = int(floor((1 - r0) / rstep) + 1)
+    size = n * (n + 1) // 2
+    result: NDArray[float64] = empty(shape=(size, 2), dtype=float64)
     idx: int = 0
-    for r1 in range(nobs - r0):
-        for r2 in range(r0, nobs):
+    for r2 in arange(r0, 1 + rstep, rstep):
+        for r1 in arange(0, r2 - r0 + 1e-16, rstep):
             result[idx, 0] = r1
             result[idx, 1] = r2
             idx += 1
-
     return result
 
 
 def bsadfuller_critval(
-    nobs: int,
+    r0: float,
+    rstep: float,
     nreps: int,
-    r0: int,
-    testsize: NDArray[float64] = array([0.10, 0.05, 0.01]),
+    nobs: int | None = None,  # type: ignore[assignment]
+    test_size: list[float] | float = TEST_SIZE,
 ) -> NDArray[float64]:
+    """
+    Calculates the critical values of the Backward Sup ADF test from Monte Carlo simulations.
+
+    Args:
+        r0 (float): Minimum index to evaluate the test statistics.
+        rstep (float): Step size for the index.
+        nreps (int): Number of Monte Carlo simulations to perform.
+        nobs (int | None, optional): Number of observations to use in the Monte Carlo Simulation. Defaults to None, using `1 / rstep`.
+        testsize (list[float] | float, optional): Significance levels to use for the critical values. Defaults to TEST_SIZE (see `psytest.constants`).
+
+    Returns:
+        NDArray[float64]: Vector of size (`int(floor((1 - r0) / rstep) + 1)`, `len(testsize)`) containing the critical values for the test statistics.
+    """
+    if nobs is None:
+        nobs: int = int(1 / rstep)
     rw: NDArray[float64] = random_walk(nreps, nobs)
-    sadf_dist: NDArray[float64] = __sadfuller_dist_from_random_walks__(
-        rw, nreps, nobs, r0
-    )
-    critval: NDArray[float64] = quantile(sadf_dist, testsize, axis=0)
+    sadf_dist: NDArray[float64] = __sadfuller_dist_from_random_walks__(rw, r0, rstep)
+    if isinstance(test_size, float):
+        quant_float: float = 1 - test_size
+        critval: NDArray[float64] = quantile(sadf_dist, quant_float, axis=0)
+    elif isinstance(test_size, Iterable):
+        quant_list: list[float] = [1 - q for q in test_size]
+        critval: NDArray[float64] = quantile(sadf_dist, quant_list, axis=0)
     return critval

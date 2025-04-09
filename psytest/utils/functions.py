@@ -1,7 +1,7 @@
-from numpy import ceil, cumsum, float64, zeros, log
+from numpy import cumsum, float64, zeros, log, floor
 from numpy.typing import NDArray
 from numpy.random import normal, uniform
-from collections.abc import Iterable, Callable
+from collections.abc import Iterable, Callable, Sequence
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from deprecation import deprecated
 
@@ -16,7 +16,7 @@ def r0_default(nobs: int) -> int:
     Returns:
         int: The default r0 parameter
     """
-    return int(ceil((0.01 * 0.08 * nobs**0.5) * nobs))
+    return 0.01 * 0.08 * nobs**0.5
 
 
 def minlength_default(nobs: int, delta: float) -> int:
@@ -30,7 +30,7 @@ def minlength_default(nobs: int, delta: float) -> int:
     Returns:
         int: Minimum bubble length
     """
-    return int(delta * log(nobs))
+    return delta * log(nobs) / nobs
 
 
 def index_combinations(start: int, stop: int) -> list[tuple[int, int]]:
@@ -77,11 +77,48 @@ def random_walk(nreps: int, nobs: int) -> NDArray[float64]:
     return cumsum(rw, axis=1)
 
 
-def simulate_markov(nobs: int, p=0.99) -> tuple[list[float], list[float]]:
+def simulate_markov(
+    nobs: int, p=0.975, beta_list: list[float] = [1.01, 1]
+) -> tuple[list[float], list[float]]:
+    """
+    Simulates a markov process with two regimes. The two regimes differ in their beta parameter, one potentially explosive (beta > 1) and the other stationary (beta < 1). The markov matrix is set as constant with the parameter `p` giving the probability of remaining in the same regime. The process is simulated using a normal distribution for the error term. The process is defined as:
+    .. math::
+
+        y_t = beta * y_{t-1} + e_t
+    where :math:`e_t` is a normal error term and :math:`beta` is the parameter of the process. The process starts at 0 and the first error term is generated from a normal distribution.
+
+    Args:
+        nobs (int): Number of observations for the process
+        p (float, optional): Probability of switch. Defaults to 0.975.
+        beta_list (list[float], optional): List of betas for the process. Defaults to [1.01, 1].
+
+    Raises:
+        - TypeError: If `p` is not a float.
+        - ValueError: If `p` is not between 0 and 1.
+        - TypeError: If `beta_list` is not a Sequence.
+        - ValueError: If `beta_list` does not have length 2.
+        - TypeError: If `nobs` is not an integer.
+        - ValueError: If `nobs` is less than 1.
+
+    Returns:
+        tuple[list[float], list[float]]: A tuple containing two lists: the first one with the beta values and the second one with the simulated process values.
+    """
+    if not isinstance(beta_list, Sequence):
+        raise TypeError("`beta_list` must be a Sequence")
+    if len(beta_list) != 2:
+        raise ValueError("`beta_list` must have length 2")
+    if not isinstance(nobs, int):
+        raise TypeError("`nobs` must be an integer")
+    if nobs < 1:
+        raise ValueError("`nobs` must be greater than 0")
+    if not isinstance(p, float):
+        raise TypeError("`p` must be a float")
+    if p < 0 or p > 1:
+        raise ValueError("`p` must be between 0 and 1")
+
     err: NDArray[float64] = normal(size=nobs - 1)
     y: list[float] = [0.0]
-    beta_list: list[float] = [1.05, 1]
-    beta: list[float] = [1]
+    beta: list[float] = [min(beta_list)]
     for t in range(1, nobs):
         cur_beta: float = beta[t - 1]
         change_regime: bool = uniform() < 1 - p
@@ -95,3 +132,13 @@ def simulate_markov(nobs: int, p=0.99) -> tuple[list[float], list[float]]:
         y.append(next_y)
         y[t] = beta[t] * y[t - 1] + err[t - 1]
     return beta, y
+
+def size_rgrid(r0: float, rstep:float) -> int:
+    """
+    Calculates the size of the rgrid starting at `r0` and with step `rstep`.
+
+    Args:
+        r0 (float): Minimum index to evaluate the test statistics.
+        rstep (float): Step size for the index.
+    """
+    return int(floor((1 - r0) / rstep) + 1)
