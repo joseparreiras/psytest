@@ -13,7 +13,7 @@ class PSYBubbles:
         r0: float | None = None,
         rstep: float | None = None,
         kmax: int = 0,
-        minlength: int | None = None,
+        minlength: float | None = None,
         delta: float | None = None,
     ) -> None:
         """

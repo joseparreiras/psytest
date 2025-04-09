@@ -1,5 +1,5 @@
 from numba import njit
-from numpy import cumsum, float64, zeros, log, floor
+from numpy import cumsum, float64, zeros, log, floor, array
 from numpy.typing import NDArray
 from numpy.random import normal, uniform
 from collections.abc import Iterable, Callable, Sequence
@@ -91,7 +91,7 @@ def random_walk(nreps: int, nobs: int) -> NDArray[float64]:
 
 def simulate_markov(
     nobs: int, p=0.975, beta_list: list[float] = [1.01, 1]
-) -> tuple[list[float], list[float]]:
+) -> tuple[NDArray[float64], NDArray[float64]]:
     """
     Simulates a Markov process with two regimes. The two regimes differ in their beta parameter, one potentially explosive (:math:`\\beta > 1`) and the other stationary (:math:`\\beta < 1`). The Markov matrix is fixed with the parameter :math:`p` giving the probability of remaining in the same regime. The process is simulated using a normal distribution for the error term. The process is defined as:
 
@@ -144,7 +144,7 @@ def simulate_markov(
         beta.append(next_beta)
         y.append(next_y)
         y[t] = beta[t] * y[t - 1] + err[t - 1]
-    return beta, y
+    return array(beta), array(y)
 
 
 @njit
