@@ -15,7 +15,7 @@
 
 ## About <a name = "about"></a>
 
-This is the documentation for the `psytest` package, a Python testing framework that applies the methodology of :cite:`phillips2011testing` (_PSY_) to test for the presence of multiple bubbles in a dataset.
+This is the documentation for the `psytest` package, a Python testing framework that applies the methodology of Phillips, Shi & Yu (2011) to test for the presence of multiple bubbles in a dataset.
 
 A bubble is defined as a period of explosive growth above a unit root in the time series for a consistent period of time.
 
