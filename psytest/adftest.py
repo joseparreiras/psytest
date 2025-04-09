@@ -26,9 +26,13 @@ def adfuller_stat(y: NDArray[float64], kmax: int) -> float:
     Calculates the test statistic for the Augmented Dickey-Fuller test.
 
     .. math::
-        ADF = \frac{\hat{\beta}}{\sqrt{\widehat{\text{Var}}(\hat{\beta})}}
 
-    where :math:`\hat{\beta}` is the coefficient of :math:`y_{t-1}` in the regression and :math:`\widehat{\text{Var}}(\hat{\beta})` is its estimated variance.
+        \\text{ADF} = \\frac{\\hat{\\beta}}{\\sqrt{\\widehat{\\mathrm{Var}}(\\hat{\\beta})}}
+
+    where :math:`\\hat{\\beta}` is the coefficient of :math:`y_{t-1}` and :math:`\\widehat{\\mathrm{Var}}(\\hat{\\beta})` is its estimated variance in the regression
+
+    .. math::
+        \\Delta y_{t} = \\alpha + \\beta y_{t-1} + \\sum_{k=2}^{kmax} \\gamma_k \\Delta y_{t-k} + \\epsilon_t
 
     Parameters:
         y (NDArray[float64]): The time series data.
@@ -85,7 +89,7 @@ def rolling_adfuller_stat(
     Calculates the Augmented Dickey-Fuller test statistic for a window of the time series.
 
     .. math::
-        ADF(r_1, r_2) = ADF(y_{r_1:r_2})
+        \\text{ADF}(r_1, r_2) = \\text{ADF}(y_{r_1:r_2})
 
     Parameters:
         y (NDArray[float64]): Values of the time series.
@@ -117,11 +121,6 @@ def rolling_adfuller_stat(
 def rolling_adfuller_cdf(wiener: NDArray[float64], r1: float, r2: float) -> float:
     """
     Calculates the cumulative asymptotic distribution of the Augmented Dickey-Fuller test statistic based on a Wiener process.
-
-    .. math::
-        \text{CDF}_{ADF}(r_1, r_2) = \frac{1}{\sqrt{rw} \sqrt{rw \cdot \sum W^2 - (\sum W)^2}} \left[\frac{1}{2} rw (W_2^2 - W_1^2 - rw) - \sum W (W_2 - W_1) \right]
-
-    where :math:`rw = i_2 - i_1`, :math:`W_t` is the Wiener process, and the sums are over the interval :math:`[i_1, i_2]`.
 
     Parameters:
         wiener (NDArray[float64]): Values of the Wiener process.

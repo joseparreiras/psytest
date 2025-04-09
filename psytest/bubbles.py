@@ -20,15 +20,15 @@ class PSYBubbles:
         Class to perform the Phillips, Shi & Yu (2015) test for bubbles in time series data.
 
         .. math::
-            r_0 = \text{min window}, \quad r_{\text{step}} = \text{step size}, \quad k_{\max} = \text{max lag}
+            r_0 = \\text{min window}, \\quad r_{\\text{step}} = \\text{step size}, \\quad k_{\max} = \\text{max lag}
 
         Parameters:
             y (NDArray[float64]): Time series values.
             r0 (float | None, optional): Minimum window size :math:`r_0`. Defaults to `r0_default`.
-            rstep (float | None, optional): Step size :math:`r_{\text{step}}`. Defaults to :math:`1/n`.
-            kmax (int, optional): Maximum lag :math:`k_{\max}`. Defaults to 0.
+            rstep (float | None, optional): Step size :math:`r_{\\text{step}}`. Defaults to :math:`1/n`.
+            kmax (int, optional): Maximum lag :math:`k_{\\max}`. Defaults to 0.
             minlength (int | None, optional): Minimum bubble length.
-            delta (float | None, optional): Used to compute default minlength via :math:`\delta \log(n)/n`.
+            delta (float | None, optional): Used to compute default minlength via :math:`\\delta \\log(n)/n`.
 
         Raises:
             ValueError: For invalid input types or values.
@@ -68,7 +68,7 @@ class PSYBubbles:
         Grid of :math:`r_2` values for the BSADF test.
 
         Returns:
-            NDArray[float64]: Grid :math:`\{r_2\}` from :math:`r_0` to 1 with step :math:`r_{\text{step}}`.
+            NDArray[float64]: Grid :math:`\\{r_2\\}` from :math:`r_0` to 1 with step :math:`r_{\\text{step}}`.
         """
         return arange(self.r0, 1 + 1e-16, self.rstep)
 
@@ -77,7 +77,7 @@ class PSYBubbles:
         Retrieves the BSADF test statistic.
 
         .. math::
-            \text{BSADF}_{r_2} = \max_{r_1 \in [0, r_2 - r_0]} \text{ADF}(y_{r_1:r_2})
+            \\text{BSADF}_{r_2} = \\max_{r_1 \\in [0, r_2 - r_0]} \\text{ADF}(y_{r_1:r_2})
 
         Parameters:
             force (bool, optional): If True, forces recalculation.
@@ -103,15 +103,12 @@ class PSYBubbles:
         test_size: list[float] | float = [0.10, 0.05, 0.01],
     ) -> dict[int, NDArray[float64]]:
         """
-        Retrieves BSADF critical values using Monte Carlo.
-
-        .. math::
-            \text{CV}_{r_2, \alpha} = \text{Quantile}_{1 - \alpha}(\text{BSADF}_{r_2})
+        Retrieves BSADF critical values using Monte Carlo Simulations.
 
         Parameters:
             nreps (int): Number of simulations.
             force (bool, optional): Force recalculation.
-            test_size (list[float] | float, optional): Significance levels :math:`\alpha`.
+            test_size (list[float] | float, optional): Significance levels :math:`\\alpha`.
 
         Returns:
             dict[int, NDArray[float64]]: Critical values for each :math:`r_2`.
@@ -156,10 +153,10 @@ class PSYBubbles:
         A bubble exists when:
 
         .. math::
-            \text{BSADF}_{r_2} > \text{CV}_{r_2, \alpha}
+            \\text{BSADF}_{r_2} > \\text{CV}_{r_2, \\alpha}
 
         Parameters:
-            alpha (float): Significance level :math:`\alpha`.
+            alpha (float): Significance level :math:`\\alpha`.
             nreps (int | None, optional): Number of simulations (required if no cache).
 
         Returns:

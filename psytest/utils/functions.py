@@ -12,7 +12,7 @@ def r0_default(nobs: int) -> int:
     Calculates the default r0 parameter following Phillips, Shi & Yu (2015) as a function of the number of observations.
 
     .. math::
-        r_0 = 0.01 \times 0.08 \times \sqrt{n}
+        r_0 = 0.01 \\times 0.08 \\times \\sqrt{n}
 
     Parameters:
         nobs (int): Number of observations
@@ -28,7 +28,7 @@ def minlength_default(nobs: int, delta: float) -> int:
     Calculates the minimum bubble length based on the number of observations.
 
     .. math::
-        \text{min\_length} = \frac{\delta \log(n)}{n}
+        \\text{min\_length} = \\frac{\\delta \\log(n)}{n}
 
     Parameters:
         nobs (int): Number of observations
@@ -45,8 +45,8 @@ def index_combinations(start: int, stop: int) -> list[tuple[int, int]]:
     Generates the combinations of two indices, where the first index is less than the second index. The result is a tuple of indices (r1, r2) such as:
 
     .. math::
-        r_1 = 0, \ldots, r_2 - \text{start} \\
-        r_2 = \text{start}, \ldots, \text{stop}
+        r_1 = 0, \\ldots, r_2 - \\text{start} \\
+        r_2 = \\text{start}, \\ldots, \\text{stop}
 
     Parameters:
         start (int): The initial index to start the combinations
@@ -75,7 +75,7 @@ def random_walk(nreps: int, nobs: int) -> NDArray[float64]:
     Generates a monte carlo simulation of random walks.
 
     .. math::
-        RW_{i, t} = \sum_{s=1}^{t} \frac{\varepsilon_{i, s}}{\sqrt{n}}
+        RW_{i, t} = \\sum_{s=1}^{t} \\frac{\\varepsilon_{i, s}}{\\sqrt{n}}
 
     Parameters:
         nreps (int): Number of repetitions.
@@ -93,12 +93,12 @@ def simulate_markov(
     nobs: int, p=0.975, beta_list: list[float] = [1.01, 1]
 ) -> tuple[list[float], list[float]]:
     """
-    Simulates a Markov process with two regimes. The two regimes differ in their beta parameter, one potentially explosive (:math:`\beta > 1`) and the other stationary (:math:`\beta < 1`). The Markov matrix is fixed with the parameter :math:`p` giving the probability of remaining in the same regime. The process is simulated using a normal distribution for the error term. The process is defined as:
+    Simulates a Markov process with two regimes. The two regimes differ in their beta parameter, one potentially explosive (:math:`\\beta > 1`) and the other stationary (:math:`\\beta < 1`). The Markov matrix is fixed with the parameter :math:`p` giving the probability of remaining in the same regime. The process is simulated using a normal distribution for the error term. The process is defined as:
 
     .. math::
-        y_t = \beta_t y_{t-1} + \varepsilon_t
+        y_t = \\beta_t y_{t-1} + \\varepsilon_t
 
-    where :math:`\varepsilon_t \sim \mathcal{N}(0, 1)`.
+    where :math:`\\varepsilon_t \\sim \\mathcal{N}(0, 1)`.
 
     Parameters:
         nobs (int): Number of observations for the process
@@ -153,7 +153,7 @@ def size_rgrid(r0: float, rstep: float) -> int:
     Calculates the size of the rgrid starting at `r0` and with step `rstep`.
 
     .. math::
-        \text{size} = \left\lfloor \frac{1 - r_0}{\text{rstep}} \right\rfloor + 1
+        \\text{size} = \\left\\lfloor \\frac{1 - r_0}{\\text{rstep}} \\right\\rfloor + 1
 
     Parameters:
         r0 (float): Minimum index to evaluate the test statistics.

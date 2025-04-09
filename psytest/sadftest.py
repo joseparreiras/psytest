@@ -25,7 +25,7 @@ def sadfuller_stat(y: NDArray[float64], r0: float, rstep: float, kmax: int) -> f
     Calculates the Sup ADF statistic by rolling over the interval [r0, 1].
 
     .. math::
-        \sup_{r \in [r_0, 1]} \text{ADF}(y_{0:r})
+        \\sup_{r \\in [r_0, 1]} \\text{ADF}(y_{0:r})
 
     Parameters:
         y (NDArray[float64]): Time series values.
@@ -48,9 +48,6 @@ def __sadfuller_dist_from_random_walks__(
 ) -> NDArray[float64]:
     """
     Calculates the asymptotic distribution of the Sup ADF test statistics based on a series of simulated random walks.
-
-    .. math::
-        \text{SupADF}_{j, i} = \max(\text{SupADF}_{j, i}, \text{ADF}(y_j, r_1, r_2))
 
     Parameters:
         random_walks (NDArray[float64]): Simulated random walks of size (nreps, nobs).
@@ -82,7 +79,7 @@ def bsadf_stat(y: NDArray[float64], r0: float, r2: float, kmax: int) -> float:
     Calculates the Backward Sup ADF test statistic.
 
     .. math::
-        \text{BSADF}(r_2) = \max_{r_1 \in [0, r_2 - r_0]} \text{ADF}(y, r_1, r_2)
+        \\text{BSADF}(r_2) = \\max_{r_1 \\in [0, r_2 - r_0]} \\text{ADF}(y, r_1, r_2)
 
     Parameters:
         y (NDArray[float64]): Time series values.
@@ -105,9 +102,6 @@ def bsadf_stat_all_series(
 ) -> NDArray[float64]:
     """
     Calculates BSADF statistics over all possible (r1, r2) combinations.
-
-    .. math::
-        \text{BSADF}_i = \max_{r_1 \in [0, r_2 - r_0]} \text{ADF}(y, r_1, r_2)
 
     Parameters:
         y (NDArray[float64]): Time series values.
@@ -136,14 +130,14 @@ def __r1r2_combinations__(r0: float, rstep: float) -> NDArray[float64]:
     Creates a grid of all (r1, r2) index pairs to evaluate BSADF.
 
     .. math::
-        r_2 \in [r_0, 1], \quad r_1 \in [0, r_2 - r_0]
+        r_2 \\in [r_0, 1], \\quad r_1 \\in [0, r_2 - r_0]
 
     Parameters:
         r0 (float): Minimum index.
         rstep (float): Step size.
 
     Notes:
-        - Vector size: :math:`n(n+1)/2` where :math:`n = \lfloor (1 - r_0)/rstep \rfloor + 1`
+        - Vector size: :math:`n(n+1)/2` where :math:`n = \\lfloor (1 - r_0)/rstep \\rfloor + 1`
 
     Returns:
         NDArray[float64]: Grid of (r1, r2) pairs.
@@ -171,7 +165,7 @@ def bsadfuller_critval(
     Calculates critical values of BSADF statistics from Monte Carlo simulations.
 
     .. math::
-        \text{CV}_{i,\alpha} = \text{Quantile}_{1 - \alpha}(\text{BSADF}_i)
+        \\text{CV}_{i,\\alpha} = \\text{Quantile}_{1 - \\alpha}(\\text{BSADF}_i)
 
     Parameters:
         r0 (float): Minimum index.
