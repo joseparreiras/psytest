@@ -1,7 +1,4 @@
-from .bubbles import *
-from .adftest import *
-from .sadftest import *
-from .utils import *
+from .bubbles import PSYBubbles
 
 __all__: list[str] = ["PSYBubbles"]
 __name__: str = "psytest"

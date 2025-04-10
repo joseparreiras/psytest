@@ -5,7 +5,7 @@ setup(
     version="0.2.0",
     packages=find_packages(),
     include_package_data=True,
-    package_data={"psytest": ["data/*.csv"]},
+    package_data={"psytest": ["critval/data/*.csv"]},
     python_requires=">=3.10",
     install_requires=["numpy", "numba", "scipy", "pandas", "deprecation"],
     tests_require=["pytest"],

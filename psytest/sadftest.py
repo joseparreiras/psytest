@@ -42,7 +42,7 @@ def sadfuller_stat(y: NDArray[float64], r0: float, rstep: float, kmax: int) -> f
 
 @njit(parallel=True)
 def __sadfuller_dist_from_random_walks__(
-    random_walks: NDArray[float64], r0: float, rstep: float
+    random_walks: NDArray[float64], r0: float, rstep: float, kmax: int
 ) -> NDArray[float64]:
     """
     Calculates the asymptotic distribution of the Sup ADF test statistics based on a series of simulated random walks.
@@ -56,7 +56,7 @@ def __sadfuller_dist_from_random_walks__(
         NDArray[float64]: Distribution matrix of Sup ADF statistics.
     """
     nreps: int = random_walks.shape[0]
-    r1r2_grid: NDArray[float64] = __r1r2_combinations__(r0, rstep)
+    r1r2_grid: NDArray[float64] = make_r1r2_combinations(r0, rstep)
     ntups: int = len(r1r2_grid)
     nstat: int = size_rgrid(r0, rstep)
     stats: NDArray[float64] = repeat(-inf, nreps * nstat).reshape((nreps, nstat))
@@ -111,7 +111,7 @@ def bsadf_stat_all_series(
     Returns:
         NDArray[float64]: Array of test statistics.
     """
-    r1r2_grid: NDArray[float64] = __r1r2_combinations__(r0, rstep)
+    r1r2_grid: NDArray[float64] = make_r1r2_combinations(r0, rstep)
     ntups: int = len(r1r2_grid)
     nstat: int = size_rgrid(r0, rstep)
     stat: NDArray[float64] = repeat(-inf, nstat)
@@ -124,19 +124,19 @@ def bsadf_stat_all_series(
 
 
 @njit
-def __r2grid__(r0: float, rstep: float) -> NDArray[float64]:
+def make_r2grid(r0: float, rstep: float) -> NDArray[float64]:
     """Creates the grid of all possible `r2` values."""
     return arange(r0, 1 + rstep, rstep)
 
 
 @njit
-def __r1grid__(r2: float, r0: float, rstep: float) -> NDArray[float64]:
+def make_r1_grid(r2: float, r0: float, rstep: float) -> NDArray[float64]:
     """Creates the grid of all possible `r1` values given `r2`."""
     return arange(0, r2 - r0 + rstep, rstep)
 
 
 @njit(parallel=False)
-def __r1r2_combinations__(r0: float, rstep: float) -> NDArray[float64]:
+def make_r1r2_combinations(r0: float, rstep: float) -> NDArray[float64]:
     """
     Creates a grid of all (r1, r2) index pairs to evaluate BSADF.
 
@@ -157,8 +157,8 @@ def __r1r2_combinations__(r0: float, rstep: float) -> NDArray[float64]:
     size = n * (n + 1) // 2
     result: NDArray[float64] = empty(shape=(size, 2), dtype=float64)
     idx: int = 0
-    for r2 in __r2grid__(r0, rstep):
-        for r1 in __r1grid__(r2, r0, rstep):
+    for r2 in make_r2grid(r0, rstep):
+        for r1 in make_r1_grid(r2, r0, rstep):
             result[idx, 0] = r1
             result[idx, 1] = r2
             idx += 1
@@ -171,6 +171,7 @@ def bsadfuller_critval(
     nreps: int,
     nobs: int,
     test_size: Iterable | float,
+    kmax: int,
 ) -> NDArray[float64]:
     """
     Calculates critical values of BSADF statistics from Monte Carlo simulations.
@@ -189,7 +190,9 @@ def bsadfuller_critval(
         NDArray[float64]: Critical values matrix.
     """
     rw: NDArray[float64] = random_walk(nreps, nobs)
-    sadf_dist: NDArray[float64] = __sadfuller_dist_from_random_walks__(rw, r0, rstep)
+    sadf_dist: NDArray[float64] = __sadfuller_dist_from_random_walks__(
+        random_walks=rw, r0=r0, rstep=rstep, kmax=kmax
+    )
     if isinstance(test_size, float):
         quant_float: float = 1 - test_size
         critval: NDArray[float64] = quantile(sadf_dist, quant_float, axis=0)
