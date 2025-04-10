@@ -2,13 +2,11 @@ from .adftest import (
     rolling_adfuller_stat,
 )
 from .utils.functions import random_walk, size_rgrid
-from .utils.constants import TEST_SIZE, KMAX
 from numpy.typing import NDArray
 from numpy import (
     float64,
     inf,
     repeat,
-    int64,
     arange,
     empty,
     quantile,
@@ -38,7 +36,7 @@ def sadfuller_stat(y: NDArray[float64], r0: float, rstep: float, kmax: int) -> f
     """
     stat: float = -inf
     for r in prange(r0, 1 + rstep, rstep):
-        stat = max(stat, rolling_adfuller_stat(y, 0, r, kmax))
+        stat = max(stat, rolling_adfuller_stat(y, kmax=kmax, r1=0, r2=r))
     return stat
 
 
@@ -68,7 +66,8 @@ def __sadfuller_dist_from_random_walks__(
             r2: int = r1r2_grid[i][1]
             idx: int = int((r2 - r1 - r0) / rstep)
             stats[j, idx] = max(
-                stats[j, idx], rolling_adfuller_stat(random_walks[j], r1, r2)
+                stats[j, idx],
+                rolling_adfuller_stat(random_walks[j], kmax=kmax, r1=r1, r2=r2),
             )
     return stats
 
@@ -92,7 +91,7 @@ def bsadf_stat(y: NDArray[float64], r0: float, r2: float, kmax: int) -> float:
     """
     stat: float = -inf
     for r1 in prange(r2 - r0 + 1):
-        stat = max(stat, rolling_adfuller_stat(y, r1, r2, kmax))
+        stat = max(stat, rolling_adfuller_stat(y, kmax=kmax, r1=r2, r2=r2))
     return stat
 
 
@@ -120,8 +119,20 @@ def bsadf_stat_all_series(
         r1: int = r1r2_grid[i][0]
         r2: int = r1r2_grid[i][1]
         i: int = int((r2 - r1 - r0) / rstep)
-        stat[i] = max(stat[i], rolling_adfuller_stat(y, r1, r2, kmax))
+        stat[i] = max(stat[i], rolling_adfuller_stat(y, kmax=kmax, r1=r1, r2=r2))
     return stat
+
+
+@njit
+def __r2grid__(r0: float, rstep: float) -> NDArray[float64]:
+    """Creates the grid of all possible `r2` values."""
+    return arange(r0, 1 + rstep, rstep)
+
+
+@njit
+def __r1grid__(r2: float, r0: float, rstep: float) -> NDArray[float64]:
+    """Creates the grid of all possible `r1` values given `r2`."""
+    return arange(0, r2 - r0 + rstep, rstep)
 
 
 @njit(parallel=False)
@@ -146,8 +157,8 @@ def __r1r2_combinations__(r0: float, rstep: float) -> NDArray[float64]:
     size = n * (n + 1) // 2
     result: NDArray[float64] = empty(shape=(size, 2), dtype=float64)
     idx: int = 0
-    for r2 in arange(r0, 1 + rstep, rstep):
-        for r1 in arange(0, r2 - r0 + 1e-16, rstep):
+    for r2 in __r2grid__(r0, rstep):
+        for r1 in __r1grid__(r2, r0, rstep):
             result[idx, 0] = r1
             result[idx, 1] = r2
             idx += 1
@@ -158,8 +169,8 @@ def bsadfuller_critval(
     r0: float,
     rstep: float,
     nreps: int,
-    nobs: int | None = None,  # type: ignore[assignment]
-    test_size: Iterable | float = TEST_SIZE,
+    nobs: int,
+    test_size: Iterable | float,
 ) -> NDArray[float64]:
     """
     Calculates critical values of BSADF statistics from Monte Carlo simulations.
@@ -171,14 +182,12 @@ def bsadfuller_critval(
         r0 (float): Minimum index.
         rstep (float): Step size.
         nreps (int): Number of replications.
-        nobs (int | None): Number of observations. Defaults to :math:`1/rstep`.
+        nobs (int | None): Number of observations.
         test_size (Iterable | float): Significance levels.
 
     Returns:
         NDArray[float64]: Critical values matrix.
     """
-    if nobs is None:
-        nobs: int = int(1 / rstep)
     rw: NDArray[float64] = random_walk(nreps, nobs)
     sadf_dist: NDArray[float64] = __sadfuller_dist_from_random_walks__(rw, r0, rstep)
     if isinstance(test_size, float):

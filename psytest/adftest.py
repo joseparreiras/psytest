@@ -17,7 +17,6 @@ from numpy import (
 from numpy.linalg import inv
 from numpy.typing import NDArray
 from .utils.functions import random_walk
-from .utils.constants import KMAX
 
 
 @njit(parallel=False)
@@ -83,7 +82,7 @@ def adfuller_dist(nobs: int, nreps: int, kmax: int) -> NDArray[float64]:
 
 @njit
 def rolling_adfuller_stat(
-    y: NDArray[float64], r1: float = 0, r2: float = 1.0, kmax: int = KMAX
+    y: NDArray[float64], kmax: int,  r1: float = 0, r2: float = 1.0,
 ) -> float:
     """
     Calculates the Augmented Dickey-Fuller test statistic for a window of the time series.
@@ -95,7 +94,7 @@ def rolling_adfuller_stat(
         y (NDArray[float64]): Values of the time series.
         r1 (float, optional): Start index. Defaults to 0.
         r2 (float, optional): End index. Defaults to 1.
-        kmax (int, optional): Maximum lag to use in the test. Defaults to KMAX.
+        kmax (int, optional): Maximum lag to use in the test.
 
     Notes:
         - `r1` and `r2` should be in the range [0, 1] following the notation of the paper.

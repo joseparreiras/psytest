@@ -1,15 +1,10 @@
 from numba import njit
-from numpy import cumsum, float64, zeros, log, floor, array, interp
+from numpy import cumsum, float64, zeros, log, floor, array
 from numpy.typing import NDArray
 from numpy.random import normal, uniform
 from collections.abc import Iterable, Callable, Sequence
-from typing import Literal
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from deprecation import deprecated
-from pandas import DataFrame, read_csv
-from importlib.resources import files
-from importlib.resources.abc import Traversable
-from io import StringIO
 
 
 def r0_default(nobs: int) -> int:
@@ -33,7 +28,7 @@ def minlength_default(nobs: int, delta: float) -> int:
     Calculates the minimum bubble length based on the number of observations.
 
     .. math::
-        \\text{min\_length} = \\frac{\\delta \\log(n)}{n}
+        \\text{min\\_length} = \\frac{\\delta \\log(n)}{n}
 
     Args:
         nobs (int): Number of observations
@@ -165,75 +160,3 @@ def size_rgrid(r0: float, rstep: float) -> int:
         rstep (float): Step size for the index.
     """
     return int(floor((1 - r0) / rstep) + 1)
-
-
-def load_critval() -> DataFrame:
-    """
-    Loads the critical values from the CSV file in the `data` directory.
-
-    Returns:
-        DataFrame: A DataFrame containing the critical values. The first column correspond to the `r2` parameter. The remaining columns give, for each `r2` the critical values with significance levels 0.10, 0.05, and 0.01 respectively.
-    """
-    data_path: Traversable = files("psytest.data") / "critval.csv"
-    data_stringio: StringIO = StringIO(data_path.read_text())
-    return read_csv(data_stringio, index_col=0)
-
-
-def critval_tabulated(
-    r2_eval: float | Iterable[float], alpha: float = 0.05
-) -> float64 | NDArray[float64]:
-    """
-    Returns the critical values for a given `r2` or an array of `r2` from the tabulated values in the `critval.csv` file.
-
-    Args:
-        r2_eval (float | Iterable[float]): The `r2` value or an array of `r2` values.
-
-    Returns:
-        float64 | NDArray[float64]: The critical values for the given `r2` or an array of critical values.
-
-    Raises:
-        ValueError: If `r2_eval` is not between 0 and 1.
-        TypeError: If `r2_eval` is not a float or an iterable.
-        ValueError: If `alpha` is not between 0 and 1.
-        TypeError: If `alpha` is not a float.
-        ValueError: If the critical value for the given `alpha` is not found in the table.
-
-    See Also:
-        :obj:`critval`: The original table with critical values from Monte Carlo simulation.
-    """
-    if isinstance(r2_eval, float):
-        if not (0 <= r2_eval <= 1):
-            raise ValueError("`r2_eval` must be between 0 and 1")
-    elif isinstance(r2_eval, Iterable):
-        for r2 in r2_eval:
-            if isinstance(r2, float):
-                if not (0 <= r2 <= 1):
-                    raise ValueError("`r2_eval` must be between 0 and 1")
-            else:
-                raise TypeError(
-                    f"Invalid type {type(r2)} in `r2_eval`. Expected float."
-                )
-        r2_eval: NDArray[float64] = array(r2_eval)
-    else:
-        raise TypeError(
-            f"Invalid type {type(r2_eval)} for `r2_eval`. Expected float or iterable."
-        )
-
-    if not isinstance(alpha, float):
-        raise TypeError("`alpha` must be a float")
-    elif not (0 < alpha < 1):
-        raise ValueError("`alpha` must be between 0 and 1")
-
-    # Load critical values table
-    critval_table: DataFrame = load_critval()
-    col_name: str = f"cv{alpha:.0%}"
-    if not col_name in critval_table.columns:
-        raise ValueError(
-            f"Critical value for alpha {alpha:.0%} not found in the table."
-        )
-    critval_values: NDArray[float64] = critval_table["cv{alpha:.0%}"].values.astype(
-        float
-    )
-    r2grid: NDArray[float64] = critval_table.index.values.astype(float)
-    cval_interp: float64 | NDArray[float64] = interp(r2_eval, r2grid, critval_values)
-    return cval_interp

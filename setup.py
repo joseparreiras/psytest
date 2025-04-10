@@ -2,12 +2,13 @@ from setuptools import setup, find_packages
 
 setup(
     name="psytest",
-    version="0.1.0",
+    version="0.2.0",
     packages=find_packages(),
-    package_data={"psytest": ["data/*.csv"]},
     include_package_data=True,
+    package_data={"psytest": ["data/*.csv"]},
     python_requires=">=3.10",
-    install_requires=["numpy", "numba"],
+    install_requires=["numpy", "numba", "scipy", "pandas", "deprecation"],
+    tests_require=["pytest"],
     author="Jose Antunes Neto",
     author_email="joseparreiras@gmail.com",
     description="Python testing framework to test for the presence of bubbles.",
