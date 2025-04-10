@@ -43,7 +43,6 @@ jobs:
           mkdir -p docs/_build/html
           cp -r docs/_build/html/. .
           rm -rf docs  # clean up the source
-          touch .nojekyll
 
       - name: Add .nojekyll
         run: touch docs/_build/html/.nojekyll
