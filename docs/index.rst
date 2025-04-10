@@ -22,7 +22,7 @@ The main class of the package is the ``PSYBubbles`` class, which contains method
 
     from psytest.bubbles import PSYBubbles
 
-    model = PSYBubbles(y, delta=1.5)
+    model = PSYBubbles(y, delta=2)
     model.teststat()
 
 .. toctree::
