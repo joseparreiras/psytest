@@ -8,7 +8,7 @@ from numpy import (
     inf,
     repeat,
     arange,
-    empty,
+    array,
     quantile,
 )
 from collections.abc import Iterable
@@ -124,7 +124,7 @@ def bsadf_stat_all_series(
 
 
 @njit
-def make_r2grid(r0: float, rstep: float) -> NDArray[float64]:
+def make_r2_grid(r0: float, rstep: float) -> NDArray[float64]:
     """Creates the grid of all possible `r2` values."""
     return arange(r0, 1 + rstep, rstep)
 
@@ -153,16 +153,11 @@ def make_r1r2_combinations(r0: float, rstep: float) -> NDArray[float64]:
     Returns:
         NDArray[float64]: Grid of (r1, r2) pairs.
     """
-    n: int = size_rgrid(r0, rstep)
-    size = n * (n + 1) // 2
-    result: NDArray[float64] = empty(shape=(size, 2), dtype=float64)
-    idx: int = 0
-    for r2 in make_r2grid(r0, rstep):
-        for r1 in make_r1_grid(r2, r0, rstep):
-            result[idx, 0] = r1
-            result[idx, 1] = r2
-            idx += 1
-    return result
+    result: list[tuple[float, float]] = []
+    for r2 in make_r2_grid(r0=r0, rstep=rstep):
+        for r1 in make_r1_grid(r2=r2, r0=r0, rstep=rstep):
+            result.append((r1, r2))
+    return array(result, dtype=float64)
 
 
 def bsadfuller_critval(

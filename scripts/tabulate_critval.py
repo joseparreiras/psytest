@@ -1,5 +1,5 @@
 from pandas import DataFrame
-from psytest.sadftest import bsadfuller_critval, make_r2grid
+from psytest.sadftest import bsadfuller_critval, make_r2_grid
 from psytest.critval.critval import make_colname_from_alpha
 from psytest.utils.defaults import TEST_SIZE
 from numpy.random import seed
@@ -12,16 +12,16 @@ import os
 # Parameters -------------------------------------------------------------------
 
 # PSY parameters
-R0: float = 0.05  # Minimum index
+R0: float = 0.1  # Minimum index
 KMAX_RANGE: list[int] = list(range(7))  # Max lag
-RSTEP: float = 1 / 200  # Step size
+RSTEP: float = 1 / 1000  # Step size
 NREPS: int = 2_000  # Number of repetitions
-NOBS: int = 10_000  # Number of observations
+NOBS: int = 2_000  # Number of observations
 
 # CPU Threads
-NTHREADS: int = 40
+NTHREADS: int = 4
 
-# Random Seed
+# Random Seed 
 SEED: int = 19210201
 
 # Output path
@@ -46,7 +46,7 @@ def main() -> None:
     seed(SEED)
 
     # Calculate critical values
-    r2grid: NDArray[float64] = make_r2grid(R0, RSTEP)
+    r2grid: NDArray[float64] = make_r2_grid(R0, RSTEP)
     for kmax in KMAX_RANGE:
         critval: NDArray[float64] = bsadfuller_critval(
             r0=R0,

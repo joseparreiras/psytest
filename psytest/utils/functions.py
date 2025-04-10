@@ -159,4 +159,4 @@ def size_rgrid(r0: float, rstep: float) -> int:
         r0 (float): Minimum index to evaluate the test statistics.
         rstep (float): Step size for the index.
     """
-    return int(floor((1 - r0) / rstep) + 1)
+    return int((1 - r0) / rstep) + 1
