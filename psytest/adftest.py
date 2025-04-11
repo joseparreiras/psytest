@@ -1,19 +1,11 @@
-"""
-This script contains the functions related to the Augmented Dickey-Fuller test for unit roots. The functions allow us to calculate both the test statistic and the asymptotic distribution of the test statistic. Additionally, it provides functions for rolling ADF tests and cumulative distribution functions based on a Wiener process.
+"""psytest.adftest
+=================
+
+This module contains the functions related to the Augmented Dickey-Fuller test for unit roots. The functions allow us to calculate both the test statistic and the asymptotic distribution of the test statistic. Additionally, it provides functions for rolling ADF tests and cumulative distribution functions based on a Wiener process.
 """
 
 from numba import njit, prange
-from numpy import (
-    float64,
-    sum,
-    square,
-    diag,
-    diff,
-    empty,
-    ones,
-    sqrt,
-    sum as npsum,
-)
+from numpy import float64, sum, square, diag, diff, empty, ones, sqrt, sum as npsum
 from numpy.linalg import inv
 from numpy.typing import NDArray
 from .utils.functions import random_walk
@@ -21,29 +13,36 @@ from .utils.functions import random_walk
 
 @njit(parallel=False)
 def adfuller_stat(y: NDArray[float64], kmax: int) -> float:
-    """
-    Calculates the test statistic for the Augmented Dickey-Fuller test.
+    """Calculates the test statistic for the Augmented Dickey-Fuller test.
 
+    Parameters
+    ----------
+    y : NDArray[float64]
+        The time series data.
+    kmax : int
+        Maximum lag to use in the test.
+
+    Returns
+    -------
+    tstat: float
+        The test statistic.
+
+    Notes
+    -----
+    The Augmented Dickey-Fuller test statistic is calculated as:
     .. math::
 
         \\text{ADF} = \\frac{\\hat{\\beta}}{\\sqrt{\\widehat{\\mathrm{Var}}(\\hat{\\beta})}}
 
-    where :math:`\\hat{\\beta}` is the coefficient of :math:`y_{t-1}` and :math:`\\widehat{\\mathrm{Var}}(\\hat{\\beta})` is its estimated variance in the regression
-
+    where :math:`\\hat{\\beta}` is the coefficient of :math:`y_{t-1}` and :math:`\\widehat{\\mathrm{Var}}(\\hat{\\beta})` is its estimated variance in the regression:F
     .. math::
+
         \\Delta y_{t} = \\alpha + \\beta y_{t-1} + \\sum_{k=2}^{kmax} \\gamma_k \\Delta y_{t-k} + \\epsilon_t
-
-    Args:
-        y (NDArray[float64]): The time series data.
-        kmax (int): Maximum lag to use in the test.
-
-    Returns:
-        float64: The test statistic.
     """
     nobs: int = len(y)
     y_diff: NDArray[float64] = diff(y)
     X: NDArray[float64] = empty((nobs - kmax - 1, 2 + kmax))
-    X[:, 0] = ones(nobs - kmax - 1)  # Constant
+    X[:, 0] = ones(nobs - kmax - 1)
     for k in prange(1, kmax + 1):
         X[:, k] = y_diff[kmax - k : -k]
     X[:, -1] = y[kmax:-1]
@@ -53,23 +52,27 @@ def adfuller_stat(y: NDArray[float64], kmax: int) -> float:
     resid: NDArray[float64] = y_diff - fit
     ssr: float = sum(square(resid))
     sigma_sq_hat: float = ssr / (nobs - kmax - 2)
-
     coef: float = beta[-1]
     coef_var: float = sigma_sq_hat * diag(inv(X.T @ X))[-1]
     return coef / sqrt(coef_var)
 
 
 def adfuller_dist(nobs: int, nreps: int, kmax: int) -> NDArray[float64]:
-    """
-    Simulates the asymptotic distribution of the Augmented Dickey-Fuller test statistic.
+    """Simulates the asymptotic distribution of the Augmented Dickey-Fuller test statistic.
 
-    Args:
-        nobs (int): Number of observations in the time series.
-        nreps (int): Number of simulations to perform.
-        kmax (int): Maximum lag to use in the test.
+    Parameters
+    ----------
+    nobs : int
+        Number of observations in the time series.
+    nreps : int
+        Number of simulations to perform.
+    kmax : int
+        Maximum lag to use in the test.
 
-    Returns:
-        NDArray[float64]: The simulated distribution of the test statistics.
+    Returns
+    -------
+    distribution: NDArray[float64]
+        The simulated distribution of the test statistics.
     """
     random_walks: NDArray[float64] = random_walk(nreps, nobs)
     adf_dist: NDArray[float64] = empty(nreps)
@@ -82,31 +85,44 @@ def adfuller_dist(nobs: int, nreps: int, kmax: int) -> NDArray[float64]:
 
 @njit
 def rolling_adfuller_stat(
-    y: NDArray[float64], kmax: int,  r1: float = 0, r2: float = 1.0,
+    y: NDArray[float64], kmax: int, r1: float = 0, r2: float = 1.0
 ) -> float:
-    """
-    Calculates the Augmented Dickey-Fuller test statistic for a window of the time series.
+    """Calculates the Augmented Dickey-Fuller test statistic for a window of the time series.
 
+    Parameters
+    ----------
+    y : NDArray[float64]
+        Values of the time series.
+    r1 : float, optional
+        Start index. Defaults to 0.
+    r2 : float, optional
+        End index. Defaults to 1.
+    kmax : int, optional
+        Maximum lag to use in the test.
+
+    Returns
+    -------
+    teststat: float
+        Value of the test statistic.
+
+    Notes
+    -----
+    The rolling ADF test statistic is calculated as:
     .. math::
-        \\text{ADF}(r_1, r_2) = \\text{ADF}(y_{r_1:r_2})
 
-    Args:
-        y (NDArray[float64]): Values of the time series.
-        r1 (float, optional): Start index. Defaults to 0.
-        r2 (float, optional): End index. Defaults to 1.
-        kmax (int, optional): Maximum lag to use in the test.
+        \\text{ADF}(r_1, r_2) = \\frac{\\hat{\\beta}}{\\sqrt{\\widehat{\\mathrm{Var}}(\\hat{\\beta})}}
 
-    Notes:
-        - `r1` and `r2` should be in the range [0, 1] following the notation of the paper.
+    where :math:`\\hat{\\beta}` is the coefficient of :math:`y_{t-1}` and :math:`\\widehat{\\mathrm{Var}}(\\hat{\\beta})` is its estimated variance in the regression:
+    .. math::
 
-    Raises:
-        - ValueError: If `r1` or `r2` are not in the range [0, 1].
-        - ValueError: If `r1` is greater than `r2`.
+        \\Delta y_{t} = \\alpha + \\beta y_{t-1} + \\sum_{k=2}^{kmax} \\gamma_k \\Delta y_{t-k} + \\epsilon_t
 
-    Returns:
-        float: Value of the test statistic.
+    Raises
+    ------
+    ValueError
+        If `r1` or `r2` are not in the range [0, 1] or if `r1` is greater than `r2`.
     """
-    if (not 0 <= r1 <= 1) or (not 0 <= r2 <= 1):
+    if not 0 <= r1 <= 1 or not 0 <= r2 <= 1:
         raise ValueError("r1 and r2 should be in the range [0, 1]")
     if r1 > r2:
         raise ValueError("r1 should be less than r2")
@@ -118,25 +134,28 @@ def rolling_adfuller_stat(
 
 @njit
 def rolling_adfuller_cdf(wiener: NDArray[float64], r1: float, r2: float) -> float:
+    """Calculates the cumulative asymptotic distribution of the Augmented Dickey-Fuller test statistic based on a Wiener process.
+
+    Parameters
+    ----------
+    wiener : NDArray[float64]
+        Values of the Wiener process.
+    r1 : float
+        Start index.
+    r2 : float
+        End index.
+
+    Returns
+    -------
+    cdf: float
+        Value of the cumulative distribution function.
+
+    Raises
+    ------
+    ValueError
+        If `r1` or `r2` are not in the range [0, 1] or if `r1` is greater than `r2`.
     """
-    Calculates the cumulative asymptotic distribution of the Augmented Dickey-Fuller test statistic based on a Wiener process.
-
-    Args:
-        wiener (NDArray[float64]): Values of the Wiener process.
-        r1 (float): Start index.
-        r2 (float): End index.
-
-    Notes:
-        - `r1` and `r2` should be in the range [0, 1] following the notation of the paper.
-
-    Raises:
-        - ValueError: If `r1` or `r2` are not in the range [0, 1].
-        - ValueError: If `r1` is greater than `r2`.
-
-    Returns:
-        float: Value of the cumulative distribution function.
-    """
-    if (not 0 <= r1 <= 1) or (not 0 <= r2 <= 1):
+    if not 0 <= r1 <= 1 or not 0 <= r2 <= 1:
         raise ValueError("`r1` and `r2` should be in the range [0, 1]")
     if r1 > r2:
         raise ValueError("`r1` should be less than `r2`")

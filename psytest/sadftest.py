@@ -1,16 +1,15 @@
-from .adftest import (
-    rolling_adfuller_stat,
-)
+"""psytest.sadftest
+=================
+
+This module contains the functions related to the Sup ADF test and the Backward Sup ADF test. The functions allow us to calculate both the test statistic and the asymptotic distribution of the test statistic
+
+See :mod:`psytest.adfstat` for the basic Augmented Dickey-Fuller test.
+"""
+
+from .adftest import rolling_adfuller_stat
 from .utils.functions import random_walk, size_rgrid
 from numpy.typing import NDArray
-from numpy import (
-    float64,
-    inf,
-    repeat,
-    arange,
-    array,
-    quantile,
-)
+from numpy import float64, inf, repeat, arange, array, quantile
 from collections.abc import Iterable
 from deprecation import deprecated
 from numba import njit, prange
@@ -19,20 +18,32 @@ from numba import njit, prange
 @deprecated
 @njit(parallel=True)
 def sadfuller_stat(y: NDArray[float64], r0: float, rstep: float, kmax: int) -> float:
-    """
-    Calculates the Sup ADF statistic by rolling over the interval [r0, 1].
+    """Calculates the Sup ADF statistic by rolling over the interval [r0, 1].
 
+    Parameters
+    ----------
+    y : NDArray[float64]
+        Time series values.
+    r0 : float
+        Minimum index.
+    rstep : float
+        Step size.
+    kmax : int
+        Max lag.
+
+    Returns
+    -------
+    teststat: float
+        Sup ADF statistic.
+
+    Notes
+    -----
+    The Sup ADF statistic is calculated as:
     .. math::
-        \\sup_{r \\in [r_0, 1]} \\text{ADF}(y_{0:r})
 
-    Args:
-        y (NDArray[float64]): Time series values.
-        r0 (float): Minimum index.
-        rstep (float): Step size.
-        kmax (int): Max lag.
+        \\text{SADF} = \\max_{r \\in [r_0, 1]} \\text{ADF}(y_{0:r})
 
-    Returns:
-        float: Sup ADF statistic.
+    where :math:`\\text{ADF}(y_{0:r})` is the Augmented Dickey-Fuller test statistic for the series :math:`y_{0:r}` (see :func:`psytest.adfstat.rolling_adfuller_stat`).
     """
     stat: float = -inf
     for r in prange(r0, 1 + rstep, rstep):
@@ -44,16 +55,21 @@ def sadfuller_stat(y: NDArray[float64], r0: float, rstep: float, kmax: int) -> f
 def __sadfuller_dist_from_random_walks__(
     random_walks: NDArray[float64], r0: float, rstep: float, kmax: int
 ) -> NDArray[float64]:
-    """
-    Calculates the asymptotic distribution of the Sup ADF test statistics based on a series of simulated random walks.
+    """Calculates the asymptotic distribution of the Sup ADF test statistics based on a series of simulated random walks.
 
-    Args:
-        random_walks (NDArray[float64]): Simulated random walks of size (nreps, nobs).
-        r0 (float): Minimum index.
-        rstep (float): Step size.
+    Parameters
+    ----------
+    random_walks : NDArray[float64]
+        Simulated random walks of size (nreps, nobs).
+    r0 : float
+        Minimum index.
+    rstep : float
+        Step size.
 
-    Returns:
-        NDArray[float64]: Distribution matrix of Sup ADF statistics.
+    Returns
+    -------
+    distribution: NDArray[float64]
+        Distribution matrix of Sup ADF statistics.
     """
     nreps: int = random_walks.shape[0]
     r1r2_grid: NDArray[float64] = make_r1r2_combinations(r0, rstep)
@@ -74,20 +90,32 @@ def __sadfuller_dist_from_random_walks__(
 
 @njit(parallel=True)
 def bsadf_stat(y: NDArray[float64], r0: float, r2: float, kmax: int) -> float:
-    """
-    Calculates the Backward Sup ADF test statistic.
+    """Calculates the Backward Sup ADF test statistic.
 
+    Parameters
+    ----------
+    y : NDArray[float64]
+        Time series values.
+    r0 : float
+        Minimum index.
+    r2 : float
+        End index.
+    kmax : int
+        Max lag.
+
+    Returns
+    -------
+    teststat: float
+        BSADF statistic.
+
+    Notes
+    -----
+    The Backward Sup ADF statistic is calculated as:
     .. math::
-        \\text{BSADF}(r_2) = \\max_{r_1 \\in [0, r_2 - r_0]} \\text{ADF}(y, r_1, r_2)
 
-    Args:
-        y (NDArray[float64]): Time series values.
-        r0 (float): Minimum index.
-        r2 (float): End index.
-        kmax (int): Max lag.
+        \\text{BSADF}(r_2) = \\max_{r_1 \\in [0, r_2 - r_0]} \\text{ADF}(y_{r_1:r_2})
 
-    Returns:
-        float: BSADF statistic.
+    where :math:`\\text{ADF}(y_{r_1:r_2})` is the Augmented Dickey-Fuller test statistic for the series :math:`y_{r_1:r_2}` (see :func:`psytest.adfstat.rolling_adfuller_stat`).
     """
     stat: float = -inf
     for r1 in prange(r2 - r0 + 1):
@@ -99,17 +127,23 @@ def bsadf_stat(y: NDArray[float64], r0: float, r2: float, kmax: int) -> float:
 def bsadf_stat_all_series(
     y: NDArray[float64], r0: float, rstep: float, kmax: int
 ) -> NDArray[float64]:
-    """
-    Calculates BSADF statistics over all possible (r1, r2) combinations.
+    """Calculates BSADF statistics over all possible (r1, r2) combinations.
 
-    Args:
-        y (NDArray[float64]): Time series values.
-        r0 (float): Minimum index.
-        rstep (float): Step size.
-        kmax (int): Max lag.
+    Parameters
+    ----------
+    y : NDArray[float64]
+        Time series values.
+    r0 : float
+        Minimum index.
+    rstep : float
+        Step size.
+    kmax : int
+        Max lag.
 
-    Returns:
-        NDArray[float64]: Array of test statistics.
+    Returns
+    -------
+    teststat_array: NDArray[float64]
+        Array of test statistics.
     """
     r1r2_grid: NDArray[float64] = make_r1r2_combinations(r0, rstep)
     ntups: int = len(r1r2_grid)
@@ -137,21 +171,30 @@ def make_r1_grid(r2: float, r0: float, rstep: float) -> NDArray[float64]:
 
 @njit(parallel=False)
 def make_r1r2_combinations(r0: float, rstep: float) -> NDArray[float64]:
-    """
-    Creates a grid of all (r1, r2) index pairs to evaluate BSADF.
+    """Creates a grid of all (r1, r2) index pairs to evaluate BSADF.
 
+    Parameters
+    ----------
+    r0 : float
+        Minimum index.
+    rstep : float
+        Step size.
+
+    Returns
+    -------
+    [float64]
+        Grid of (r1, r2) pairs.
+
+    Notes
+    -----
+    The grid is defined as:
     .. math::
-        r_2 \\in [r_0, 1], \\quad r_1 \\in [0, r_2 - r_0]
 
-    Args:
-        r0 (float): Minimum index.
-        rstep (float): Step size.
+        \\text{grid} = \\{(r_1, r_2) : r_0 \\leq r_2 \\leq 1, \\quad r_0 \\leq r_1 \\leq r_2 - r_0, \\\\
+        \\quad rstep = (r_2 - r_0)/n, \\\\
+        \\quad n = \\lfloor (1 - r_0)/rstep \\rfloor + 1\\}
 
-    Notes:
-        - Vector size: :math:`n(n+1)/2` where :math:`n = \\lfloor (1 - r_0)/rstep \\rfloor + 1`
-
-    Returns:
-        NDArray[float64]: Grid of (r1, r2) pairs.
+    with :math:`r_0` being the minimum index, :math:`r_2` being the end index, and :math:`r_1` being the start index. The values of `r_1` and `r_2` are created from a grid with increments of `rstep`.
     """
     result: list[tuple[float, float]] = []
     for r2 in make_r2_grid(r0=r0, rstep=rstep):
@@ -168,21 +211,34 @@ def bsadfuller_critval(
     test_size: Iterable | float,
     kmax: int,
 ) -> NDArray[float64]:
-    """
-    Calculates critical values of BSADF statistics from Monte Carlo simulations.
+    """Calculates critical values of BSADF statistics from Monte Carlo simulations.
 
+    Parameters
+    ----------
+    r0 : float
+        Minimum index.
+    rstep : float
+        Step size.
+    nreps : int
+        Number of replications.
+    nobs : int | None
+        Number of observations.
+    test_size : Iterable | float
+        Significance levels.
+
+    Returns
+    -------
+    critval: NDArray[float64]
+        Critical values matrix.
+
+    Notes
+    -----
+    The critical values are calculated as:
     .. math::
+
         \\text{CV}_{i,\\alpha} = \\text{Quantile}_{1 - \\alpha}(\\text{BSADF}_i)
 
-    Args:
-        r0 (float): Minimum index.
-        rstep (float): Step size.
-        nreps (int): Number of replications.
-        nobs (int | None): Number of observations.
-        test_size (Iterable | float): Significance levels.
-
-    Returns:
-        NDArray[float64]: Critical values matrix.
+    where :math:`\\text{BSADF}_i` is the :math:`i`-th simulated BSADF statistic (see :func:`psytest.adfstat.bsadf_stat`) and :math:`\\text{Quantile}_{1 - \\alpha}` is the quantile function for the distribution of the BSADF statistic.
     """
     rw: NDArray[float64] = random_walk(nreps, nobs)
     sadf_dist: NDArray[float64] = __sadfuller_dist_from_random_walks__(

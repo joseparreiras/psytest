@@ -1,3 +1,9 @@
+"""psytest.critval.critval_parameters
+=================
+
+This module contains the framework for checking the available parameters for the tabulated critical values. The tabulated critical values are stored in the `data` directory of the package and named according to the parameters used to calculate them. The parameters are extracted from the file names and stored in a dictionary for easy access. The module also provides functions to list all available tables and check if a given set of parameters is available.
+"""
+
 import os
 from enum import Enum
 from importlib.resources import files
@@ -8,6 +14,8 @@ from typing import NamedTuple
 
 
 class CritValParameterName(Enum):
+    """Enum for the critical value parameter names."""
+
     R0 = "r0"
     RSTEP = "rstep"
     NREPS = "nreps"
@@ -16,6 +24,8 @@ class CritValParameterName(Enum):
 
 
 class CritValParameterInfo(NamedTuple):
+    """Named tuple for the critical value parameters."""
+
     kmax: int
     r0: float
     rstep: float
@@ -23,21 +33,21 @@ class CritValParameterInfo(NamedTuple):
     nobs: int
 
     def __str__(self) -> str:
-        return (
-            f"kmax={self.kmax}, r0={self.r0}, rstep={self.rstep}, "
-            f"nreps={self.nreps}, nobs={self.nobs}"
-        )
+        return f"kmax={self.kmax}, r0={self.r0}, rstep={self.rstep}, nreps={self.nreps}, nobs={self.nobs}"
 
 
 def traversable_to_string(traversable: Traversable) -> str:
-    """
-    Convert a Traversable object to a string representation.
+    """Convert a Traversable object to a string representation.
 
-    Args:
-        traversable (Traversable): The Traversable object to convert.
+    Parameters
+    ----------
+    traversable : Traversable
+        The Traversable object to convert.
 
-    Returns:
-        str: The string representation of the Traversable object.
+    Returns
+    -------
+    string: str
+        The string representation of the Traversable object.
     """
     with StringIO() as buf:
         buf.write(str(traversable))
@@ -45,14 +55,17 @@ def traversable_to_string(traversable: Traversable) -> str:
 
 
 def extract_parameters_from_tablenames(fname: str) -> dict[str, int | float]:
-    """
-    Retrieve the parameters from the file name of a critical value table.
+    """Retrieve the parameters from the file name of a critical value table.
 
-    Args:
-        fname (str): Name of the table file
+    Parameters
+    ----------
+    fname : str
+        Name of the table file
 
-    Returns:
-        dict[str, int | float]: a dictionary with the parameters and their values
+    Returns
+    -------
+    parameters : dict[str, int | float]
+        a dictionary with the parameters and their values
     """
     fname_no_extension: str = os.path.splitext(fname)[0]
     fargs: list[str] = fname_no_extension.lstrip("critval_").split("_")
@@ -63,7 +76,6 @@ def extract_parameters_from_tablenames(fname: str) -> dict[str, int | float]:
             pname: str = param.value.casefold()
             if arg_case.casefold().find(pname) == 0:
                 value_str: str = arg_case.split(pname)[1]
-                # replace 'p' with '.' for float conversion
                 if "p" in value_str:
                     value_str = value_str.replace("p", ".")
                     value: float | int = float(value_str)
@@ -74,11 +86,12 @@ def extract_parameters_from_tablenames(fname: str) -> dict[str, int | float]:
 
 
 def list_critval_tables() -> list[str]:
-    """
-    Lists all critical value tables in the `data` directory.
+    """Lists all critical value tables in the `data` directory.
 
-    Returns:
-        list[str]: A list of file names of the critical value tables.
+    Returns
+    -------
+    cval_list : list[str]
+        A list of file names of the critical value tables.
     """
     data_path: Traversable = files("psytest.critval.data")
     return [
@@ -89,11 +102,12 @@ def list_critval_tables() -> list[str]:
 
 
 def list_available_tables() -> list[str]:
-    """
-    Lists all available critical value tables in the `data` directory.
+    """Lists all available critical value tables in the `data` directory.
 
-    Returns:
-        list[str]: A list of file names of the available critical value tables.
+    Returns
+    -------
+    table_list : list[str]
+        A list of file names of the available critical value tables.
     """
     data_path: Traversable = files("psytest.critval.data")
     return [
@@ -104,15 +118,16 @@ def list_available_tables() -> list[str]:
 
 
 def list_available_parameters() -> dict[str, CritValParameterInfo]:
-    """
-    Retrieves the parameters used to calculate the critical values from the available tables.
+    """Retrieves the parameters used to calculate the critical values from the available tables.
 
-    Returns:
-        dict[str, ParamInfo]: A dictionary with the parameters and their values.
+    Returns
+    -------
+    param_list : list[str, ParamInfo]
+        A dictionary with the parameters and their values.
     """
     tables: list[str] = list_available_tables()
     enum_dict: dict[str, CritValParameterInfo] = {
-        fname: CritValParameterInfo(**extract_parameters_from_tablenames(fname))
+        fname: CritValParameterInfo(**extract_parameters_from_tablenames(fname))  # type: ignore
         for fname in tables
     }
     return enum_dict
@@ -124,15 +139,19 @@ AVAILABLE_CRITICAL_VALUE_PARAMETERS = Enum(
 
 
 def is_available_param(kmax: int, r0: float) -> bool:
-    """
-    Checks if the given parameters are available in the critical value tables.
+    """Checks if the given parameters are available in the critical value tables.
 
-    Args:
-        kmax (int): Max lag
-        r0 (float): Minimum index
+    Parameters
+    ----------
+    kmax : int
+        Max lag
+    r0 : float
+        Minimum index
 
-    Returns:
-        bool: True if the parameters are available, False otherwise.
+    Returns
+    -------
+    available: bool
+        True if the parameters are available, False otherwise.
     """
     for param in AVAILABLE_CRITICAL_VALUE_PARAMETERS:
         if param.value.kmax == kmax:
