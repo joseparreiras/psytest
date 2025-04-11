@@ -6,7 +6,7 @@ from .critval import critval_tabulated, is_available_param
 from .utils.functions import r0_default, minlength_default
 from .utils.defaults import KMAX, TEST_SIZE, NREPS
 from .sadftest import bsadf_stat_all_series, bsadfuller_critval
-
+from functools import lru_cache
 
 def parse_psy_arguments(**kwargs) -> dict[str, Any]:
     """Parses the arguments for the PSYBubbles class and raises errors if they are invalid."""
@@ -110,6 +110,7 @@ class PSYBubbles:
         """
         return arange(self.r0, 1 + 1e-16, self.rstep)
 
+    @lru_cache(maxsize=128)
     def teststat(self, force: bool = False) -> dict[float, float]:
         """
         Retrieves the BSADF test statistic.
@@ -134,6 +135,7 @@ class PSYBubbles:
 
         return self.__teststat
 
+    @lru_cache(maxsize=5)
     def critval(
         self,
         test_size: list[float] | float = TEST_SIZE,
