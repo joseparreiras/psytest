@@ -1,10 +1,13 @@
-import pytest
-from psytest import *
-from psytest.utils.functions import simulate_markov
 from numpy.typing import NDArray
 from numpy import float64
 from numpy.random import seed
 from typing import Any
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+import pytest
+from psytest import PSYBubbles
+from psytest.utils.functions import simulate_markov
 
 
 @pytest.fixture(scope="module")
@@ -16,7 +19,7 @@ def sim_data() -> NDArray[float64]:
 
 @pytest.fixture(scope="module")
 def psy_instance(sim_data) -> PSYBubbles:
-    return PSYBubbles(sim_data, minlength=0.10)
+    return PSYBubbles(sim_data, rstep=0.10, minlength=0.10)
 
 
 def test_teststat(psy_instance: PSYBubbles) -> None:

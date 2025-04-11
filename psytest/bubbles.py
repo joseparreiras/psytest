@@ -8,8 +8,12 @@ from .utils.defaults import KMAX, TEST_SIZE, NREPS
 from .sadftest import bsadf_stat_all_series, bsadfuller_critval
 from functools import lru_cache
 
+
 def parse_psy_arguments(**kwargs) -> dict[str, Any]:
     """Parses the arguments for the PSYBubbles class and raises errors if they are invalid."""
+    # Remove None arguments
+    kwargs: dict[str, Any] = {k: v for k, v in kwargs.items() if v is not None}
+    # Parse `y`
     y: Any = kwargs.get("y")
     if not isinstance(y, ndarray):
         y: NDArray = array(y)
@@ -19,16 +23,19 @@ def parse_psy_arguments(**kwargs) -> dict[str, Any]:
         raise ValueError("`y` must be a number array")
     if len(y) < 2:
         raise ValueError("`y` must have at least 2 elements")
+    # Parse `r0`
     r0: Any = kwargs.get("r0", r0_default(len(y)))
     if not isinstance(r0, float):
         raise TypeError("`r0` must be a float")
     if not (0 <= r0 <= 1):
         raise ValueError("`r0` must be in the range [0, 1]")
+    # Parse `rstep`
     rstep: Any = kwargs.get("rstep", 1 / len(y))
     if not isinstance(rstep, float):
         raise TypeError("`rstep` must be a float")
     if not (0 < rstep <= 1):
         raise ValueError("`rstep` must be in the range (0, 1]")
+    # Parse `kmax`
     kmax: Any = kwargs.get("kmax", KMAX)
     if not isinstance(kmax, int):
         raise TypeError("`kmax` must be an integer")
@@ -36,6 +43,7 @@ def parse_psy_arguments(**kwargs) -> dict[str, Any]:
         raise ValueError("`kmax` must be greater than or equal to 0")
     if kmax > len(y) - 1:
         raise ValueError("`kmax` must be less than the length of `y`")
+    # Parse `minlength` and `delta`
     minlength: Any = kwargs.get("minlength")
     delta: Any = kwargs.get("delta")
     if minlength is not None and delta is not None:
