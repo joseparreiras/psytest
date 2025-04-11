@@ -80,7 +80,7 @@ def list_critval_tables() -> list[str]:
     Returns:
         list[str]: A list of file names of the critical value tables.
     """
-    data_path: Traversable = files("psytest.data")
+    data_path: Traversable = files("psytest.critval.data")
     return [
         traversable_to_string(f)
         for f in data_path.iterdir()

@@ -1,13 +1,16 @@
 from pandas import DataFrame
-from psytest.sadftest import bsadfuller_critval, make_r2_grid
-from psytest.critval.critval import make_colname_from_alpha
-from psytest.utils.defaults import TEST_SIZE
+
 from numpy.random import seed
 from numpy.typing import NDArray
 from numpy import float64, arange
 from numba import set_num_threads
 import sys
 import os
+
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from psytest.sadftest import bsadfuller_critval, make_r2_grid
+from psytest.critval.critval import make_colname_from_alpha
+from psytest.utils.defaults import TEST_SIZE
 
 # Parameters -------------------------------------------------------------------
 
@@ -21,7 +24,7 @@ NOBS: int = 2_000  # Number of observations
 # CPU Threads
 NTHREADS: int = 4
 
-# Random Seed 
+# Random Seed
 SEED: int = 19210201
 
 # Output path

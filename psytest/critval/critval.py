@@ -60,7 +60,7 @@ def load_critval(kmax: int, r0: float) -> DataFrame:
 
     # Find the table with the specified kmax and r0, and the largest nreps
     table_name: str = find_best_table(kmax, r0)
-    data_path: Traversable = files("psytest.data") / table_name
+    data_path: Traversable = files("psytest.critval.data") / table_name
     data_stringio: StringIO = StringIO(data_path.read_text())
     return read_csv(data_stringio, index_col=0)
 

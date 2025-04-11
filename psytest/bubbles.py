@@ -8,7 +8,7 @@ from .utils.defaults import KMAX, TEST_SIZE, NREPS
 from .sadftest import bsadf_stat_all_series, bsadfuller_critval
 
 
-def __parse_psy_arguments(**kwargs) -> dict[str, Any]:
+def parse_psy_arguments(**kwargs) -> dict[str, Any]:
     """Parses the arguments for the PSYBubbles class and raises errors if they are invalid."""
     y: Any = kwargs.get("y")
     if not isinstance(y, ndarray):
@@ -89,7 +89,7 @@ class PSYBubbles:
             TypeError: For invalid input types.
             ValueError: For invalid input values.
         """
-        parsed_args: dict[str, Any] = __parse_psy_arguments(
+        parsed_args: dict[str, Any] = parse_psy_arguments(
             y=y, r0=r0, rstep=rstep, kmax=kmax, minlength=minlength, delta=delta
         )
         self.y: NDArray[float64] = parsed_args["y"]
