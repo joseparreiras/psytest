@@ -1,7 +1,7 @@
 from numpy.typing import NDArray
 from numpy import object_, float64, int64, bool_, array, arange, ndarray, vstack
 from collections.abc import Generator
-from typing import Any, Self
+from typing import Any, Self, Literal, overload
 from .critval import critval_tabulated, is_available_param
 from .utils.functions import r0_default, minlength_default
 from .utils.defaults import KMAX, TEST_SIZE, NREPS
@@ -13,24 +13,26 @@ def parse_psy_arguments(**kwargs) -> dict[str, Any]:
     """Parses the arguments for the PSYBubbles class and raises errors if they are invalid."""
     # Remove None arguments
     kwargs: dict[str, Any] = {k: v for k, v in kwargs.items() if v is not None}
-    # Parse `y`
-    y: Any = kwargs.get("y")
-    if not isinstance(y, ndarray):
-        y: NDArray = array(y)
-    if y.ndim != 1:
-        raise ValueError("`y` must be a 1D array")
-    if y.dtype not in [float64, int64]:
-        raise ValueError("`y` must be a number array")
-    if len(y) < 2:
-        raise ValueError("`y` must have at least 2 elements")
+    # Parse `data`
+    data: Any = kwargs.get("data")
+    if data is None:
+        raise ValueError("`data` must be provided")
+    if not isinstance(data, ndarray):
+        data: NDArray = array(data)
+    if data.ndim != 1:
+        raise ValueError("`data` must be a 1D array")
+    if data.dtype not in [float64, int64]:
+        raise ValueError("`data` must be a number array")
+    if len(data) < 2:
+        raise ValueError("`data` must have at least 2 elements")
     # Parse `r0`
-    r0: Any = kwargs.get("r0", r0_default(len(y)))
+    r0: Any = kwargs.get("r0", r0_default(len(data)))
     if not isinstance(r0, float):
         raise TypeError("`r0` must be a float")
     if not (0 <= r0 <= 1):
         raise ValueError("`r0` must be in the range [0, 1]")
     # Parse `rstep`
-    rstep: Any = kwargs.get("rstep", 1 / len(y))
+    rstep: Any = kwargs.get("rstep", 1 / len(data))
     if not isinstance(rstep, float):
         raise TypeError("`rstep` must be a float")
     if not (0 < rstep <= 1):
@@ -41,8 +43,8 @@ def parse_psy_arguments(**kwargs) -> dict[str, Any]:
         raise TypeError("`kmax` must be an integer")
     if kmax < 0:
         raise ValueError("`kmax` must be greater than or equal to 0")
-    if kmax > len(y) - 1:
-        raise ValueError("`kmax` must be less than the length of `y`")
+    if kmax > len(data) - 1:
+        raise ValueError("`kmax` must be less than the length of `data`")
     # Parse `minlength` and `delta`
     minlength: Any = kwargs.get("minlength")
     delta: Any = kwargs.get("delta")
@@ -53,14 +55,14 @@ def parse_psy_arguments(**kwargs) -> dict[str, Any]:
             raise TypeError("`delta` must be a float")
         if delta <= 0:
             raise ValueError("`delta` must be greater than 0")
-        minlength = minlength_default(nobs=len(y), delta=delta)
+        minlength = minlength_default(nobs=len(data), delta=delta)
     if minlength is not None:
         if not isinstance(minlength, float):
             raise TypeError("`minlength` must be a float")
         if not (0 < minlength <= 1):
             raise ValueError("`minlength` must be in the range (0, 1]")
     return {
-        "y": y,
+        "data": data,
         "r0": r0,
         "rstep": rstep,
         "kmax": kmax,
@@ -72,7 +74,7 @@ def parse_psy_arguments(**kwargs) -> dict[str, Any]:
 class PSYBubbles:
     def __init__(
         self,
-        y: NDArray[float64],
+        data: NDArray[float64],
         r0: float | None = None,
         rstep: float | None = None,
         kmax: int = KMAX,
@@ -86,7 +88,7 @@ class PSYBubbles:
             r_0 = \\text{min window}, \\quad r_{\\text{step}} = \\text{step size}, \\quad k_{\\max} = \\text{max lag}
 
         Args:
-            y (NDArray[float64]): Time series values.
+            data (NDArray[float64]): Time series values.
             r0 (float | None, optional): Minimum window size :math:`r_0`. Defaults to `r0_default`.
             rstep (float | None, optional): Step size :math:`r_{\\text{step}}`. Defaults to :math:`1/n`.
             kmax (int, optional): Maximum lag :math:`k_{\\max}`. Defaults to KMAX (see :ref:`utils.defaults`).
@@ -98,15 +100,15 @@ class PSYBubbles:
             ValueError: For invalid input values.
         """
         parsed_args: dict[str, Any] = parse_psy_arguments(
-            y=y, r0=r0, rstep=rstep, kmax=kmax, minlength=minlength, delta=delta
+            data=data, r0=r0, rstep=rstep, kmax=kmax, minlength=minlength, delta=delta
         )
-        self.y: NDArray[float64] = parsed_args["y"]
-        self.nobs: int = len(self.y)
+        self.data: NDArray[float64] = parsed_args["data"]
+        self.nobs: int = len(self.data)
         self.index: NDArray | None = None
         self.r0: float = parsed_args["r0"]
         self.rstep: float = parsed_args["rstep"]
         self.kmax: int = parsed_args["kmax"]
-        self.minlength: float | None = parsed_args["minlength"]
+        self.minlength: float = parsed_args["minlength"]
         self.delta: float | None = parsed_args["delta"]
 
     def r2grid(self) -> NDArray[float64]:
@@ -137,18 +139,35 @@ class PSYBubbles:
 
         if force or not hasattr(self, "__teststat"):
             stat: NDArray[float64] = bsadf_stat_all_series(
-                self.y, self.r0, self.rstep, self.kmax
+                self.data, self.r0, self.rstep, self.kmax
             )
             self.__teststat: dict[float, float] = dict(zip(self.r2grid(), stat))
 
         return self.__teststat
 
+    @overload
+    def critval(
+        self,
+        test_size: float | list[float],
+        fast: Literal[True],
+    ) -> dict[float, NDArray[float64]]: ...
+
+    @overload
+    def critval(
+        self,
+        test_size: float | list[float],
+        fast: Literal[False],
+        nreps: int,
+        nobs: int | None,
+    ) -> dict[float, NDArray[float64]]: ...
+
     @lru_cache(maxsize=5)
     def critval(
         self,
         test_size: list[float] | float = TEST_SIZE,
-        fast: bool = True,
-        **sim_kwargs: Any,
+        fast: Literal[True, False] = True,
+        nreps: int = NREPS,
+        nobs: int | None = None,
     ) -> dict[float, NDArray[float64]]:
         """
         Retrieves BSADF critical values using Monte Carlo Simulations.
@@ -156,7 +175,8 @@ class PSYBubbles:
         Args:
             test_size (list[float] | float, optional): Significance levels :math:`\\alpha`. Defaults to TEST_SIZE (see .utils.constants)
             fast (bool, optional): If True, uses tabulated critical values. Defaults to True.
-            **sim_kwargs: Additional arguments for `bsadfuller_critval`. Used if `fast` is False. See :ref:`bsadfuller_critval`.
+            nreps (int, optional): Number of simulations (required if `fast=False`).
+            nobs (int | None, optional): Number of observations (used if `fast=False`). Defaults to None, setting it to `self.nobs`.
 
         Raises:
             TypeError: If `fast` is not a boolean.
@@ -180,39 +200,103 @@ class PSYBubbles:
         else:
             raise TypeError("`test_size` must be a list of floats or a float")
 
-        r2grid: NDArray[float64] = self.r2grid()
         if fast:
-            if not is_available_param(kmax=self.kmax, r0=self.r0):
-                raise ValueError(
-                    "Parameters `kmax` and `r0` are not available for tabulated critical values."
-                )
-            else:
-                if isinstance(test_size, float):
-                    cval: NDArray[float64] = critval_tabulated(
-                        r2grid, alpha=test_size, kmax=self.kmax, r0=self.r0
-                    )
-                else:
-                    cval: NDArray[float64] = vstack(
-                        [
-                            critval_tabulated(
-                                r2grid, alpha=alpha, kmax=self.kmax, r0=self.r0
-                            )
-                            for alpha in test_size
-                        ]
-                    ).T
+            return self._critval_tabulated(test_size=test_size)
         else:
-            parsed_sim_kwargs: dict[str, Any] = {
-                "r0": sim_kwargs.get("r0", self.r0),
-                "rstep": sim_kwargs.get("rstep", self.rstep),
-                "nreps": sim_kwargs.get("nreps", NREPS),
-                "nobs": sim_kwargs.get("nobs", self.nobs),
-                "test_size": test_size,
-            }
-            cval: NDArray[float64] = bsadfuller_critval(**parsed_sim_kwargs).T
+            return self._critval_simulated(
+                test_size=test_size,
+                nreps=nreps,
+                nobs=nobs,
+            )
+
+    def _critval_tabulated(
+        self, test_size: float | list[float]
+    ) -> dict[float, NDArray[float64]]:
+        """
+        Retrieves tabulated critical values for the BSADF test.
+
+        Args:
+            test_size (float | list[float]): Significance levels :math:`\\alpha`.
+
+        Returns:
+            dict[float, NDArray[float64]]: Dictionary with critical values for each :math:`r_2`.
+        """
+        r2grid: NDArray[float64] = self.r2grid()
+        if not is_available_param(kmax=self.kmax, r0=self.r0):
+            raise ValueError(
+                "Parameters `kmax` and `r0` are not available for tabulated critical values."
+            )
+        if isinstance(test_size, float):
+            cval: NDArray[float64] = critval_tabulated(
+                r2grid, alpha=test_size, kmax=self.kmax, r0=self.r0
+            )
+        elif isinstance(test_size, list):
+            cval: NDArray[float64] = vstack(
+                [
+                    critval_tabulated(r2grid, alpha=alpha, kmax=self.kmax, r0=self.r0)
+                    for alpha in test_size
+                ]
+            ).T
         return dict(zip(r2grid, cval))
 
+    def _critval_simulated(
+        self, test_size: float | list[float], nreps: int, nobs: int | None
+    ) -> dict[float, NDArray[float64]]:
+        """
+        Retrieves simulated critical values for the BSADF test.
+
+        Args:
+            test_size (float | list[float]): Significance levels :math:`\\alpha`.
+            nreps (int): Number of simulations.
+            nobs (int): Number of observations.
+
+        Returns:
+            dict[float, NDArray[float64]]: Dictionary with critical values for each :math:`r_2`.
+        """
+        if not isinstance(nreps, int):
+            raise TypeError("`nreps` must be an integer")
+        if nreps <= 0:
+            raise ValueError("`nreps` must be greater than 0")
+        if nobs is None:
+            nobs = self.nobs
+        else:
+            if not isinstance(nobs, int):
+                raise TypeError("`nobs` must be an integer")
+            if nobs <= 0:
+                raise ValueError("`nobs` must be greater than 0")
+        r2grid: NDArray[float64] = self.r2grid()
+        cval: NDArray[float64] = bsadfuller_critval(
+            r0=self.r0,
+            rstep=self.rstep,
+            nreps=nreps,
+            nobs=nobs,
+            test_size=test_size,
+            kmax=self.kmax,
+        )
+        return dict(zip(r2grid, cval))
+
+    @overload
     def find_bubbles(
-        self, alpha: float = 0.05, fast=True, **sim_kwargs
+        self,
+        alpha: float,
+        fast: Literal[True],
+        nreps: int,
+        nobs: int | None,
+    ) -> NDArray[object_]: ...
+
+    @overload
+    def find_bubbles(
+        self,
+        alpha: float,
+        fast: Literal[False],
+    ) -> NDArray[object_]: ...
+
+    def find_bubbles(
+        self,
+        alpha: float = 0.05,
+        fast: Literal[True] | Literal[False] = True,
+        nreps: int = NREPS,
+        nobs: int | None = None,
     ) -> NDArray[object_]:
         """
         Identifies the bubble periods in the time series.
@@ -229,7 +313,9 @@ class PSYBubbles:
 
         Args:
             alpha (float): Significance level :math:`\\alpha`. Defaults to 0.05.
-            nreps (int | None, optional): Number of simulations (required if no cache).
+            fast (bool): If True, uses tabulated critical values. Defaults to True.
+            nreps (int | None, optional): Number of simulations (required if `fast=False`). Defaults to NREPS (see :ref:`.utils.constants`).
+            nobs (int | None): Number of observations (used if `fast=False`). Defaults to None, setting it to `self.nobs`.
 
         Returns:
             NDArray[object_]: Array of bubble start and end indices.
@@ -243,7 +329,7 @@ class PSYBubbles:
 
         stat: dict[float, float] = self.teststat()
         cval: dict[float, NDArray[float64]] = self.critval(
-            test_size=alpha, fast=fast, **sim_kwargs
+            test_size=alpha, fast=fast, nreps=nreps, nobs=nobs  # type: ignore[arg-type]
         )
         bubble_bool: list[NDArray[bool_]] = [stat[i] > cval[i] for i in stat.keys()]
         minlength: int = int(self.nobs * self.minlength)
@@ -268,7 +354,7 @@ class PSYBubbles:
     @classmethod
     def from_pandas(
         cls,
-        y: NDArray[float64],
+        data: NDArray[float64],
         index: NDArray | None = None,
         r0: float | None = None,
         rstep: float | None = None,
@@ -280,7 +366,7 @@ class PSYBubbles:
         Creates a PSYBubbles object from a pandas Series.
 
         Args:
-            y (NDArray[float64]): Time series values.
+            data (NDArray[float64]): Time series values.
             index (NDArray | None, optional): Index.
             r0, rstep, kmax, minlength, delta: See PSYBubbles constructor.
 
@@ -288,7 +374,7 @@ class PSYBubbles:
             PSYBubbles: Configured object.
         """
         obj: Self = cls(
-            y=y,
+            data=data,
             r0=r0,
             rstep=rstep,
             kmax=kmax,
