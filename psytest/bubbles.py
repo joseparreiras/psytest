@@ -7,7 +7,7 @@ This module contains the main class for the PSY test (see :class:`psytest.bubble
 from numpy.typing import NDArray
 from numpy import object_, float64, bool_, array, arange, vstack
 from collections.abc import Generator
-from typing import Any, Self, Literal, overload
+from typing import Any, Literal, overload
 from .critval import critval_tabulated, is_available_param
 from .utils.functions import parse_psy_arguments
 from .utils.defaults import KMAX, TEST_SIZE, NREPS
@@ -339,7 +339,7 @@ class PSYBubbles:
             raise TypeError("Data must be of type float64")
         data_values: NDArray = data.to_numpy()
         data_index: NDArray | None = data.index.to_numpy()
-        obj: Self = cls(
+        obj = cls(
             data=data_values,
             r0=r0,
             rstep=rstep,
