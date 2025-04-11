@@ -221,10 +221,12 @@ class PSYBubbles:
         Returns:
             dict[float, NDArray[float64]]: Dictionary with critical values for each :math:`r_2`.
         """
+        kmax: int = self.kmax
+        r0: float = self.r0
         r2grid: NDArray[float64] = self.r2grid()
         if not is_available_param(kmax=self.kmax, r0=self.r0):
             raise ValueError(
-                "Parameters `kmax` and `r0` are not available for tabulated critical values."
+                f"Parameters {kmax=} and {r0=} are not available for tabulated critical values."
             )
         if isinstance(test_size, float):
             cval: NDArray[float64] = critval_tabulated(
