@@ -7,7 +7,7 @@ setup(
     include_package_data=True,
     package_data={"psytest": ["critval/data/*.csv"]},
     python_requires=">=3.10",
-    install_requires=["numpy", "numba", "scipy", "pandas", "deprecation"],
+    install_requires=["numpy", "numba", "scipy", "pandas", "deprecation", "importlib-resources"],
     tests_require=["pytest"],
     author="Jose Antunes Neto",
     author_email="joseparreiras@gmail.com",
