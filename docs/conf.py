@@ -8,10 +8,11 @@
 
 import os
 import sys
-import psytest
 
 sys.path.insert(0, os.path.abspath(".."))
 sys.path.insert(0, os.path.abspath("../psytest"))
+
+import psytest
 
 project = psytest.__name__
 author = psytest.__author__
@@ -38,6 +39,9 @@ exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
 html_theme = "sphinx_book_theme"
+html_static_path = ["_static"]
+html_favicon = "_static/bubbles.gif"
+html_logo = "_static/logo.svg"
 
 html_theme_options = {
     "repository_url": "https://github.com/joseparreiras/psytest",  # optional
@@ -45,13 +49,10 @@ html_theme_options = {
     "use_edit_page_button": True,
     "path_to_docs": "docs",  # relative to root
     "show_navbar_depth": 2,
-    "logo_only": False,
+    "logo_only": True,
     "home_page_in_toc": True,
+    "display_version": False,
 }
-
-html_title = f"{project} documentation"
-html_favicon = "_static/bubbles.gif"
-html_logo = "_static/bubbles_small.gif"
 
 autodoc_default_options = {
     "members": True,
@@ -62,7 +63,6 @@ autodoc_default_options = {
 
 autodoc_member_order = "bysource"
 
-html_static_path = ["_static"]
 napoleon_numpy_docstring = True  # Enable NumPy style docstrings
 
 intersphinx_mapping = {

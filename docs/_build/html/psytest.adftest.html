@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>psytest.adftest module &#8212; psytest documentation</title>
+    <title>psytest.adftest module &#8212; psytest 0.1.0 documentation</title>
   
   
   
@@ -46,8 +46,6 @@
     <link rel="icon" href="_static/bubbles.gif"/>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="psytest.bubbles module" href="psytest.bubbles.html" />
-    <link rel="prev" title="psytest package" href="psytest.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -110,6 +108,8 @@
       
       
       
+        
+      
       <div class="bd-sidebar-primary bd-sidebar">
         
 
@@ -139,8 +139,8 @@
       
     
     
-    <img src="_static/bubbles_small.gif" class="logo__image only-light" alt="psytest documentation - Home"/>
-    <script>document.write(`<img src="_static/bubbles_small.gif" class="logo__image only-dark" alt="psytest documentation - Home"/>`);</script>
+    <img src="_static/logo.svg" class="logo__image only-light" alt="psytest 0.1.0 documentation - Home"/>
+    <script>document.write(`<img src="_static/logo.svg" class="logo__image only-dark" alt="psytest 0.1.0 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -166,21 +166,9 @@
             </li>
         </ul>
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Table of Contents</span></p>
-<ul class="current nav bd-sidenav">
-<li class="toctree-l1 current active has-children"><a class="reference internal" href="modules.html">psytest</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="modules.html">psytest</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="psytest.html">psytest package</a></li>
-<li class="toctree-l2 current active"><a class="current reference internal" href="#">psytest.adftest module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="psytest.bubbles.html">psytest.bubbles module</a></li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="psytest.critval.html">psytest.critval package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3"><a class="reference internal" href="psytest.critval.critval.html">psytest.critval.critval module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="psytest.critval.critval_parameters.html">psytest.critval.critval_parameters module</a></li>
-</ul>
-</details></li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="psytest.utils.html">psytest.utils package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3"><a class="reference internal" href="psytest.utils.defaults.html">psytest.utils.defaults module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="psytest.utils.functions.html">psytest.utils.functions module</a></li>
-</ul>
-</details></li>
 </ul>
 </details></li>
 </ul>
@@ -378,6 +366,7 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#psytest-adftest">psytest.adftest</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#psytest.adftest.adfuller_stat"><code class="docutils literal notranslate"><span class="pre">adfuller_stat()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#psytest.adftest.adfuller_dist"><code class="docutils literal notranslate"><span class="pre">adfuller_dist()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#psytest.adftest.rolling_adfuller_stat"><code class="docutils literal notranslate"><span class="pre">rolling_adfuller_stat()</span></code></a></li>
@@ -395,16 +384,14 @@ document.write(`
                   
   <section id="module-psytest.adftest">
 <span id="psytest-adftest-module"></span><h1>psytest.adftest module<a class="headerlink" href="#module-psytest.adftest" title="Link to this heading">#</a></h1>
-<p>This script contains the functions related to the Augmented Dickey-Fuller test for unit roots. The functions allow us to calculate both the test statistic and the asymptotic distribution of the test statistic. Additionally, it provides functions for rolling ADF tests and cumulative distribution functions based on a Wiener process.</p>
+<section id="psytest-adftest">
+<h2>psytest.adftest<a class="headerlink" href="#psytest-adftest" title="Link to this heading">#</a></h2>
+<p>This module contains the functions related to the Augmented Dickey-Fuller test for unit roots. The functions allow us to calculate both the test statistic and the asymptotic distribution of the test statistic. Additionally, it provides functions for rolling ADF tests and cumulative distribution functions based on a Wiener process.</p>
+</section>
 <dl class="py function">
 <dt class="sig sig-object py" id="psytest.adftest.adfuller_stat">
 <span class="sig-prename descclassname"><span class="pre">psytest.adftest.</span></span><span class="sig-name descname"><span class="pre">adfuller_stat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.2)"><span class="pre">ndarray</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.13)"><span class="pre">Any</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.dtype.html#numpy.dtype" title="(in NumPy v2.2)"><span class="pre">dtype</span></a><span class="p"><span class="pre">[</span></span><span class="pre">float64</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kmax</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></span></span><a class="reference internal" href="_modules/psytest/adftest.html#adfuller_stat"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#psytest.adftest.adfuller_stat" title="Link to this definition">#</a></dt>
 <dd><p>Calculates the test statistic for the Augmented Dickey-Fuller test.</p>
-<div class="math notranslate nohighlight">
-\[\text{ADF} = \frac{\hat{\beta}}{\sqrt{\widehat{\mathrm{Var}}(\hat{\beta})}}\]</div>
-<p>where <span class="math notranslate nohighlight">\(\hat{\beta}\)</span> is the coefficient of <span class="math notranslate nohighlight">\(y_{t-1}\)</span> and <span class="math notranslate nohighlight">\(\widehat{\mathrm{Var}}(\hat{\beta})\)</span> is its estimated variance in the regression</p>
-<div class="math notranslate nohighlight">
-\[\Delta y_{t} = \alpha + \beta y_{t-1} + \sum_{k=2}^{kmax} \gamma_k \Delta y_{t-k} + \epsilon_t\]</div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -413,12 +400,23 @@ document.write(`
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The test statistic.</p>
+<dd class="field-even"><p><strong>tstat</strong> – The test statistic.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>float64</p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)">float</a></p>
 </dd>
 </dl>
+<p class="rubric">Notes</p>
+<p>The Augmented Dickey-Fuller test statistic is calculated as:
+.. math:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>\<span class="n">text</span><span class="p">{</span><span class="n">ADF</span><span class="p">}</span> <span class="o">=</span> \<span class="n">frac</span><span class="p">{</span>\<span class="n">hat</span><span class="p">{</span>\<span class="n">beta</span><span class="p">}}{</span>\<span class="n">sqrt</span><span class="p">{</span>\<span class="n">widehat</span><span class="p">{</span>\<span class="n">mathrm</span><span class="p">{</span><span class="n">Var</span><span class="p">}}(</span>\<span class="n">hat</span><span class="p">{</span>\<span class="n">beta</span><span class="p">})}}</span>
+</pre></div>
+</div>
+<p>where <span class="math notranslate nohighlight">\(\hat{\beta}\)</span> is the coefficient of <span class="math notranslate nohighlight">\(y_{t-1}\)</span> and <span class="math notranslate nohighlight">\(\widehat{\mathrm{Var}}(\hat{\beta})\)</span> is its estimated variance in the regression:F
+.. math:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>\<span class="n">Delta</span> <span class="n">y_</span><span class="p">{</span><span class="n">t</span><span class="p">}</span> <span class="o">=</span> \<span class="n">alpha</span> <span class="o">+</span> \<span class="n">beta</span> <span class="n">y_</span><span class="p">{</span><span class="n">t</span><span class="o">-</span><span class="mi">1</span><span class="p">}</span> <span class="o">+</span> \<span class="n">sum_</span><span class="p">{</span><span class="n">k</span><span class="o">=</span><span class="mi">2</span><span class="p">}</span><span class="o">^</span><span class="p">{</span><span class="n">kmax</span><span class="p">}</span> \<span class="n">gamma_k</span> \<span class="n">Delta</span> <span class="n">y_</span><span class="p">{</span><span class="n">t</span><span class="o">-</span><span class="n">k</span><span class="p">}</span> <span class="o">+</span> \<span class="n">epsilon_t</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="py function">
@@ -434,7 +432,7 @@ document.write(`
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The simulated distribution of the test statistics.</p>
+<dd class="field-even"><p><strong>distribution</strong> – The simulated distribution of the test statistics.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>NDArray[float64]</p>
@@ -446,8 +444,6 @@ document.write(`
 <dt class="sig sig-object py" id="psytest.adftest.rolling_adfuller_stat">
 <span class="sig-prename descclassname"><span class="pre">psytest.adftest.</span></span><span class="sig-name descname"><span class="pre">rolling_adfuller_stat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.2)"><span class="pre">ndarray</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.13)"><span class="pre">Any</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.dtype.html#numpy.dtype" title="(in NumPy v2.2)"><span class="pre">dtype</span></a><span class="p"><span class="pre">[</span></span><span class="pre">float64</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kmax</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">r1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">r2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></span></span><a class="reference internal" href="_modules/psytest/adftest.html#rolling_adfuller_stat"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#psytest.adftest.rolling_adfuller_stat" title="Link to this definition">#</a></dt>
 <dd><p>Calculates the Augmented Dickey-Fuller test statistic for a window of the time series.</p>
-<div class="math notranslate nohighlight">
-\[\text{ADF}(r_1, r_2) = \text{ADF}(y_{r_1:r_2})\]</div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -457,23 +453,27 @@ document.write(`
 <li><p><span class="target" id="psytest.adftest.rolling_adfuller_stat.params.kmax"></span><strong>kmax</strong><a class="paramlink headerlink reference internal" href="#psytest.adftest.rolling_adfuller_stat.params.kmax">¶</a> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><em>int</em></a><em>, </em><em>optional</em>) – Maximum lag to use in the test.</p></li>
 </ul>
 </dd>
-</dl>
-<p class="rubric">Notes</p>
-<ul class="simple">
-<li><p><cite>r1</cite> and <cite>r2</cite> should be in the range [0, 1] following the notation of the paper.</p></li>
-</ul>
-<dl class="field-list simple">
-<dt class="field-odd">Raises<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>- ValueError</strong> – If <cite>r1</cite> or <cite>r2</cite> are not in the range [0, 1].</p></li>
-<li><p><strong>- ValueError</strong> – If <cite>r1</cite> is greater than <cite>r2</cite>.</p></li>
-</ul>
-</dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Value of the test statistic.</p>
+<dd class="field-even"><p><strong>teststat</strong> – Value of the test statistic.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)">float</a></p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>The rolling ADF test statistic is calculated as:
+.. math:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>\<span class="n">text</span><span class="p">{</span><span class="n">ADF</span><span class="p">}(</span><span class="n">r_1</span><span class="p">,</span> <span class="n">r_2</span><span class="p">)</span> <span class="o">=</span> \<span class="n">frac</span><span class="p">{</span>\<span class="n">hat</span><span class="p">{</span>\<span class="n">beta</span><span class="p">}}{</span>\<span class="n">sqrt</span><span class="p">{</span>\<span class="n">widehat</span><span class="p">{</span>\<span class="n">mathrm</span><span class="p">{</span><span class="n">Var</span><span class="p">}}(</span>\<span class="n">hat</span><span class="p">{</span>\<span class="n">beta</span><span class="p">})}}</span>
+</pre></div>
+</div>
+<p>where <span class="math notranslate nohighlight">\(\hat{\beta}\)</span> is the coefficient of <span class="math notranslate nohighlight">\(y_{t-1}\)</span> and <span class="math notranslate nohighlight">\(\widehat{\mathrm{Var}}(\hat{\beta})\)</span> is its estimated variance in the regression:
+.. math:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>\<span class="n">Delta</span> <span class="n">y_</span><span class="p">{</span><span class="n">t</span><span class="p">}</span> <span class="o">=</span> \<span class="n">alpha</span> <span class="o">+</span> \<span class="n">beta</span> <span class="n">y_</span><span class="p">{</span><span class="n">t</span><span class="o">-</span><span class="mi">1</span><span class="p">}</span> <span class="o">+</span> \<span class="n">sum_</span><span class="p">{</span><span class="n">k</span><span class="o">=</span><span class="mi">2</span><span class="p">}</span><span class="o">^</span><span class="p">{</span><span class="n">kmax</span><span class="p">}</span> \<span class="n">gamma_k</span> \<span class="n">Delta</span> <span class="n">y_</span><span class="p">{</span><span class="n">t</span><span class="o">-</span><span class="n">k</span><span class="p">}</span> <span class="o">+</span> \<span class="n">epsilon_t</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.13)"><strong>ValueError</strong></a> – If <a class="reference internal" href="#psytest.adftest.rolling_adfuller_stat.params.r1" title="psytest.adftest.rolling_adfuller_stat"><code class="xref py py-paramref docutils literal notranslate"><span class="pre">r1</span></code></a> or <a class="reference internal" href="#psytest.adftest.rolling_adfuller_stat.params.r2" title="psytest.adftest.rolling_adfuller_stat"><code class="xref py py-paramref docutils literal notranslate"><span class="pre">r2</span></code></a> are not in the range [0, 1] or if <a class="reference internal" href="#psytest.adftest.rolling_adfuller_stat.params.r1" title="psytest.adftest.rolling_adfuller_stat"><code class="xref py py-paramref docutils literal notranslate"><span class="pre">r1</span></code></a> is greater than <a class="reference internal" href="#psytest.adftest.rolling_adfuller_stat.params.r2" title="psytest.adftest.rolling_adfuller_stat"><code class="xref py py-paramref docutils literal notranslate"><span class="pre">r2</span></code></a>.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -490,23 +490,14 @@ document.write(`
 <li><p><span class="target" id="psytest.adftest.rolling_adfuller_cdf.params.r2"></span><strong>r2</strong><a class="paramlink headerlink reference internal" href="#psytest.adftest.rolling_adfuller_cdf.params.r2">¶</a> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a>) – End index.</p></li>
 </ul>
 </dd>
-</dl>
-<p class="rubric">Notes</p>
-<ul class="simple">
-<li><p><cite>r1</cite> and <cite>r2</cite> should be in the range [0, 1] following the notation of the paper.</p></li>
-</ul>
-<dl class="field-list simple">
-<dt class="field-odd">Raises<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>- ValueError</strong> – If <cite>r1</cite> or <cite>r2</cite> are not in the range [0, 1].</p></li>
-<li><p><strong>- ValueError</strong> – If <cite>r1</cite> is greater than <cite>r2</cite>.</p></li>
-</ul>
-</dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Value of the cumulative distribution function.</p>
+<dd class="field-even"><p><strong>cdf</strong> – Value of the cumulative distribution function.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)">float</a></p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.13)"><strong>ValueError</strong></a> – If <a class="reference internal" href="#psytest.adftest.rolling_adfuller_cdf.params.r1" title="psytest.adftest.rolling_adfuller_cdf"><code class="xref py py-paramref docutils literal notranslate"><span class="pre">r1</span></code></a> or <a class="reference internal" href="#psytest.adftest.rolling_adfuller_cdf.params.r2" title="psytest.adftest.rolling_adfuller_cdf"><code class="xref py py-paramref docutils literal notranslate"><span class="pre">r2</span></code></a> are not in the range [0, 1] or if <a class="reference internal" href="#psytest.adftest.rolling_adfuller_cdf.params.r1" title="psytest.adftest.rolling_adfuller_cdf"><code class="xref py py-paramref docutils literal notranslate"><span class="pre">r1</span></code></a> is greater than <a class="reference internal" href="#psytest.adftest.rolling_adfuller_cdf.params.r2" title="psytest.adftest.rolling_adfuller_cdf"><code class="xref py py-paramref docutils literal notranslate"><span class="pre">r2</span></code></a>.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -524,24 +515,6 @@ document.write(`
                 <footer class="prev-next-footer d-print-none">
                   
 <div class="prev-next-area">
-    <a class="left-prev"
-       href="psytest.html"
-       title="previous page">
-      <i class="fa-solid fa-angle-left"></i>
-      <div class="prev-next-info">
-        <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">psytest package</p>
-      </div>
-    </a>
-    <a class="right-next"
-       href="psytest.bubbles.html"
-       title="next page">
-      <div class="prev-next-info">
-        <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">psytest.bubbles module</p>
-      </div>
-      <i class="fa-solid fa-angle-right"></i>
-    </a>
 </div>
                 </footer>
               
@@ -558,6 +531,7 @@ document.write(`
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#psytest-adftest">psytest.adftest</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#psytest.adftest.adfuller_stat"><code class="docutils literal notranslate"><span class="pre">adfuller_stat()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#psytest.adftest.adfuller_dist"><code class="docutils literal notranslate"><span class="pre">adfuller_dist()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#psytest.adftest.rolling_adfuller_stat"><code class="docutils literal notranslate"><span class="pre">rolling_adfuller_stat()</span></code></a></li>

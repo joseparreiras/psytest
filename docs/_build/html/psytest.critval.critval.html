@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>psytest.critval.critval module &#8212; psytest documentation</title>
+    <title>psytest.critval.critval module &#8212; psytest 0.1.0 documentation</title>
   
   
   
@@ -45,8 +45,6 @@
     <link rel="icon" href="_static/bubbles.gif"/>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="psytest.critval.critval_parameters module" href="psytest.critval.critval_parameters.html" />
-    <link rel="prev" title="psytest.critval package" href="psytest.critval.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -138,8 +136,8 @@
       
     
     
-    <img src="_static/bubbles_small.gif" class="logo__image only-light" alt="psytest documentation - Home"/>
-    <script>document.write(`<img src="_static/bubbles_small.gif" class="logo__image only-dark" alt="psytest documentation - Home"/>`);</script>
+    <img src="_static/logo.svg" class="logo__image only-light" alt="psytest 0.1.0 documentation - Home"/>
+    <script>document.write(`<img src="_static/logo.svg" class="logo__image only-dark" alt="psytest 0.1.0 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -165,21 +163,9 @@
             </li>
         </ul>
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Table of Contents</span></p>
-<ul class="current nav bd-sidenav">
-<li class="toctree-l1 current active has-children"><a class="reference internal" href="modules.html">psytest</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="modules.html">psytest</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="psytest.html">psytest package</a></li>
-<li class="toctree-l2"><a class="reference internal" href="psytest.adftest.html">psytest.adftest module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="psytest.bubbles.html">psytest.bubbles module</a></li>
-<li class="toctree-l2 current active has-children"><a class="reference internal" href="psytest.critval.html">psytest.critval package</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
-<li class="toctree-l3 current active"><a class="current reference internal" href="#">psytest.critval.critval module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="psytest.critval.critval_parameters.html">psytest.critval.critval_parameters module</a></li>
-</ul>
-</details></li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="psytest.utils.html">psytest.utils package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3"><a class="reference internal" href="psytest.utils.defaults.html">psytest.utils.defaults module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="psytest.utils.functions.html">psytest.utils.functions module</a></li>
-</ul>
-</details></li>
 </ul>
 </details></li>
 </ul>
@@ -377,6 +363,7 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#psytest-critval-critval">psytest.critval.critval</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#psytest.critval.critval.make_colname_from_alpha"><code class="docutils literal notranslate"><span class="pre">make_colname_from_alpha()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#psytest.critval.critval.find_best_table"><code class="docutils literal notranslate"><span class="pre">find_best_table()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#psytest.critval.critval.load_critval"><code class="docutils literal notranslate"><span class="pre">load_critval()</span></code></a></li>
@@ -394,6 +381,10 @@ document.write(`
                   
   <section id="module-psytest.critval.critval">
 <span id="psytest-critval-critval-module"></span><h1>psytest.critval.critval module<a class="headerlink" href="#module-psytest.critval.critval" title="Link to this heading">#</a></h1>
+<section id="psytest-critval-critval">
+<h2>psytest.critval.critval<a class="headerlink" href="#psytest-critval-critval" title="Link to this heading">#</a></h2>
+<p>Module to handle the tables in the <code class="docutils literal notranslate"><span class="pre">psytest.critval.data</span></code> directory. The main function is <a class="reference internal" href="psytest.critval.html#psytest.critval.critval_tabulated" title="psytest.critval.critval_tabulated"><code class="xref py py-func docutils literal notranslate"><span class="pre">psytest.critval.critval_tabulated()</span></code></a>, which calculates the critical values for a given set of parameters. Given the parameters, the function gets the best table to use, based on the precision of the simulations used for each table (see <a class="reference internal" href="#psytest.critval.critval.find_best_table" title="psytest.critval.critval.find_best_table"><code class="xref py py-func docutils literal notranslate"><span class="pre">psytest.critval.critval.find_best_table()</span></code></a> for more info). The values in the best match are then interpolated to return the critical values for every input value of <a class="reference internal" href="psytest.critval.html#psytest.critval.critval_tabulated.params.r2_eval" title="psytest.critval.critval_tabulated"><code class="xref py py-paramref docutils literal notranslate"><span class="pre">psytest.critval.critval_tabulated.r2_eval</span></code></a>.</p>
+</section>
 <dl class="py function">
 <dt class="sig sig-object py" id="psytest.critval.critval.make_colname_from_alpha">
 <span class="sig-prename descclassname"><span class="pre">psytest.critval.critval.</span></span><span class="sig-name descname"><span class="pre">make_colname_from_alpha</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></span><a class="reference internal" href="_modules/psytest/critval/critval.html#make_colname_from_alpha"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#psytest.critval.critval.make_colname_from_alpha" title="Link to this definition">#</a></dt>
@@ -403,7 +394,7 @@ document.write(`
 <dl class="py function">
 <dt class="sig sig-object py" id="psytest.critval.critval.find_best_table">
 <span class="sig-prename descclassname"><span class="pre">psytest.critval.critval.</span></span><span class="sig-name descname"><span class="pre">find_best_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">kmax</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">r0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></span><a class="reference internal" href="_modules/psytest/critval/critval.html#find_best_table"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#psytest.critval.critval.find_best_table" title="Link to this definition">#</a></dt>
-<dd><p>Finds the table with the best match for the given parameters. It sorts tables by their nreps (ascending), nobs (ascending), and rstep (descending). It then returns the one with the best value of these that satisfies the condition of having the given <cite>kmax</cite> and <cite>r0</cite> as low as given.</p>
+<dd><p>Finds the table with the best match for the given parameters. It sorts tables by their <code class="docutils literal notranslate"><span class="pre">nreps</span></code> (ascending), <code class="docutils literal notranslate"><span class="pre">nobs</span></code> (ascending), and <code class="docutils literal notranslate"><span class="pre">rstep</span></code> (descending). It then returns the one with the best value of these that satisfies the condition of having the given <a class="reference internal" href="#psytest.critval.critval.find_best_table.params.kmax" title="psytest.critval.critval.find_best_table"><code class="xref py py-paramref docutils literal notranslate"><span class="pre">kmax</span></code></a> and <a class="reference internal" href="#psytest.critval.critval.find_best_table.params.r0" title="psytest.critval.critval.find_best_table"><code class="xref py py-paramref docutils literal notranslate"><span class="pre">r0</span></code></a> as low as given.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -412,10 +403,10 @@ document.write(`
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The name of the table with the best match for the given parameters, or None if no match is found.</p>
+<dd class="field-even"><p><strong>table_name</strong> – The name of the table with the best match for the given parameters, or <code class="docutils literal notranslate"><span class="pre">None</span></code> if no match is found.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a> | None</p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -432,7 +423,7 @@ document.write(`
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A DataFrame containing the critical values. The first column correspond to the <cite>r2</cite> parameter. The remaining columns give, for each <cite>r2</cite> the critical values with significance levels 0.10, 0.05, and 0.01 respectively.</p>
+<dd class="field-even"><p><strong>critval_table</strong> – A DataFrame containing the critical values. The first column correspond to the <code class="code docutils literal notranslate"><span class="pre">r2</span></code> parameter. The remaining columns give, for each <code class="code docutils literal notranslate"><span class="pre">r2</span></code> the critical values with significance levels as the column names.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>DataFrame</p>
@@ -445,36 +436,29 @@ document.write(`
 <span class="sig-prename descclassname"><span class="pre">psytest.critval.critval.</span></span><span class="sig-name descname"><span class="pre">critval_tabulated</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">r2_eval</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">kmax</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">r0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.05</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></span></span><a class="reference internal" href="_modules/psytest/critval/critval.html#critval_tabulated"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#psytest.critval.critval.critval_tabulated" title="Link to this definition">#</a></dt>
 <dt class="sig sig-object py">
 <span class="sig-prename descclassname"><span class="pre">psytest.critval.critval.</span></span><span class="sig-name descname"><span class="pre">critval_tabulated</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">r2_eval</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Iterable" title="(in Python v3.13)"><span class="pre">Iterable</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kmax</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">r0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.05</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.2)"><span class="pre">ndarray</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.13)"><span class="pre">Any</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.dtype.html#numpy.dtype" title="(in NumPy v2.2)"><span class="pre">dtype</span></a><span class="p"><span class="pre">[</span></span><span class="pre">float64</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span></dt>
-<dd><p>Returns the critical values for a given <cite>r2</cite> or an array of <cite>r2</cite> from the tabulated values in the <cite>critval.csv</cite> file.</p>
+<dd><p>Returns the critical values for all <code class="code docutils literal notranslate"><span class="pre">r2</span></code> in <a class="reference internal" href="#psytest.critval.critval.critval_tabulated.params.r2_eval" title="psytest.critval.critval.critval_tabulated"><code class="xref py py-paramref docutils literal notranslate"><span class="pre">r2_eval</span></code></a> from the tabulated values in the <code class="xref py py-obj docutils literal notranslate"><span class="pre">psytest.critval.data</span></code> directory.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><span class="target" id="psytest.critval.critval.critval_tabulated.params.r2_eval"></span><strong>r2_eval</strong><a class="paramlink headerlink reference internal" href="#psytest.critval.critval.critval_tabulated.params.r2_eval">¶</a> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a><em> | </em><em>Iterable</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a><em>]</em>) – The <cite>r2</cite> value or an array of <cite>r2</cite> values.</p></li>
+<li><p><span class="target" id="psytest.critval.critval.critval_tabulated.params.r2_eval"></span><strong>r2_eval</strong><a class="paramlink headerlink reference internal" href="#psytest.critval.critval.critval_tabulated.params.r2_eval">¶</a> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a><em> | </em><em>Iterable</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a><em>]</em>) – The <code class="code docutils literal notranslate"><span class="pre">r2</span></code> value or an array of <code class="code docutils literal notranslate"><span class="pre">r2</span></code> values.</p></li>
 <li><p><span class="target" id="psytest.critval.critval.critval_tabulated.params.alpha"></span><strong>alpha</strong><a class="paramlink headerlink reference internal" href="#psytest.critval.critval.critval_tabulated.params.alpha">¶</a> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a><em>, </em><em>optional</em>) – The significance level. Defaults to 0.05.</p></li>
 <li><p><span class="target" id="psytest.critval.critval.critval_tabulated.params.kmax"></span><strong>kmax</strong><a class="paramlink headerlink reference internal" href="#psytest.critval.critval.critval_tabulated.params.kmax">¶</a> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><em>int</em></a>) – Maximum lag for the critical value table.</p></li>
 <li><p><span class="target" id="psytest.critval.critval.critval_tabulated.params.r0"></span><strong>r0</strong><a class="paramlink headerlink reference internal" href="#psytest.critval.critval.critval_tabulated.params.r0">¶</a> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a>) – Minimum index to evaluate the test statistics.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The critical values for the given <cite>r2</cite> or an array of critical values.</p>
+<dd class="field-even"><p><strong>critval_table</strong> – The critical values for the given <a class="reference internal" href="#psytest.critval.critval.critval_tabulated.params.r2_eval" title="psytest.critval.critval.critval_tabulated"><code class="xref py py-paramref docutils literal notranslate"><span class="pre">r2_eval</span></code></a> (if single) or an array of critical values.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>float64 | NDArray[float64]</p>
+<dd class="field-odd"><p>NDArray[float64] | <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)">float</a></p>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
-<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.13)"><strong>ValueError</strong></a> – If <cite>r2_eval</cite> is not between 0 and 1.</p></li>
-<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.13)"><strong>TypeError</strong></a> – If <cite>r2_eval</cite> is not a float or an iterable.</p></li>
-<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.13)"><strong>ValueError</strong></a> – If <cite>alpha</cite> is not between 0 and 1.</p></li>
-<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.13)"><strong>TypeError</strong></a> – If <cite>alpha</cite> is not a float.</p></li>
-<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.13)"><strong>ValueError</strong></a> – If the critical value for the given <cite>alpha</cite> is not found in the table.</p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.13)"><strong>TypeError</strong></a> – If <a class="reference internal" href="#psytest.critval.critval.critval_tabulated.params.r2_eval" title="psytest.critval.critval.critval_tabulated"><code class="xref py py-paramref docutils literal notranslate"><span class="pre">r2_eval</span></code></a> is not a float or an iterable; if <a class="reference internal" href="#psytest.critval.critval.critval_tabulated.params.alpha" title="psytest.critval.critval.critval_tabulated"><code class="xref py py-paramref docutils literal notranslate"><span class="pre">alpha</span></code></a> is not a float; if <a class="reference internal" href="#psytest.critval.critval.critval_tabulated.params.kmax" title="psytest.critval.critval.critval_tabulated"><code class="xref py py-paramref docutils literal notranslate"><span class="pre">kmax</span></code></a> is not an integer; if <a class="reference internal" href="#psytest.critval.critval.critval_tabulated.params.r0" title="psytest.critval.critval.critval_tabulated"><code class="xref py py-paramref docutils literal notranslate"><span class="pre">r0</span></code></a> is not a float.</p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.13)"><strong>ValueError</strong></a> – If <a class="reference internal" href="#psytest.critval.critval.critval_tabulated.params.r2_eval" title="psytest.critval.critval.critval_tabulated"><code class="xref py py-paramref docutils literal notranslate"><span class="pre">r2_eval</span></code></a> is not between 0 and 1; if <a class="reference internal" href="#psytest.critval.critval.critval_tabulated.params.alpha" title="psytest.critval.critval.critval_tabulated"><code class="xref py py-paramref docutils literal notranslate"><span class="pre">alpha</span></code></a> is not between 0 and 1; if <a class="reference internal" href="#psytest.critval.critval.critval_tabulated.params.kmax" title="psytest.critval.critval.critval_tabulated"><code class="xref py py-paramref docutils literal notranslate"><span class="pre">kmax</span></code></a> is negative; if <a class="reference internal" href="#psytest.critval.critval.critval_tabulated.params.r0" title="psytest.critval.critval.critval_tabulated"><code class="xref py py-paramref docutils literal notranslate"><span class="pre">r0</span></code></a> is not between 0 and 1; if the critical value for the given <a class="reference internal" href="#psytest.critval.critval.critval_tabulated.params.alpha" title="psytest.critval.critval.critval_tabulated"><code class="xref py py-paramref docutils literal notranslate"><span class="pre">alpha</span></code></a> is not found in the table.</p></li>
 </ul>
 </dd>
 </dl>
-<div class="admonition seealso">
-<p class="admonition-title">See also</p>
-<p><code class="xref py py-obj docutils literal notranslate"><span class="pre">critval</span></code>: The original table with critical values from Monte Carlo simulation.</p>
-</div>
 </dd></dl>
 
 </section>
@@ -490,24 +474,6 @@ document.write(`
                 <footer class="prev-next-footer d-print-none">
                   
 <div class="prev-next-area">
-    <a class="left-prev"
-       href="psytest.critval.html"
-       title="previous page">
-      <i class="fa-solid fa-angle-left"></i>
-      <div class="prev-next-info">
-        <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">psytest.critval package</p>
-      </div>
-    </a>
-    <a class="right-next"
-       href="psytest.critval.critval_parameters.html"
-       title="next page">
-      <div class="prev-next-info">
-        <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">psytest.critval.critval_parameters module</p>
-      </div>
-      <i class="fa-solid fa-angle-right"></i>
-    </a>
 </div>
                 </footer>
               
@@ -524,6 +490,7 @@ document.write(`
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#psytest-critval-critval">psytest.critval.critval</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#psytest.critval.critval.make_colname_from_alpha"><code class="docutils literal notranslate"><span class="pre">make_colname_from_alpha()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#psytest.critval.critval.find_best_table"><code class="docutils literal notranslate"><span class="pre">find_best_table()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#psytest.critval.critval.load_critval"><code class="docutils literal notranslate"><span class="pre">load_critval()</span></code></a></li>

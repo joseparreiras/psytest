@@ -3,11 +3,7 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-.. image:: _static/bubbles.gif
-   :alt: Bubble animation
-   :width: 300px
-
-`psytest` documentation
+:code:`psytest` documentation
 ========================
 
 This is the documentation for the `psytest` package, a Python testing framework that applies the methodology of :cite:`phillips2011testing` (*PSY*) to test for the presence of multiple bubbles in a dataset. 

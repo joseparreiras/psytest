@@ -1,7 +1,11 @@
-[31m/opt/miniconda3/lib/python3.12/site-packages/psytest/__init__.py:docstring of psytest.bubbles.PSYBubbles.find_bubbles:23: ERROR: Unknown target name: "object". [docutils][39;49;00m
-[31m/opt/miniconda3/lib/python3.12/site-packages/psytest/bubbles.py:docstring of psytest.bubbles.PSYBubbles.find_bubbles:23: ERROR: Unknown target name: "object". [docutils][39;49;00m
-[31m/Users/joseparreiras/Library/CloudStorage/Dropbox/[2] Work/[21] GitHub Repositories/psytest/docs/psytest.utils.functions.rst:4: ERROR: An option to automodule is either unknown or has an invalid value: 'hidden'[39;49;00m
+[91m/Users/joseparreiras/Library/CloudStorage/Dropbox/[2] Work/[21] GitHub Repositories/psytest/docs/index.rst:7: WARNING: Title underline too short.
+
+:code:`psytest` documentation
+======================== [docutils][39;49;00m
+[91m/Users/joseparreiras/Library/CloudStorage/Dropbox/[2] Work/[21] GitHub Repositories/psytest/docs/psytest.adftest.rst: WARNING: document isn't included in any toctree [toc.not_included][39;49;00m
+[91m/Users/joseparreiras/Library/CloudStorage/Dropbox/[2] Work/[21] GitHub Repositories/psytest/docs/psytest.bubbles.rst: WARNING: document isn't included in any toctree [toc.not_included][39;49;00m
+[91m/Users/joseparreiras/Library/CloudStorage/Dropbox/[2] Work/[21] GitHub Repositories/psytest/docs/psytest.critval.rst: WARNING: document isn't included in any toctree [toc.not_included][39;49;00m
 [91m/Users/joseparreiras/Library/CloudStorage/Dropbox/[2] Work/[21] GitHub Repositories/psytest/docs/psytest.sadftest.rst: WARNING: document isn't included in any toctree [toc.not_included][39;49;00m
+[91m/Users/joseparreiras/Library/CloudStorage/Dropbox/[2] Work/[21] GitHub Repositories/psytest/docs/psytest.utils.rst: WARNING: document isn't included in any toctree [toc.not_included][39;49;00m
 [91mWARNING: unsupported theme option 'logo_only' given[39;49;00m
-[91m/opt/miniconda3/lib/python3.12/site-packages/psytest/__init__.py:docstring of psytest.bubbles.PSYBubbles.find_bubbles:17: WARNING: undefined label: '.utils.constants' [ref.ref][39;49;00m
-[91m/opt/miniconda3/lib/python3.12/site-packages/psytest/bubbles.py:docstring of psytest.bubbles.PSYBubbles.find_bubbles:17: WARNING: undefined label: '.utils.constants' [ref.ref][39;49;00m
+[91mWARNING: unsupported theme option 'display_version' given[39;49;00m

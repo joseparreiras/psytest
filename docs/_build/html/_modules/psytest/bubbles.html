@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>psytest.bubbles &#8212; psytest documentation</title>
+    <title>psytest.bubbles &#8212; psytest 0.1.0 documentation</title>
   
   
   
@@ -137,8 +137,8 @@
       
     
     
-    <img src="../../_static/bubbles_small.gif" class="logo__image only-light" alt="psytest documentation - Home"/>
-    <script>document.write(`<img src="../../_static/bubbles_small.gif" class="logo__image only-dark" alt="psytest documentation - Home"/>`);</script>
+    <img src="../../_static/logo.svg" class="logo__image only-light" alt="psytest 0.1.0 documentation - Home"/>
+    <script>document.write(`<img src="../../_static/logo.svg" class="logo__image only-dark" alt="psytest 0.1.0 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -167,18 +167,6 @@
 <ul class="nav bd-sidenav">
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../modules.html">psytest</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../psytest.html">psytest package</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../psytest.adftest.html">psytest.adftest module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../psytest.bubbles.html">psytest.bubbles module</a></li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../../psytest.critval.html">psytest.critval package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../psytest.critval.critval.html">psytest.critval.critval module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../psytest.critval.critval_parameters.html">psytest.critval.critval_parameters module</a></li>
-</ul>
-</details></li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../../psytest.utils.html">psytest.utils package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../psytest.utils.defaults.html">psytest.utils.defaults module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../psytest.utils.functions.html">psytest.utils.functions module</a></li>
-</ul>
-</details></li>
 </ul>
 </details></li>
 </ul>
@@ -299,85 +287,52 @@ document.write(`
                 <article class="bd-article">
                   
   <h1>Source code for psytest.bubbles</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">numpy.typing</span> <span class="kn">import</span> <span class="n">NDArray</span>
-<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">object_</span><span class="p">,</span> <span class="n">float64</span><span class="p">,</span> <span class="n">int64</span><span class="p">,</span> <span class="n">bool_</span><span class="p">,</span> <span class="n">array</span><span class="p">,</span> <span class="n">arange</span><span class="p">,</span> <span class="n">ndarray</span><span class="p">,</span> <span class="n">vstack</span>
+<span></span><span class="sd">&quot;&quot;&quot;psytest.bubbles</span>
+<span class="sd">=========================</span>
+
+<span class="sd">This module contains the main class for the PSY test (see :class:`psytest.bubbles.PSYBubbles`). This class handles the frontend of the test, receiving the data and parameters, and providing methods to run the test and retrieve results. It also includes methods for parsing arguments, checking conditions, and finding bubble dates.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">numpy.typing</span> <span class="kn">import</span> <span class="n">NDArray</span>
+<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">object_</span><span class="p">,</span> <span class="n">float64</span><span class="p">,</span> <span class="n">bool_</span><span class="p">,</span> <span class="n">array</span><span class="p">,</span> <span class="n">arange</span><span class="p">,</span> <span class="n">vstack</span>
 <span class="kn">from</span> <span class="nn">collections.abc</span> <span class="kn">import</span> <span class="n">Generator</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Self</span><span class="p">,</span> <span class="n">Literal</span><span class="p">,</span> <span class="n">overload</span>
 <span class="kn">from</span> <span class="nn">.critval</span> <span class="kn">import</span> <span class="n">critval_tabulated</span><span class="p">,</span> <span class="n">is_available_param</span>
-<span class="kn">from</span> <span class="nn">.utils.functions</span> <span class="kn">import</span> <span class="n">r0_default</span><span class="p">,</span> <span class="n">minlength_default</span>
+<span class="kn">from</span> <span class="nn">.utils.functions</span> <span class="kn">import</span> <span class="n">parse_psy_arguments</span>
 <span class="kn">from</span> <span class="nn">.utils.defaults</span> <span class="kn">import</span> <span class="n">KMAX</span><span class="p">,</span> <span class="n">TEST_SIZE</span><span class="p">,</span> <span class="n">NREPS</span>
 <span class="kn">from</span> <span class="nn">.sadftest</span> <span class="kn">import</span> <span class="n">bsadf_stat_all_series</span><span class="p">,</span> <span class="n">bsadfuller_critval</span>
 <span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">lru_cache</span>
-
-
-<div class="viewcode-block" id="parse_psy_arguments">
-<a class="viewcode-back" href="../../psytest.bubbles.html#psytest.parse_psy_arguments">[docs]</a>
-<span class="k">def</span> <span class="nf">parse_psy_arguments</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Parses the arguments for the PSYBubbles class and raises errors if they are invalid.&quot;&quot;&quot;</span>
-    <span class="c1"># Remove None arguments</span>
-    <span class="n">kwargs</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">v</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">}</span>
-    <span class="c1"># Parse `data`</span>
-    <span class="n">data</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;data&quot;</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">data</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;`data` must be provided&quot;</span><span class="p">)</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">ndarray</span><span class="p">):</span>
-        <span class="n">data</span><span class="p">:</span> <span class="n">NDArray</span> <span class="o">=</span> <span class="n">array</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">data</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;`data` must be a 1D array&quot;</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">data</span><span class="o">.</span><span class="n">dtype</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="n">float64</span><span class="p">,</span> <span class="n">int64</span><span class="p">]:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;`data` must be a number array&quot;</span><span class="p">)</span>
-    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;`data` must have at least 2 elements&quot;</span><span class="p">)</span>
-    <span class="c1"># Parse `r0`</span>
-    <span class="n">r0</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;r0&quot;</span><span class="p">,</span> <span class="n">r0_default</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)))</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">r0</span><span class="p">,</span> <span class="nb">float</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;`r0` must be a float&quot;</span><span class="p">)</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">r0</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;`r0` must be in the range [0, 1]&quot;</span><span class="p">)</span>
-    <span class="c1"># Parse `rstep`</span>
-    <span class="n">rstep</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;rstep&quot;</span><span class="p">,</span> <span class="mi">1</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">rstep</span><span class="p">,</span> <span class="nb">float</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;`rstep` must be a float&quot;</span><span class="p">)</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="mi">0</span> <span class="o">&lt;</span> <span class="n">rstep</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;`rstep` must be in the range (0, 1]&quot;</span><span class="p">)</span>
-    <span class="c1"># Parse `kmax`</span>
-    <span class="n">kmax</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;kmax&quot;</span><span class="p">,</span> <span class="n">KMAX</span><span class="p">)</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">kmax</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;`kmax` must be an integer&quot;</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">kmax</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;`kmax` must be greater than or equal to 0&quot;</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">kmax</span> <span class="o">&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;`kmax` must be less than the length of `data`&quot;</span><span class="p">)</span>
-    <span class="c1"># Parse `minlength` and `delta`</span>
-    <span class="n">minlength</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;minlength&quot;</span><span class="p">)</span>
-    <span class="n">delta</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;delta&quot;</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">minlength</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">delta</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Only one of `minlength` or `delta` should be provided&quot;</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">delta</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">delta</span><span class="p">,</span> <span class="nb">float</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;`delta` must be a float&quot;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">delta</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;`delta` must be greater than 0&quot;</span><span class="p">)</span>
-        <span class="n">minlength</span> <span class="o">=</span> <span class="n">minlength_default</span><span class="p">(</span><span class="n">nobs</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">),</span> <span class="n">delta</span><span class="o">=</span><span class="n">delta</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">minlength</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">minlength</span><span class="p">,</span> <span class="nb">float</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;`minlength` must be a float&quot;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="mi">0</span> <span class="o">&lt;</span> <span class="n">minlength</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;`minlength` must be in the range (0, 1]&quot;</span><span class="p">)</span>
-    <span class="k">return</span> <span class="p">{</span>
-        <span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="n">data</span><span class="p">,</span>
-        <span class="s2">&quot;r0&quot;</span><span class="p">:</span> <span class="n">r0</span><span class="p">,</span>
-        <span class="s2">&quot;rstep&quot;</span><span class="p">:</span> <span class="n">rstep</span><span class="p">,</span>
-        <span class="s2">&quot;kmax&quot;</span><span class="p">:</span> <span class="n">kmax</span><span class="p">,</span>
-        <span class="s2">&quot;minlength&quot;</span><span class="p">:</span> <span class="n">minlength</span><span class="p">,</span>
-        <span class="s2">&quot;delta&quot;</span><span class="p">:</span> <span class="n">delta</span><span class="p">,</span>
-    <span class="p">}</span></div>
-
+<span class="kn">from</span> <span class="nn">pandas</span> <span class="kn">import</span> <span class="n">Series</span>
 
 
 <div class="viewcode-block" id="PSYBubbles">
 <a class="viewcode-back" href="../../psytest.bubbles.html#psytest.PSYBubbles">[docs]</a>
 <span class="k">class</span> <span class="nc">PSYBubbles</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Class to perform the Phillips, Shi &amp; Yu (2015) test for bubbles in time series data.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data : :class:`numpy.ndarray` of dtype :class:`numpy.float64`</span>
+<span class="sd">        Time series values.</span>
+<span class="sd">    r0 : float | None, optional</span>
+<span class="sd">        Minimum window size :math:`r_0`. Defaults to :func:`psytest.utils.functions.r0_default`.</span>
+<span class="sd">    rstep : float | None, optional</span>
+<span class="sd">        Step size :math:`r_{\\text{step}}`. Defaults to :math:`1/n` where :math:`n` is the size of :paramref:`data`.</span>
+<span class="sd">    kmax : int, optional</span>
+<span class="sd">        Maximum lag :math:`k_{\\max}`. Defaults to KMAX (see :mod:`psytest.utils.defaults`).</span>
+<span class="sd">    minlength : float | None, optional</span>
+<span class="sd">        Minimum bubble length.</span>
+<span class="sd">    delta : float | None, optional</span>
+<span class="sd">        Used to compute default minlength via :math:`\\delta \\log(n)/n`.</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    -------</span>
+<span class="sd">    TypeError</span>
+<span class="sd">        If arguments are not of the expected type.</span>
+<span class="sd">    ValueError</span>
+<span class="sd">        If :paramref:`r0` and :paramref:`rstep` are not in the range (0, 1) or if :paramref:`kmax` is not a positive integer.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">data</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">float64</span><span class="p">],</span>
@@ -387,24 +342,6 @@ document.write(`
         <span class="n">minlength</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">delta</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Class to perform the Phillips, Shi &amp; Yu (2015) test for bubbles in time series data.</span>
-
-<span class="sd">        .. math::</span>
-<span class="sd">            r_0 = \\text{min window}, \\quad r_{\\text{step}} = \\text{step size}, \\quad k_{\\max} = \\text{max lag}</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            data (NDArray[float64]): Time series values.</span>
-<span class="sd">            r0 (float | None, optional): Minimum window size :math:`r_0`. Defaults to `r0_default`.</span>
-<span class="sd">            rstep (float | None, optional): Step size :math:`r_{\\text{step}}`. Defaults to :math:`1/n`.</span>
-<span class="sd">            kmax (int, optional): Maximum lag :math:`k_{\\max}`. Defaults to KMAX (see :ref:`utils.defaults`).</span>
-<span class="sd">            minlength (float | None, optional): Minimum bubble length.</span>
-<span class="sd">            delta (float | None, optional): Used to compute default minlength via :math:`\\delta \\log(n)/n`.</span>
-
-<span class="sd">        Raises:</span>
-<span class="sd">            TypeError: For invalid input types.</span>
-<span class="sd">            ValueError: For invalid input values.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">parsed_args</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="n">parse_psy_arguments</span><span class="p">(</span>
             <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">r0</span><span class="o">=</span><span class="n">r0</span><span class="p">,</span> <span class="n">rstep</span><span class="o">=</span><span class="n">rstep</span><span class="p">,</span> <span class="n">kmax</span><span class="o">=</span><span class="n">kmax</span><span class="p">,</span> <span class="n">minlength</span><span class="o">=</span><span class="n">minlength</span><span class="p">,</span> <span class="n">delta</span><span class="o">=</span><span class="n">delta</span>
         <span class="p">)</span>
@@ -416,52 +353,47 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">kmax</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">parsed_args</span><span class="p">[</span><span class="s2">&quot;kmax&quot;</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">minlength</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">parsed_args</span><span class="p">[</span><span class="s2">&quot;minlength&quot;</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">delta</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">parsed_args</span><span class="p">[</span><span class="s2">&quot;delta&quot;</span><span class="p">]</span>
-
-<div class="viewcode-block" id="PSYBubbles.r2grid">
-<a class="viewcode-back" href="../../psytest.bubbles.html#psytest.PSYBubbles.r2grid">[docs]</a>
-    <span class="k">def</span> <span class="nf">r2grid</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">float64</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Grid of :math:`r_2` values for the BSADF test.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            NDArray[float64]: Grid :math:`\\{r_2\\}` from :math:`r_0` to 1 with step :math:`r_{\\text{step}}`.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">arange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">r0</span><span class="p">,</span> <span class="mi">1</span> <span class="o">+</span> <span class="mf">1e-16</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">rstep</span><span class="p">)</span></div>
-
+        <span class="bp">self</span><span class="o">.</span><span class="n">r2grid</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">float64</span><span class="p">]</span> <span class="o">=</span> <span class="n">arange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">r0</span><span class="p">,</span> <span class="mi">1</span> <span class="o">+</span> <span class="mf">1e-16</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">rstep</span><span class="p">)</span>
 
 <div class="viewcode-block" id="PSYBubbles.teststat">
 <a class="viewcode-back" href="../../psytest.bubbles.html#psytest.PSYBubbles.teststat">[docs]</a>
     <span class="nd">@lru_cache</span><span class="p">(</span><span class="n">maxsize</span><span class="o">=</span><span class="mi">128</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">teststat</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">force</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Retrieves the BSADF test statistic.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieves the BSADF test statistic.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        force : bool, optional</span>
+<span class="sd">            If :literal:`True`, forces recalculation.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        teststat : dictionary with float keys and float values</span>
+<span class="sd">            Test statistics for each :math:`r_2` in :func:`psytest.PSYBubbles.r2grid`.</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        The test statistic is defined as:</span>
 
 <span class="sd">        .. math::</span>
+
 <span class="sd">            \\text{BSADF}_{r_2} = \\max_{r_1 \\in [0, r_2 - r_0]} \\text{ADF}(y_{r_1:r_2})</span>
 
-<span class="sd">        Args:</span>
-<span class="sd">            force (bool, optional): If True, forces recalculation.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            dict[int, float]: Test statistic by :math:`r_2`.</span>
+<span class="sd">        See the original paper for more details.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">force</span><span class="p">,</span> <span class="nb">bool</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;`force` must be a boolean&quot;</span><span class="p">)</span>
-
         <span class="k">if</span> <span class="n">force</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;__teststat&quot;</span><span class="p">):</span>
             <span class="n">stat</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">float64</span><span class="p">]</span> <span class="o">=</span> <span class="n">bsadf_stat_all_series</span><span class="p">(</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">r0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">rstep</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">kmax</span>
             <span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">__teststat</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">r2grid</span><span class="p">(),</span> <span class="n">stat</span><span class="p">))</span>
-
+            <span class="bp">self</span><span class="o">.</span><span class="n">__teststat</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">r2grid</span><span class="p">,</span> <span class="n">stat</span><span class="p">))</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__teststat</span></div>
 
 
     <span class="nd">@overload</span>
     <span class="k">def</span> <span class="nf">critval</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">test_size</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span>
-        <span class="n">fast</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="kc">True</span><span class="p">],</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">test_size</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">fast</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="kc">True</span><span class="p">]</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">float64</span><span class="p">]]:</span> <span class="o">...</span>
 
     <span class="nd">@overload</span>
@@ -483,22 +415,36 @@ document.write(`
         <span class="n">nreps</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">NREPS</span><span class="p">,</span>
         <span class="n">nobs</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">float64</span><span class="p">]]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Retrieves BSADF critical values using Monte Carlo Simulations.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieves BSADF critical values using Monte Carlo Simulations.</span>
 
-<span class="sd">        Args:</span>
-<span class="sd">            test_size (list[float] | float, optional): Significance levels :math:`\\alpha`. Defaults to TEST_SIZE (see .utils.constants)</span>
-<span class="sd">            fast (bool, optional): If True, uses tabulated critical values. Defaults to True.</span>
-<span class="sd">            nreps (int, optional): Number of simulations (required if `fast=False`).</span>
-<span class="sd">            nobs (int | None, optional): Number of observations (used if `fast=False`). Defaults to None, setting it to `self.nobs`.</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        test_size : list[float] | float, optional</span>
+<span class="sd">            Significance levels :math:`\\alpha`. Defaults to TEST_SIZE (see :mod:`psytest.utils.defaults`)</span>
+<span class="sd">        fast : bool, optional</span>
+<span class="sd">            If :literal:`True` (Default), uses tabulated critical values. Otherwise, simulates them using :paramref:`nreps` simulations of size :paramref:`nobs`.</span>
+<span class="sd">        nreps : int, optional</span>
+<span class="sd">            Number of simulations (required if :paramref:`fast` is :literal:`True`).</span>
+<span class="sd">        nobs : int | None, optional</span>
+<span class="sd">            Number of observations (used if :paramref:`fast` is :literal:`False`). Defaults to None, setting it to :paramref:`psytest.PSYBubbles.nobs`.</span>
 
-<span class="sd">        Raises:</span>
-<span class="sd">            TypeError: If `fast` is not a boolean.</span>
-<span class="sd">            TypeError: If `test_size` is not a list or a float.</span>
-<span class="sd">            ValueError: If `test_size` is not in the range (0, 1).</span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        critval : dict</span>
+<span class="sd">            Dictionary with critical values for each :math:`r_2` in :func:`psytest.PSYBubbles.r2grid`. The keys are the :math:`r_2` values and the values are the critical values for the given significance level.</span>
+<span class="sd">            If :paramref:`test_size` is a list, the keys are the :math:`r_2` values and the values are an array of critical values for each significance level.</span>
+<span class="sd">            If :paramref:`test_size` is a float, the keys are the :math:`r_2` values and the values are the critical values for the given significance level.</span>
 
-<span class="sd">        Returns:</span>
-<span class="sd">            dict[int, NDArray[float64]]: Critical values for each :math:`r_2`.</span>
+<span class="sd">        Raises</span>
+<span class="sd">        -------</span>
+<span class="sd">        TypeError</span>
+<span class="sd">            If :paramref:`test_size` is not a float or list of floats, or if :paramref:`fast` is not a boolean.</span>
+<span class="sd">        ValueError</span>
+<span class="sd">            If :paramref:`test_size` is not in the range (0, 1) or if :paramref:`nreps` is not a positive integer.</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        This function uses :code:`functools.lru_cache` to cache the results for faster access. So after the first call, subsequent calls with the same parameters will utilize the cached results to reduce computation time.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">fast</span><span class="p">,</span> <span class="nb">bool</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;`fast` must be a boolean&quot;</span><span class="p">)</span>
@@ -513,40 +459,28 @@ document.write(`
                     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;`test_size` must be in the range (0, 1)&quot;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;`test_size` must be a list of floats or a float&quot;</span><span class="p">)</span>
-
         <span class="k">if</span> <span class="n">fast</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_critval_tabulated</span><span class="p">(</span><span class="n">test_size</span><span class="o">=</span><span class="n">test_size</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_critval_simulated</span><span class="p">(</span>
-                <span class="n">test_size</span><span class="o">=</span><span class="n">test_size</span><span class="p">,</span>
-                <span class="n">nreps</span><span class="o">=</span><span class="n">nreps</span><span class="p">,</span>
-                <span class="n">nobs</span><span class="o">=</span><span class="n">nobs</span><span class="p">,</span>
-            <span class="p">)</span></div>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_critval_simulated</span><span class="p">(</span><span class="n">test_size</span><span class="o">=</span><span class="n">test_size</span><span class="p">,</span> <span class="n">nreps</span><span class="o">=</span><span class="n">nreps</span><span class="p">,</span> <span class="n">nobs</span><span class="o">=</span><span class="n">nobs</span><span class="p">)</span></div>
 
 
     <span class="k">def</span> <span class="nf">_critval_tabulated</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">test_size</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">float64</span><span class="p">]]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Retrieves tabulated critical values for the BSADF test.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            test_size (float | list[float]): Significance levels :math:`\\alpha`.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            dict[float, NDArray[float64]]: Dictionary with critical values for each :math:`r_2`.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">r2grid</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">float64</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">r2grid</span><span class="p">()</span>
+        <span class="n">kmax</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">kmax</span>
+        <span class="n">r0</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">r0</span>
+        <span class="n">r2grid</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">float64</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">r2grid</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">is_available_param</span><span class="p">(</span><span class="n">kmax</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">kmax</span><span class="p">,</span> <span class="n">r0</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">r0</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="s2">&quot;Parameters `kmax` and `r0` are not available for tabulated critical values.&quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;Parameters kmax=</span><span class="si">{</span><span class="n">kmax</span><span class="si">!r}</span><span class="s2"> and r0=</span><span class="si">{</span><span class="n">r0</span><span class="si">!r}</span><span class="s2"> are not available for tabulated critical values.&quot;</span>
             <span class="p">)</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">test_size</span><span class="p">,</span> <span class="nb">float</span><span class="p">):</span>
-            <span class="n">cval</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">float64</span><span class="p">]</span> <span class="o">=</span> <span class="n">critval_tabulated</span><span class="p">(</span>
+            <span class="n">cval</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">float64</span><span class="p">]</span> <span class="o">|</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">critval_tabulated</span><span class="p">(</span>
                 <span class="n">r2grid</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">test_size</span><span class="p">,</span> <span class="n">kmax</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">kmax</span><span class="p">,</span> <span class="n">r0</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">r0</span>
             <span class="p">)</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">test_size</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
-            <span class="n">cval</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">float64</span><span class="p">]</span> <span class="o">=</span> <span class="n">vstack</span><span class="p">(</span>
+            <span class="n">cval</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">float64</span><span class="p">]</span> <span class="o">|</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">vstack</span><span class="p">(</span>
                 <span class="p">[</span>
                     <span class="n">critval_tabulated</span><span class="p">(</span><span class="n">r2grid</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">,</span> <span class="n">kmax</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">kmax</span><span class="p">,</span> <span class="n">r0</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">r0</span><span class="p">)</span>
                     <span class="k">for</span> <span class="n">alpha</span> <span class="ow">in</span> <span class="n">test_size</span>
@@ -557,17 +491,6 @@ document.write(`
     <span class="k">def</span> <span class="nf">_critval_simulated</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">test_size</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">nreps</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">nobs</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">float64</span><span class="p">]]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Retrieves simulated critical values for the BSADF test.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            test_size (float | list[float]): Significance levels :math:`\\alpha`.</span>
-<span class="sd">            nreps (int): Number of simulations.</span>
-<span class="sd">            nobs (int): Number of observations.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            dict[float, NDArray[float64]]: Dictionary with critical values for each :math:`r_2`.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">nreps</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;`nreps` must be an integer&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">nreps</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
@@ -579,7 +502,7 @@ document.write(`
                 <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;`nobs` must be an integer&quot;</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">nobs</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;`nobs` must be greater than 0&quot;</span><span class="p">)</span>
-        <span class="n">r2grid</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">float64</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">r2grid</span><span class="p">()</span>
+        <span class="n">r2grid</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">float64</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">r2grid</span>
         <span class="n">cval</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">float64</span><span class="p">]</span> <span class="o">=</span> <span class="n">bsadfuller_critval</span><span class="p">(</span>
             <span class="n">r0</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">r0</span><span class="p">,</span>
             <span class="n">rstep</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">rstep</span><span class="p">,</span>
@@ -591,20 +514,12 @@ document.write(`
         <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">r2grid</span><span class="p">,</span> <span class="n">cval</span><span class="p">))</span>
 
     <span class="nd">@overload</span>
-    <span class="k">def</span> <span class="nf">find_bubbles</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">alpha</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
-        <span class="n">fast</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="kc">True</span><span class="p">],</span>
-        <span class="n">nreps</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-        <span class="n">nobs</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">object_</span><span class="p">]:</span> <span class="o">...</span>
+    <span class="k">def</span> <span class="nf">find_bubbles</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">fast</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="kc">True</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">NDArray</span><span class="p">:</span> <span class="o">...</span>
 
     <span class="nd">@overload</span>
     <span class="k">def</span> <span class="nf">find_bubbles</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">alpha</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
-        <span class="n">fast</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="kc">False</span><span class="p">],</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">object_</span><span class="p">]:</span> <span class="o">...</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">fast</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="kc">False</span><span class="p">],</span> <span class="n">nreps</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">nobs</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NDArray</span><span class="p">:</span> <span class="o">...</span>
 
 <div class="viewcode-block" id="PSYBubbles.find_bubbles">
 <a class="viewcode-back" href="../../psytest.bubbles.html#psytest.PSYBubbles.find_bubbles">[docs]</a>
@@ -614,28 +529,38 @@ document.write(`
         <span class="n">fast</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="kc">True</span><span class="p">]</span> <span class="o">|</span> <span class="n">Literal</span><span class="p">[</span><span class="kc">False</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
         <span class="n">nreps</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">NREPS</span><span class="p">,</span>
         <span class="n">nobs</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">object_</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Identifies the bubble periods in the time series.</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NDArray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Identifies the bubble periods in the time series.</span>
 
-<span class="sd">        A bubble starts at `r_s` if:</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        alpha : float</span>
+<span class="sd">            Significance level :math:`\\alpha`. Defaults to 0.05.</span>
+<span class="sd">        fast : bool, optional</span>
+<span class="sd">            If :literal:`True` (Default), uses tabulated critical values. Otherwise, simulates them using :paramref:`nreps` simulations of size :paramref:`nobs`.</span>
+<span class="sd">        nreps : int, optional</span>
+<span class="sd">            Number of simulations (required if :paramref:`fast` is :literal:`True`).</span>
+<span class="sd">        nobs : int | None, optional</span>
+<span class="sd">            Number of observations (used if :paramref:`fast` is :literal:`False`). Defaults to None, setting it to :paramref:`psytest.PSYBubbles.nobs`.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        bubbles : :class:`numpy.ndarray`</span>
+<span class="sd">            Array with 2 columns. The first element contains the start time of the bubble, given by the index of the data. The second element contains the end time of the data. If the bubble has not ended by the end of the data, it is set to :class:`None`.</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        The start of a bubble is defined as the point :math:`r_s` where the test statistic exceeds the critical value:</span>
 
 <span class="sd">        .. math::</span>
 <span class="sd">            \\text{BSADF}_{r_s} &gt; \\text{CV}_{r_s, \\alpha}</span>
 
-<span class="sd">        And ends at :math:`r_e &gt; r_f` if:</span>
+<span class="sd">        And the end of a bubble is defined as the point :math:`r_e &gt; r_s` where the test statistic falls below the critical value:</span>
 
 <span class="sd">        .. math::</span>
 <span class="sd">            \\text{BSADF}_{r_e} &lt; \\text{CV}_{r_e, \\alpha}</span>
 
-<span class="sd">        Args:</span>
-<span class="sd">            alpha (float): Significance level :math:`\\alpha`. Defaults to 0.05.</span>
-<span class="sd">            fast (bool): If True, uses tabulated critical values. Defaults to True.</span>
-<span class="sd">            nreps (int | None, optional): Number of simulations (required if `fast=False`). Defaults to NREPS (see :ref:`.utils.constants`).</span>
-<span class="sd">            nobs (int | None): Number of observations (used if `fast=False`). Defaults to None, setting it to `self.nobs`.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            NDArray[object_]: Array of bubble start and end indices.</span>
+<span class="sd">        Following the original paper, we require that the end period be at least :math:`\\text{minlength}` periods after the start period. Therefore, if a bubble start is detected at :math:`r_s`, but ends before :math:`r_s + \\text{minlength}`, it is disregarded.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">alpha</span><span class="p">,</span> <span class="nb">float</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;`alpha` must be a float&quot;</span><span class="p">)</span>
@@ -643,19 +568,21 @@ document.write(`
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;`alpha` must be in the range (0, 1)&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">fast</span><span class="p">,</span> <span class="nb">bool</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;`fast` must be a boolean&quot;</span><span class="p">)</span>
-
         <span class="n">stat</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">teststat</span><span class="p">()</span>
         <span class="n">cval</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">float64</span><span class="p">]]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">critval</span><span class="p">(</span>
-            <span class="n">test_size</span><span class="o">=</span><span class="n">alpha</span><span class="p">,</span> <span class="n">fast</span><span class="o">=</span><span class="n">fast</span><span class="p">,</span> <span class="n">nreps</span><span class="o">=</span><span class="n">nreps</span><span class="p">,</span> <span class="n">nobs</span><span class="o">=</span><span class="n">nobs</span>  <span class="c1"># type: ignore[arg-type]</span>
+            <span class="n">test_size</span><span class="o">=</span><span class="n">alpha</span><span class="p">,</span>
+            <span class="n">fast</span><span class="o">=</span><span class="n">fast</span><span class="p">,</span>  <span class="c1"># type: ignore[assignment]</span>
+            <span class="n">nreps</span><span class="o">=</span><span class="n">nreps</span><span class="p">,</span>
+            <span class="n">nobs</span><span class="o">=</span><span class="n">nobs</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="n">bubble_bool</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">NDArray</span><span class="p">[</span><span class="n">bool_</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[</span><span class="n">stat</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">cval</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">stat</span><span class="o">.</span><span class="n">keys</span><span class="p">()]</span>
         <span class="n">minlength</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nobs</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">minlength</span><span class="p">)</span>
-        <span class="n">bubble_r2index</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">object_</span><span class="p">]</span> <span class="o">=</span> <span class="n">array</span><span class="p">(</span>
+        <span class="n">bubble_r2index</span><span class="p">:</span> <span class="n">NDArray</span> <span class="o">=</span> <span class="n">array</span><span class="p">(</span>
             <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_find_bubble_dates</span><span class="p">(</span><span class="n">bubble_bool</span><span class="p">,</span> <span class="n">minlength</span><span class="p">))</span>
         <span class="p">)</span>
-        <span class="n">bubble_index</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">object_</span><span class="p">]</span> <span class="o">=</span> <span class="n">array</span><span class="p">(</span>
+        <span class="n">bubble_index</span><span class="p">:</span> <span class="n">NDArray</span> <span class="o">=</span> <span class="n">array</span><span class="p">(</span>
             <span class="p">[</span>
-                <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nobs</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">r2grid</span><span class="p">()[</span><span class="n">i</span><span class="p">])</span> <span class="k">if</span> <span class="n">i</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span>
+                <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nobs</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">r2grid</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="k">if</span> <span class="n">i</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span>
                 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">bubble_r2index</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
             <span class="p">]</span>
         <span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
@@ -674,34 +601,55 @@ document.write(`
     <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_pandas</span><span class="p">(</span>
         <span class="bp">cls</span><span class="p">,</span>
-        <span class="n">data</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">float64</span><span class="p">],</span>
-        <span class="n">index</span><span class="p">:</span> <span class="n">NDArray</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">data</span><span class="p">:</span> <span class="n">Series</span><span class="p">,</span>
         <span class="n">r0</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">rstep</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">kmax</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
         <span class="n">minlength</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">delta</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;PSYBubbles&quot;</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Creates a PSYBubbles object from a pandas Series.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Creates a PSYBubbles object from a :class:`pandas.Series`.</span>
 
-<span class="sd">        Args:</span>
-<span class="sd">            data (NDArray[float64]): Time series values.</span>
-<span class="sd">            index (NDArray | None, optional): Index.</span>
-<span class="sd">            r0, rstep, kmax, minlength, delta: See PSYBubbles constructor.</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        data : :class:`pandas.Series` of dtype :class:`numpy.float64`</span>
+<span class="sd">            Time series data.</span>
+<span class="sd">        r0 : float | None, optional</span>
+<span class="sd">            Minimum window size :math:`r_0`. Defaults to `r0_default`.</span>
+<span class="sd">        rstep : float | None, optional</span>
+<span class="sd">            Step size :math:`r_{\\text{step}}`. Defaults to :math:`1/n`.</span>
+<span class="sd">        kmax : int, optional</span>
+<span class="sd">            Maximum lag :math:`k_{\\max}`. Defaults to 0.</span>
+<span class="sd">        minlength : int | None, optional</span>
+<span class="sd">            Minimum bubble length.</span>
+<span class="sd">        delta : float | None, optional</span>
+<span class="sd">            Used to compute default minlength via :math:`\\delta \\log(n)/n`.</span>
 
-<span class="sd">        Returns:</span>
-<span class="sd">            PSYBubbles: Configured object.</span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        psybubbles: PSYBubbles</span>
+<span class="sd">            An instance of the PSYBubbles class with :paramref:`psytest.bubbles.PSYBubbles.index` set to the provided :paramref:`pandas.Series.index`.</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        -------</span>
+<span class="sd">        TypeError</span>
+<span class="sd">            If :paramref:`data` is not a :class:`pandas.Series` or if :paramref:`data` dtype is not of type :class:`numpy.float64`.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">Series</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Data must be a pandas Series&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">data</span><span class="o">.</span><span class="n">dtype</span> <span class="o">==</span> <span class="n">float64</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Data must be of type float64&quot;</span><span class="p">)</span>
+        <span class="n">data_values</span><span class="p">:</span> <span class="n">NDArray</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+        <span class="n">data_index</span><span class="p">:</span> <span class="n">NDArray</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
         <span class="n">obj</span><span class="p">:</span> <span class="n">Self</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">(</span>
-            <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span>
+            <span class="n">data</span><span class="o">=</span><span class="n">data_values</span><span class="p">,</span>
             <span class="n">r0</span><span class="o">=</span><span class="n">r0</span><span class="p">,</span>
             <span class="n">rstep</span><span class="o">=</span><span class="n">rstep</span><span class="p">,</span>
             <span class="n">kmax</span><span class="o">=</span><span class="n">kmax</span><span class="p">,</span>
             <span class="n">minlength</span><span class="o">=</span><span class="n">minlength</span><span class="p">,</span>
             <span class="n">delta</span><span class="o">=</span><span class="n">delta</span><span class="p">,</span>
         <span class="p">)</span>
-        <span class="n">obj</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">index</span>
+        <span class="n">obj</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">data_index</span>
         <span class="k">return</span> <span class="n">obj</span></div>
 
 

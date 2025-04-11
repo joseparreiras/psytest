@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>psytest.sadftest module &#8212; psytest documentation</title>
+    <title>psytest.sadftest module &#8212; psytest 0.1.0 documentation</title>
   
   
   
@@ -139,8 +139,8 @@
       
     
     
-    <img src="_static/bubbles_small.gif" class="logo__image only-light" alt="psytest documentation - Home"/>
-    <script>document.write(`<img src="_static/bubbles_small.gif" class="logo__image only-dark" alt="psytest documentation - Home"/>`);</script>
+    <img src="_static/logo.svg" class="logo__image only-light" alt="psytest 0.1.0 documentation - Home"/>
+    <script>document.write(`<img src="_static/logo.svg" class="logo__image only-dark" alt="psytest 0.1.0 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -169,18 +169,6 @@
 <ul class="nav bd-sidenav">
 <li class="toctree-l1 has-children"><a class="reference internal" href="modules.html">psytest</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="psytest.html">psytest package</a></li>
-<li class="toctree-l2"><a class="reference internal" href="psytest.adftest.html">psytest.adftest module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="psytest.bubbles.html">psytest.bubbles module</a></li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="psytest.critval.html">psytest.critval package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3"><a class="reference internal" href="psytest.critval.critval.html">psytest.critval.critval module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="psytest.critval.critval_parameters.html">psytest.critval.critval_parameters module</a></li>
-</ul>
-</details></li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="psytest.utils.html">psytest.utils package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3"><a class="reference internal" href="psytest.utils.defaults.html">psytest.utils.defaults module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="psytest.utils.functions.html">psytest.utils.functions module</a></li>
-</ul>
-</details></li>
 </ul>
 </details></li>
 </ul>
@@ -378,6 +366,7 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#psytest-sadftest">psytest.sadftest</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#psytest.sadftest.bsadf_stat"><code class="docutils literal notranslate"><span class="pre">bsadf_stat()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#psytest.sadftest.bsadf_stat_all_series"><code class="docutils literal notranslate"><span class="pre">bsadf_stat_all_series()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#psytest.sadftest.make_r2_grid"><code class="docutils literal notranslate"><span class="pre">make_r2_grid()</span></code></a></li>
@@ -397,12 +386,15 @@ document.write(`
                   
   <section id="module-psytest.sadftest">
 <span id="psytest-sadftest-module"></span><h1>psytest.sadftest module<a class="headerlink" href="#module-psytest.sadftest" title="Link to this heading">#</a></h1>
+<section id="psytest-sadftest">
+<h2>psytest.sadftest<a class="headerlink" href="#psytest-sadftest" title="Link to this heading">#</a></h2>
+<p>This module contains the functions related to the Sup ADF test and the Backward Sup ADF test. The functions allow us to calculate both the test statistic and the asymptotic distribution of the test statistic</p>
+<p>See <code class="xref py py-mod docutils literal notranslate"><span class="pre">psytest.adfstat</span></code> for the basic Augmented Dickey-Fuller test.</p>
+</section>
 <dl class="py function">
 <dt class="sig sig-object py" id="psytest.sadftest.bsadf_stat">
 <span class="sig-prename descclassname"><span class="pre">psytest.sadftest.</span></span><span class="sig-name descname"><span class="pre">bsadf_stat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.2)"><span class="pre">ndarray</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.13)"><span class="pre">Any</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.dtype.html#numpy.dtype" title="(in NumPy v2.2)"><span class="pre">dtype</span></a><span class="p"><span class="pre">[</span></span><span class="pre">float64</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">r0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">r2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">kmax</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></span></span><a class="reference internal" href="_modules/psytest/sadftest.html#bsadf_stat"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#psytest.sadftest.bsadf_stat" title="Link to this definition">#</a></dt>
 <dd><p>Calculates the Backward Sup ADF test statistic.</p>
-<div class="math notranslate nohighlight">
-\[\text{BSADF}(r_2) = \max_{r_1 \in [0, r_2 - r_0]} \text{ADF}(y, r_1, r_2)\]</div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -413,12 +405,19 @@ document.write(`
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>BSADF statistic.</p>
+<dd class="field-even"><p><strong>teststat</strong> – BSADF statistic.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)">float</a></p>
 </dd>
 </dl>
+<p class="rubric">Notes</p>
+<p>The Backward Sup ADF statistic is calculated as:
+.. math:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>\<span class="n">text</span><span class="p">{</span><span class="n">BSADF</span><span class="p">}(</span><span class="n">r_2</span><span class="p">)</span> <span class="o">=</span> \<span class="n">max_</span><span class="p">{</span><span class="n">r_1</span> \<span class="ow">in</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">r_2</span> <span class="o">-</span> <span class="n">r_0</span><span class="p">]}</span> \<span class="n">text</span><span class="p">{</span><span class="n">ADF</span><span class="p">}(</span><span class="n">y_</span><span class="p">{</span><span class="n">r_1</span><span class="p">:</span><span class="n">r_2</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>where <span class="math notranslate nohighlight">\(\text{ADF}(y_{r_1:r_2})\)</span> is the Augmented Dickey-Fuller test statistic for the series <span class="math notranslate nohighlight">\(y_{r_1:r_2}\)</span> (see <code class="xref py py-func docutils literal notranslate"><span class="pre">psytest.adfstat.rolling_adfuller_stat()</span></code>).</p>
 </dd></dl>
 
 <dl class="py function">
@@ -435,7 +434,7 @@ document.write(`
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Array of test statistics.</p>
+<dd class="field-even"><p><strong>teststat_array</strong> – Array of test statistics.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>NDArray[float64]</p>
@@ -459,8 +458,6 @@ document.write(`
 <dt class="sig sig-object py" id="psytest.sadftest.make_r1r2_combinations">
 <span class="sig-prename descclassname"><span class="pre">psytest.sadftest.</span></span><span class="sig-name descname"><span class="pre">make_r1r2_combinations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">r0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">rstep</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.2)"><span class="pre">ndarray</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.13)"><span class="pre">Any</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.dtype.html#numpy.dtype" title="(in NumPy v2.2)"><span class="pre">dtype</span></a><span class="p"><span class="pre">[</span></span><span class="pre">float64</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/psytest/sadftest.html#make_r1r2_combinations"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#psytest.sadftest.make_r1r2_combinations" title="Link to this definition">#</a></dt>
 <dd><p>Creates a grid of all (r1, r2) index pairs to evaluate BSADF.</p>
-<div class="math notranslate nohighlight">
-\[r_2 \in [r_0, 1], \quad r_1 \in [0, r_2 - r_0]\]</div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -468,27 +465,28 @@ document.write(`
 <li><p><span class="target" id="psytest.sadftest.make_r1r2_combinations.params.rstep"></span><strong>rstep</strong><a class="paramlink headerlink reference internal" href="#psytest.sadftest.make_r1r2_combinations.params.rstep">¶</a> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a>) – Step size.</p></li>
 </ul>
 </dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Grid of (r1, r2) pairs.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>[float64]</p>
+</dd>
 </dl>
 <p class="rubric">Notes</p>
-<ul class="simple">
-<li><p>Vector size: <span class="math notranslate nohighlight">\(n(n+1)/2\)</span> where <span class="math notranslate nohighlight">\(n = \lfloor (1 - r_0)/rstep \rfloor + 1\)</span></p></li>
-</ul>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Grid of (r1, r2) pairs.</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>NDArray[float64]</p>
-</dd>
-</dl>
+<p>The grid is defined as:
+.. math:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>\<span class="n">text</span><span class="p">{</span><span class="n">grid</span><span class="p">}</span> <span class="o">=</span> \<span class="p">{(</span><span class="n">r_1</span><span class="p">,</span> <span class="n">r_2</span><span class="p">)</span> <span class="p">:</span> <span class="n">r_0</span> \<span class="n">leq</span> <span class="n">r_2</span> \<span class="n">leq</span> <span class="mi">1</span><span class="p">,</span> \<span class="n">quad</span> <span class="n">r_0</span> \<span class="n">leq</span> <span class="n">r_1</span> \<span class="n">leq</span> <span class="n">r_2</span> <span class="o">-</span> <span class="n">r_0</span><span class="p">,</span> \\
+\<span class="n">quad</span> <span class="n">rstep</span> <span class="o">=</span> <span class="p">(</span><span class="n">r_2</span> <span class="o">-</span> <span class="n">r_0</span><span class="p">)</span><span class="o">/</span><span class="n">n</span><span class="p">,</span> \\
+\<span class="n">quad</span> <span class="n">n</span> <span class="o">=</span> \<span class="n">lfloor</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">r_0</span><span class="p">)</span><span class="o">/</span><span class="n">rstep</span> \<span class="n">rfloor</span> <span class="o">+</span> <span class="mi">1</span>\<span class="p">}</span>
+</pre></div>
+</div>
+<p>with <span class="math notranslate nohighlight">\(r_0\)</span> being the minimum index, <span class="math notranslate nohighlight">\(r_2\)</span> being the end index, and <span class="math notranslate nohighlight">\(r_1\)</span> being the start index. The values of <span class="math notranslate nohighlight">\(r_1\)</span> and <span class="math notranslate nohighlight">\(r_2\)</span> are created from a grid with increments of <a class="reference internal" href="#psytest.sadftest.make_r1r2_combinations.params.rstep" title="psytest.sadftest.make_r1r2_combinations"><code class="xref py py-paramref docutils literal notranslate"><span class="pre">rstep</span></code></a>.</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="psytest.sadftest.bsadfuller_critval">
 <span class="sig-prename descclassname"><span class="pre">psytest.sadftest.</span></span><span class="sig-name descname"><span class="pre">bsadfuller_critval</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">r0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">rstep</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">nreps</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">nobs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">test_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Iterable" title="(in Python v3.13)"><span class="pre">Iterable</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">kmax</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.2)"><span class="pre">ndarray</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.13)"><span class="pre">Any</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.dtype.html#numpy.dtype" title="(in NumPy v2.2)"><span class="pre">dtype</span></a><span class="p"><span class="pre">[</span></span><span class="pre">float64</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/psytest/sadftest.html#bsadfuller_critval"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#psytest.sadftest.bsadfuller_critval" title="Link to this definition">#</a></dt>
 <dd><p>Calculates critical values of BSADF statistics from Monte Carlo simulations.</p>
-<div class="math notranslate nohighlight">
-\[\text{CV}_{i,\alpha} = \text{Quantile}_{1 - \alpha}(\text{BSADF}_i)\]</div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -500,12 +498,19 @@ document.write(`
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Critical values matrix.</p>
+<dd class="field-even"><p><strong>critval</strong> – Critical values matrix.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>NDArray[float64]</p>
 </dd>
 </dl>
+<p class="rubric">Notes</p>
+<p>The critical values are calculated as:
+.. math:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>\<span class="n">text</span><span class="p">{</span><span class="n">CV</span><span class="p">}</span><span class="n">_</span><span class="p">{</span><span class="n">i</span><span class="p">,</span>\<span class="n">alpha</span><span class="p">}</span> <span class="o">=</span> \<span class="n">text</span><span class="p">{</span><span class="n">Quantile</span><span class="p">}</span><span class="n">_</span><span class="p">{</span><span class="mi">1</span> <span class="o">-</span> \<span class="n">alpha</span><span class="p">}(</span>\<span class="n">text</span><span class="p">{</span><span class="n">BSADF</span><span class="p">}</span><span class="n">_i</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>where <span class="math notranslate nohighlight">\(\text{BSADF}_i\)</span> is the <span class="math notranslate nohighlight">\(i\)</span>-th simulated BSADF statistic (see <code class="xref py py-func docutils literal notranslate"><span class="pre">psytest.adfstat.bsadf_stat()</span></code>) and <span class="math notranslate nohighlight">\(\text{Quantile}_{1 - \alpha}\)</span> is the quantile function for the distribution of the BSADF statistic.</p>
 </dd></dl>
 
 </section>
@@ -537,6 +542,7 @@ document.write(`
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#psytest-sadftest">psytest.sadftest</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#psytest.sadftest.bsadf_stat"><code class="docutils literal notranslate"><span class="pre">bsadf_stat()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#psytest.sadftest.bsadf_stat_all_series"><code class="docutils literal notranslate"><span class="pre">bsadf_stat_all_series()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#psytest.sadftest.make_r2_grid"><code class="docutils literal notranslate"><span class="pre">make_r2_grid()</span></code></a></li>

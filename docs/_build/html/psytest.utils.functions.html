@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>psytest.utils.functions module &#8212; psytest documentation</title>
+    <title>psytest.utils.functions module &#8212; psytest 0.1.0 documentation</title>
   
   
   
@@ -41,11 +41,11 @@
     <script src="_static/doctools.js?v=9bcbadda"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'psytest.utils.functions';</script>
     <link rel="icon" href="_static/bubbles.gif"/>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="prev" title="psytest.utils.defaults module" href="psytest.utils.defaults.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -137,8 +137,8 @@
       
     
     
-    <img src="_static/bubbles_small.gif" class="logo__image only-light" alt="psytest documentation - Home"/>
-    <script>document.write(`<img src="_static/bubbles_small.gif" class="logo__image only-dark" alt="psytest documentation - Home"/>`);</script>
+    <img src="_static/logo.svg" class="logo__image only-light" alt="psytest 0.1.0 documentation - Home"/>
+    <script>document.write(`<img src="_static/logo.svg" class="logo__image only-dark" alt="psytest 0.1.0 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -164,21 +164,9 @@
             </li>
         </ul>
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Table of Contents</span></p>
-<ul class="current nav bd-sidenav">
-<li class="toctree-l1 current active has-children"><a class="reference internal" href="modules.html">psytest</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="modules.html">psytest</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="psytest.html">psytest package</a></li>
-<li class="toctree-l2"><a class="reference internal" href="psytest.adftest.html">psytest.adftest module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="psytest.bubbles.html">psytest.bubbles module</a></li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="psytest.critval.html">psytest.critval package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3"><a class="reference internal" href="psytest.critval.critval.html">psytest.critval.critval module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="psytest.critval.critval_parameters.html">psytest.critval.critval_parameters module</a></li>
-</ul>
-</details></li>
-<li class="toctree-l2 current active has-children"><a class="reference internal" href="psytest.utils.html">psytest.utils package</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="psytest.utils.defaults.html">psytest.utils.defaults module</a></li>
-<li class="toctree-l3 current active"><a class="current reference internal" href="#">psytest.utils.functions module</a></li>
-</ul>
-</details></li>
 </ul>
 </details></li>
 </ul>
@@ -353,7 +341,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
 </div></div>
       
     </div>
@@ -369,6 +359,20 @@ document.write(`
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#psytest-utils-functions">psytest.utils.functions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#psytest.utils.functions.r0_default"><code class="docutils literal notranslate"><span class="pre">r0_default()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#psytest.utils.functions.minlength_default"><code class="docutils literal notranslate"><span class="pre">minlength_default()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#psytest.utils.functions.random_walk"><code class="docutils literal notranslate"><span class="pre">random_walk()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#psytest.utils.functions.simulate_markov"><code class="docutils literal notranslate"><span class="pre">simulate_markov()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#psytest.utils.functions.size_rgrid"><code class="docutils literal notranslate"><span class="pre">size_rgrid()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#psytest.utils.functions.parse_psy_arguments"><code class="docutils literal notranslate"><span class="pre">parse_psy_arguments()</span></code></a></li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -378,8 +382,172 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="psytest-utils-functions-module">
-<h1>psytest.utils.functions module<a class="headerlink" href="#psytest-utils-functions-module" title="Link to this heading">#</a></h1>
+  <section id="module-psytest.utils.functions">
+<span id="psytest-utils-functions-module"></span><h1>psytest.utils.functions module<a class="headerlink" href="#module-psytest.utils.functions" title="Link to this heading">#</a></h1>
+<section id="psytest-utils-functions">
+<h2>psytest.utils.functions<a class="headerlink" href="#psytest-utils-functions" title="Link to this heading">#</a></h2>
+<p>This module contains utility functions for the psytest package.
+It includes functions for generating random walks, simulating Markov processes, and calculating default parameters for bubble detection.
+It should NOT be used directly by users and is solely intended for internal use within the psytest package and testing purposes.</p>
+</section>
+<dl class="py function">
+<dt class="sig sig-object py" id="psytest.utils.functions.r0_default">
+<span class="sig-prename descclassname"><span class="pre">psytest.utils.functions.</span></span><span class="sig-name descname"><span class="pre">r0_default</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nobs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a></span></span><a class="reference internal" href="_modules/psytest/utils/functions.html#r0_default"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#psytest.utils.functions.r0_default" title="Link to this definition">#</a></dt>
+<dd><p>Calculates the default <code class="code docutils literal notranslate"><span class="pre">r0</span></code> parameter following Phillips, Shi &amp; Yu (2015) as a function of the number of observations.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="target" id="psytest.utils.functions.r0_default.params.nobs"></span><strong>nobs</strong><a class="paramlink headerlink reference internal" href="#psytest.utils.functions.r0_default.params.nobs">¶</a> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><em>int</em></a>) – Number of observations</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>default_r0</strong> – The default <code class="code docutils literal notranslate"><span class="pre">r0</span></code> parameter</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)">int</a></p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<div class="math notranslate nohighlight">
+\[r_0 = 0.01 \times 0.08 \times \sqrt{n}\]</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="psytest.utils.functions.minlength_default">
+<span class="sig-prename descclassname"><span class="pre">psytest.utils.functions.</span></span><span class="sig-name descname"><span class="pre">minlength_default</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nobs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">delta</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a></span></span><a class="reference internal" href="_modules/psytest/utils/functions.html#minlength_default"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#psytest.utils.functions.minlength_default" title="Link to this definition">#</a></dt>
+<dd><p>Calculates the minimum bubble length based on the number of observations.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><span class="target" id="psytest.utils.functions.minlength_default.params.nobs"></span><strong>nobs</strong><a class="paramlink headerlink reference internal" href="#psytest.utils.functions.minlength_default.params.nobs">¶</a> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><em>int</em></a>) – Number of observations</p></li>
+<li><p><span class="target" id="psytest.utils.functions.minlength_default.params.delta"></span><strong>delta</strong><a class="paramlink headerlink reference internal" href="#psytest.utils.functions.minlength_default.params.delta">¶</a> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a>) – Multiplier parameter for bubble length</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>minlength</strong> – Minimum bubble length</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)">int</a></p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<div class="math notranslate nohighlight">
+\[\text{min\_length} = \frac{\delta \log(n)}{n}\]</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="psytest.utils.functions.random_walk">
+<span class="sig-prename descclassname"><span class="pre">psytest.utils.functions.</span></span><span class="sig-name descname"><span class="pre">random_walk</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nreps</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">nobs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.2)"><span class="pre">ndarray</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.13)"><span class="pre">Any</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.dtype.html#numpy.dtype" title="(in NumPy v2.2)"><span class="pre">dtype</span></a><span class="p"><span class="pre">[</span></span><span class="pre">float64</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/psytest/utils/functions.html#random_walk"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#psytest.utils.functions.random_walk" title="Link to this definition">#</a></dt>
+<dd><p>Generates a monte carlo simulation of random walks.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><span class="target" id="psytest.utils.functions.random_walk.params.nreps"></span><strong>nreps</strong><a class="paramlink headerlink reference internal" href="#psytest.utils.functions.random_walk.params.nreps">¶</a> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><em>int</em></a>) – Number of repetitions.</p></li>
+<li><p><span class="target" id="psytest.utils.functions.random_walk.params.nobs"></span><strong>nobs</strong><a class="paramlink headerlink reference internal" href="#psytest.utils.functions.random_walk.params.nobs">¶</a> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><em>int</em></a>) – Number of observations.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>random_walk_matrix</strong> – Matrix of shape (<a class="reference internal" href="#psytest.utils.functions.random_walk.params.nreps" title="psytest.utils.functions.random_walk"><code class="xref py py-paramref docutils literal notranslate"><span class="pre">nreps</span></code></a>, <a class="reference internal" href="#psytest.utils.functions.random_walk.params.nobs" title="psytest.utils.functions.random_walk"><code class="xref py py-paramref docutils literal notranslate"><span class="pre">nobs</span></code></a>) with the random walks.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>NDArray[float64]</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<div class="math notranslate nohighlight">
+\[RW_{i, t} = \sum_{s=1}^{t} \frac{\varepsilon_{i, s}}{\sqrt{n}}\]</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="psytest.utils.functions.simulate_markov">
+<span class="sig-prename descclassname"><span class="pre">psytest.utils.functions.</span></span><span class="sig-name descname"><span class="pre">simulate_markov</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nobs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">p</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.975</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta_list</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[1.01,</span> <span class="pre">1]</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.13)"><span class="pre">tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.2)"><span class="pre">ndarray</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.13)"><span class="pre">Any</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.dtype.html#numpy.dtype" title="(in NumPy v2.2)"><span class="pre">dtype</span></a><span class="p"><span class="pre">[</span></span><span class="pre">float64</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.2)"><span class="pre">ndarray</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.13)"><span class="pre">Any</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.dtype.html#numpy.dtype" title="(in NumPy v2.2)"><span class="pre">dtype</span></a><span class="p"><span class="pre">[</span></span><span class="pre">float64</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/psytest/utils/functions.html#simulate_markov"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#psytest.utils.functions.simulate_markov" title="Link to this definition">#</a></dt>
+<dd><p>Simulates a two regime AR(1) process with a Markov switching beta.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><span class="target" id="psytest.utils.functions.simulate_markov.params.nobs"></span><strong>nobs</strong><a class="paramlink headerlink reference internal" href="#psytest.utils.functions.simulate_markov.params.nobs">¶</a> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><em>int</em></a>) – Number of observations for the process</p></li>
+<li><p><span class="target" id="psytest.utils.functions.simulate_markov.params.p"></span><strong>p</strong><a class="paramlink headerlink reference internal" href="#psytest.utils.functions.simulate_markov.params.p">¶</a> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a><em>, </em><em>optional</em>) – Probability of staying in the same regime. Defaults to 0.975.</p></li>
+<li><p><span class="target" id="psytest.utils.functions.simulate_markov.params.beta_list"></span><strong>beta_list</strong><a class="paramlink headerlink reference internal" href="#psytest.utils.functions.simulate_markov.params.beta_list">¶</a> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a><em>]</em><em>, </em><em>optional</em>) – List of <span class="math notranslate nohighlight">\(\beta\)</span> values for the regimes. Defaults to [1.01, 1].</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>[list[float], list[float]]</strong> – the first one with the beta values and the second one with the simulated process values.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A tuple containing two lists</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>The process is defined as:
+.. math:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">y_t</span> <span class="o">=</span> \<span class="n">beta_t</span> <span class="n">y_</span><span class="p">{</span><span class="n">t</span><span class="o">-</span><span class="mi">1</span><span class="p">}</span> <span class="o">+</span> \<span class="n">varepsilon_t</span>
+</pre></div>
+</div>
+<p>where <span class="math notranslate nohighlight">\(\varepsilon_t \sim \mathcal{N}(0, 1)\)</span> and <span class="math notranslate nohighlight">\(\beta_t\)</span> is a Markov switching variable that takes values from <a class="reference internal" href="#psytest.utils.functions.simulate_markov.params.beta_list" title="psytest.utils.functions.simulate_markov"><code class="xref py py-paramref docutils literal notranslate"><span class="pre">beta_list</span></code></a>.
+The transition probability is defined by <a class="reference internal" href="#psytest.utils.functions.simulate_markov.params.p" title="psytest.utils.functions.simulate_markov"><code class="xref py py-paramref docutils literal notranslate"><span class="pre">p</span></code></a>, which is the probability of staying in the same regime.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.13)"><strong>TypeError</strong></a> – If <a class="reference internal" href="#psytest.utils.functions.simulate_markov.params.beta_list" title="psytest.utils.functions.simulate_markov"><code class="xref py py-paramref docutils literal notranslate"><span class="pre">beta_list</span></code></a> is not a list; <a class="reference internal" href="#psytest.utils.functions.simulate_markov.params.nobs" title="psytest.utils.functions.simulate_markov"><code class="xref py py-paramref docutils literal notranslate"><span class="pre">nobs</span></code></a> is not an integer; <a class="reference internal" href="#psytest.utils.functions.simulate_markov.params.p" title="psytest.utils.functions.simulate_markov"><code class="xref py py-paramref docutils literal notranslate"><span class="pre">p</span></code></a> is not a float.</p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.13)"><strong>ValueError</strong></a> – If <a class="reference internal" href="#psytest.utils.functions.simulate_markov.params.beta_list" title="psytest.utils.functions.simulate_markov"><code class="xref py py-paramref docutils literal notranslate"><span class="pre">beta_list</span></code></a> does not have length 2; <a class="reference internal" href="#psytest.utils.functions.simulate_markov.params.nobs" title="psytest.utils.functions.simulate_markov"><code class="xref py py-paramref docutils literal notranslate"><span class="pre">nobs</span></code></a> is less than 1; <a class="reference internal" href="#psytest.utils.functions.simulate_markov.params.p" title="psytest.utils.functions.simulate_markov"><code class="xref py py-paramref docutils literal notranslate"><span class="pre">p</span></code></a> is not between 0 and 1.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="psytest.utils.functions.size_rgrid">
+<span class="sig-prename descclassname"><span class="pre">psytest.utils.functions.</span></span><span class="sig-name descname"><span class="pre">size_rgrid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">r0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">rstep</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a></span></span><a class="reference internal" href="_modules/psytest/utils/functions.html#size_rgrid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#psytest.utils.functions.size_rgrid" title="Link to this definition">#</a></dt>
+<dd><p>Calculates the size of the rgrid starting at <a class="reference internal" href="#psytest.utils.functions.size_rgrid.params.r0" title="psytest.utils.functions.size_rgrid"><code class="xref py py-paramref docutils literal notranslate"><span class="pre">r0</span></code></a> and with step <a class="reference internal" href="#psytest.utils.functions.size_rgrid.params.rstep" title="psytest.utils.functions.size_rgrid"><code class="xref py py-paramref docutils literal notranslate"><span class="pre">rstep</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><span class="target" id="psytest.utils.functions.size_rgrid.params.r0"></span><strong>r0</strong><a class="paramlink headerlink reference internal" href="#psytest.utils.functions.size_rgrid.params.r0">¶</a> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a>) – Minimum index to evaluate the test statistics.</p></li>
+<li><p><span class="target" id="psytest.utils.functions.size_rgrid.params.rstep"></span><strong>rstep</strong><a class="paramlink headerlink reference internal" href="#psytest.utils.functions.size_rgrid.params.rstep">¶</a> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a>) – Step size for the index.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>size</strong> – Size of the rgrid.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)">int</a></p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>The size is calculated as:
+.. math:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>\<span class="n">text</span><span class="p">{</span><span class="n">size</span><span class="p">}</span> <span class="o">=</span> \<span class="n">left</span>\<span class="n">lfloor</span> \<span class="n">frac</span><span class="p">{</span><span class="mi">1</span> <span class="o">-</span> <span class="n">r_0</span><span class="p">}{</span>\<span class="n">text</span><span class="p">{</span><span class="n">rstep</span><span class="p">}}</span> \<span class="n">right</span>\<span class="n">rfloor</span> <span class="o">+</span> <span class="mi">1</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="psytest.utils.functions.parse_psy_arguments">
+<span class="sig-prename descclassname"><span class="pre">psytest.utils.functions.</span></span><span class="sig-name descname"><span class="pre">parse_psy_arguments</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.13)"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/psytest/utils/functions.html#parse_psy_arguments"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#psytest.utils.functions.parse_psy_arguments" title="Link to this definition">#</a></dt>
+<dd><p>Parses the arguments for the <a class="reference internal" href="psytest.bubbles.html#psytest.bubbles.PSYBubbles" title="psytest.bubbles.PSYBubbles"><code class="xref py py-class docutils literal notranslate"><span class="pre">psytest.bubbles.PSYBubbles</span></code></a> class and raises errors if they are invalid.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="target" id="psytest.utils.functions.parse_psy_arguments.params.**kwargs"></span><strong>**kwargs</strong><a class="paramlink headerlink reference internal" href="#psytest.utils.functions.parse_psy_arguments.params.**kwargs">¶</a> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><em>dict</em></a>) – Keyword arguments containing the parameters to be validated.
+- data: 1D array-like of numbers
+- r0: float, default is calculated using <cite>r0_default</cite>
+- rstep: float, default is 1 / len(data)
+- kmax: int, default is KMAX
+- minlength: float, default is calculated using <cite>minlength_default</cite>
+- delta: float, default is None</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A dictionary with the validated parameters.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)">dict</a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a>, Any]</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.13)"><strong>TypeError</strong></a> – If any of the parameters are of the wrong type.</p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.13)"><strong>ValueError</strong></a> – If <code class="code docutils literal notranslate"><span class="pre">data</span></code> is not a 1D array, if <code class="code docutils literal notranslate"><span class="pre">r0</span></code> is not in the range [0, 1], if <code class="code docutils literal notranslate"><span class="pre">rstep</span></code> is not in the range (0, 1], if <code class="code docutils literal notranslate"><span class="pre">kmax</span></code> is not an integer or is out of bounds, if <code class="code docutils literal notranslate"><span class="pre">minlength</span></code> or <code class="code docutils literal notranslate"><span class="pre">delta</span></code> are not valid floats.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 
 
@@ -393,21 +561,33 @@ document.write(`
                 <footer class="prev-next-footer d-print-none">
                   
 <div class="prev-next-area">
-    <a class="left-prev"
-       href="psytest.utils.defaults.html"
-       title="previous page">
-      <i class="fa-solid fa-angle-left"></i>
-      <div class="prev-next-info">
-        <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">psytest.utils.defaults module</p>
-      </div>
-    </a>
 </div>
                 </footer>
               
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#psytest-utils-functions">psytest.utils.functions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#psytest.utils.functions.r0_default"><code class="docutils literal notranslate"><span class="pre">r0_default()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#psytest.utils.functions.minlength_default"><code class="docutils literal notranslate"><span class="pre">minlength_default()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#psytest.utils.functions.random_walk"><code class="docutils literal notranslate"><span class="pre">random_walk()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#psytest.utils.functions.simulate_markov"><code class="docutils literal notranslate"><span class="pre">simulate_markov()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#psytest.utils.functions.size_rgrid"><code class="docutils literal notranslate"><span class="pre">size_rgrid()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#psytest.utils.functions.parse_psy_arguments"><code class="docutils literal notranslate"><span class="pre">parse_psy_arguments()</span></code></a></li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>

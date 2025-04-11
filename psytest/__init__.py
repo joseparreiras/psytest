@@ -7,9 +7,8 @@ Usage
 -----
 
 Load the package and create an instance of the :class:`psytest.bubbles.PSYBubbles` class:
-```python
-from psytest import PSYBubbles
-```
+
+>>> from psytest import PSYBubbles
 
 Load your data (formatted as a :class:`numpy.ndarray`) to an instance of the :class:`psytest.bubbles.PSYBubbles` class:
 

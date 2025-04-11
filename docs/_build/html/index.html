@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>psytest documentation &#8212; psytest documentation</title>
+    <title>psytest documentation &#8212; psytest 0.1.0 documentation</title>
   
   
   
@@ -139,8 +139,8 @@
       
     
     
-    <img src="_static/bubbles_small.gif" class="logo__image only-light" alt="psytest documentation - Home"/>
-    <script>document.write(`<img src="_static/bubbles_small.gif" class="logo__image only-dark" alt="psytest documentation - Home"/>`);</script>
+    <img src="_static/logo.svg" class="logo__image only-light" alt="psytest 0.1.0 documentation - Home"/>
+    <script>document.write(`<img src="_static/logo.svg" class="logo__image only-dark" alt="psytest 0.1.0 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -169,18 +169,6 @@
 <ul class="nav bd-sidenav">
 <li class="toctree-l1 has-children"><a class="reference internal" href="modules.html">psytest</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="psytest.html">psytest package</a></li>
-<li class="toctree-l2"><a class="reference internal" href="psytest.adftest.html">psytest.adftest module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="psytest.bubbles.html">psytest.bubbles module</a></li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="psytest.critval.html">psytest.critval package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3"><a class="reference internal" href="psytest.critval.critval.html">psytest.critval.critval module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="psytest.critval.critval_parameters.html">psytest.critval.critval_parameters module</a></li>
-</ul>
-</details></li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="psytest.utils.html">psytest.utils package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3"><a class="reference internal" href="psytest.utils.defaults.html">psytest.utils.defaults module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="psytest.utils.functions.html">psytest.utils.functions module</a></li>
-</ul>
-</details></li>
 </ul>
 </details></li>
 </ul>
@@ -380,10 +368,8 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <a class="reference internal image-reference" href="_images/bubbles.gif"><img alt="Bubble animation" src="_images/bubbles.gif" style="width: 300px;" />
-</a>
-<section id="psytest-documentation">
-<h1><cite>psytest</cite> documentation<a class="headerlink" href="#psytest-documentation" title="Link to this heading">#</a></h1>
+  <section id="psytest-documentation">
+<h1><code class="code docutils literal notranslate"><span class="pre">psytest</span></code> documentation<a class="headerlink" href="#psytest-documentation" title="Link to this heading">#</a></h1>
 <p>This is the documentation for the <cite>psytest</cite> package, a Python testing framework that applies the methodology of <span id="id1">[<a class="reference internal" href="#id3" title="Peter CB Phillips, Shu-Ping Shi, and Jun Yu. Testing for multiple bubbles. Working Paper, 2011.">1</a>]</span> (<em>PSY</em>) to test for the presence of multiple bubbles in a dataset.</p>
 <p>A bubble is defined as a period of explosive growth above a unit root in the time series for a consistent period of time.</p>
 <p>The main test in the package is the Backward Sup Augmented Dickey Fuller (<em>BSADF</em>) test of <em>PSY</em>. This test consists of applying the Augmented Dickey Fuller (<em>ADF</em>) test to an backward expanding window of the time series at each point in time to identify the presence of bubbles. A bubble is detected once this test rises above the critical value and ends when it returns to the region of non-rejection of the null hypothesis.</p>
@@ -401,50 +387,10 @@ document.write(`
 <li class="toctree-l1"><a class="reference internal" href="modules.html">psytest</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="psytest.html">psytest package</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="psytest.html#module-psytest">Module contents</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="psytest.html#psytest">psytest</a></li>
 <li class="toctree-l4"><a class="reference internal" href="psytest.html#psytest.PSYBubbles"><code class="docutils literal notranslate"><span class="pre">PSYBubbles</span></code></a></li>
 </ul>
 </li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="psytest.adftest.html">psytest.adftest module</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="psytest.adftest.html#psytest.adftest.adfuller_stat"><code class="docutils literal notranslate"><span class="pre">adfuller_stat()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="psytest.adftest.html#psytest.adftest.adfuller_dist"><code class="docutils literal notranslate"><span class="pre">adfuller_dist()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="psytest.adftest.html#psytest.adftest.rolling_adfuller_stat"><code class="docutils literal notranslate"><span class="pre">rolling_adfuller_stat()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="psytest.adftest.html#psytest.adftest.rolling_adfuller_cdf"><code class="docutils literal notranslate"><span class="pre">rolling_adfuller_cdf()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="psytest.bubbles.html">psytest.bubbles module</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="psytest.bubbles.html#psytest.bubbles.parse_psy_arguments"><code class="docutils literal notranslate"><span class="pre">parse_psy_arguments()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="psytest.bubbles.html#psytest.bubbles.PSYBubbles"><code class="docutils literal notranslate"><span class="pre">PSYBubbles</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="psytest.bubbles.html#psytest.bubbles.PSYBubbles.r2grid"><code class="docutils literal notranslate"><span class="pre">PSYBubbles.r2grid()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="psytest.bubbles.html#psytest.bubbles.PSYBubbles.teststat"><code class="docutils literal notranslate"><span class="pre">PSYBubbles.teststat()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="psytest.bubbles.html#psytest.bubbles.PSYBubbles.critval"><code class="docutils literal notranslate"><span class="pre">PSYBubbles.critval()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="psytest.bubbles.html#psytest.bubbles.PSYBubbles.find_bubbles"><code class="docutils literal notranslate"><span class="pre">PSYBubbles.find_bubbles()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="psytest.bubbles.html#psytest.bubbles.PSYBubbles.from_pandas"><code class="docutils literal notranslate"><span class="pre">PSYBubbles.from_pandas()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="psytest.critval.html">psytest.critval package</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="psytest.critval.html#submodules">Submodules</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="psytest.critval.critval.html">psytest.critval.critval module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="psytest.critval.critval_parameters.html">psytest.critval.critval_parameters module</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="psytest.critval.html#module-psytest.critval">Module contents</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="psytest.critval.html#psytest.critval.critval_tabulated"><code class="docutils literal notranslate"><span class="pre">critval_tabulated()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="psytest.critval.html#psytest.critval.is_available_param"><code class="docutils literal notranslate"><span class="pre">is_available_param()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="psytest.utils.html">psytest.utils package</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="psytest.utils.html#submodules">Submodules</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="psytest.utils.defaults.html">psytest.utils.defaults module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="psytest.utils.functions.html">psytest.utils.functions module</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="psytest.utils.html#module-psytest.utils">Module contents</a></li>
 </ul>
 </li>
 </ul>

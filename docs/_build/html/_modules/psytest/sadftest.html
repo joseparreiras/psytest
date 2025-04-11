@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>psytest.sadftest &#8212; psytest documentation</title>
+    <title>psytest.sadftest &#8212; psytest 0.1.0 documentation</title>
   
   
   
@@ -137,8 +137,8 @@
       
     
     
-    <img src="../../_static/bubbles_small.gif" class="logo__image only-light" alt="psytest documentation - Home"/>
-    <script>document.write(`<img src="../../_static/bubbles_small.gif" class="logo__image only-dark" alt="psytest documentation - Home"/>`);</script>
+    <img src="../../_static/logo.svg" class="logo__image only-light" alt="psytest 0.1.0 documentation - Home"/>
+    <script>document.write(`<img src="../../_static/logo.svg" class="logo__image only-dark" alt="psytest 0.1.0 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -167,18 +167,6 @@
 <ul class="nav bd-sidenav">
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../modules.html">psytest</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../psytest.html">psytest package</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../psytest.adftest.html">psytest.adftest module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../psytest.bubbles.html">psytest.bubbles module</a></li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../../psytest.critval.html">psytest.critval package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../psytest.critval.critval.html">psytest.critval.critval module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../psytest.critval.critval_parameters.html">psytest.critval.critval_parameters module</a></li>
-</ul>
-</details></li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../../psytest.utils.html">psytest.utils package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../psytest.utils.defaults.html">psytest.utils.defaults module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../psytest.utils.functions.html">psytest.utils.functions module</a></li>
-</ul>
-</details></li>
 </ul>
 </details></li>
 </ul>
@@ -299,19 +287,18 @@ document.write(`
                 <article class="bd-article">
                   
   <h1>Source code for psytest.sadftest</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">.adftest</span> <span class="kn">import</span> <span class="p">(</span>
-    <span class="n">rolling_adfuller_stat</span><span class="p">,</span>
-<span class="p">)</span>
+<span></span><span class="sd">&quot;&quot;&quot;psytest.sadftest</span>
+<span class="sd">=================</span>
+
+<span class="sd">This module contains the functions related to the Sup ADF test and the Backward Sup ADF test. The functions allow us to calculate both the test statistic and the asymptotic distribution of the test statistic</span>
+
+<span class="sd">See :mod:`psytest.adfstat` for the basic Augmented Dickey-Fuller test.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">.adftest</span> <span class="kn">import</span> <span class="n">rolling_adfuller_stat</span>
 <span class="kn">from</span> <span class="nn">.utils.functions</span> <span class="kn">import</span> <span class="n">random_walk</span><span class="p">,</span> <span class="n">size_rgrid</span>
 <span class="kn">from</span> <span class="nn">numpy.typing</span> <span class="kn">import</span> <span class="n">NDArray</span>
-<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="p">(</span>
-    <span class="n">float64</span><span class="p">,</span>
-    <span class="n">inf</span><span class="p">,</span>
-    <span class="n">repeat</span><span class="p">,</span>
-    <span class="n">arange</span><span class="p">,</span>
-    <span class="n">array</span><span class="p">,</span>
-    <span class="n">quantile</span><span class="p">,</span>
-<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">float64</span><span class="p">,</span> <span class="n">inf</span><span class="p">,</span> <span class="n">repeat</span><span class="p">,</span> <span class="n">arange</span><span class="p">,</span> <span class="n">array</span><span class="p">,</span> <span class="n">quantile</span>
 <span class="kn">from</span> <span class="nn">collections.abc</span> <span class="kn">import</span> <span class="n">Iterable</span>
 <span class="kn">from</span> <span class="nn">deprecation</span> <span class="kn">import</span> <span class="n">deprecated</span>
 <span class="kn">from</span> <span class="nn">numba</span> <span class="kn">import</span> <span class="n">njit</span><span class="p">,</span> <span class="n">prange</span>
@@ -320,20 +307,32 @@ document.write(`
 <span class="nd">@deprecated</span>
 <span class="nd">@njit</span><span class="p">(</span><span class="n">parallel</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">sadfuller_stat</span><span class="p">(</span><span class="n">y</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">float64</span><span class="p">],</span> <span class="n">r0</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">rstep</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">kmax</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Calculates the Sup ADF statistic by rolling over the interval [r0, 1].</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Calculates the Sup ADF statistic by rolling over the interval [0, 1].</span>
 
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    y : NDArray[float64]</span>
+<span class="sd">        Time series values.</span>
+<span class="sd">    r0 : float</span>
+<span class="sd">        Minimum index.</span>
+<span class="sd">    rstep : float</span>
+<span class="sd">        Step size.</span>
+<span class="sd">    kmax : int</span>
+<span class="sd">        Max lag.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    teststat: float</span>
+<span class="sd">        Sup ADF statistic.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The Sup ADF statistic is calculated as:</span>
 <span class="sd">    .. math::</span>
-<span class="sd">        \\sup_{r \\in [r_0, 1]} \\text{ADF}(y_{0:r})</span>
 
-<span class="sd">    Args:</span>
-<span class="sd">        y (NDArray[float64]): Time series values.</span>
-<span class="sd">        r0 (float): Minimum index.</span>
-<span class="sd">        rstep (float): Step size.</span>
-<span class="sd">        kmax (int): Max lag.</span>
+<span class="sd">        \\text{SADF} = \\max_{r \\in [r_0, 1]} \\text{ADF}(y_{0:r})</span>
 
-<span class="sd">    Returns:</span>
-<span class="sd">        float: Sup ADF statistic.</span>
+<span class="sd">    where :math:`\\text{ADF}(y_{0:r})` is the Augmented Dickey-Fuller test statistic for the series :math:`y_{0:r}` (see :func:`psytest.adfstat.rolling_adfuller_stat`).</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">stat</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="o">-</span><span class="n">inf</span>
     <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">prange</span><span class="p">(</span><span class="n">r0</span><span class="p">,</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">rstep</span><span class="p">,</span> <span class="n">rstep</span><span class="p">):</span>
@@ -345,16 +344,21 @@ document.write(`
 <span class="k">def</span> <span class="nf">__sadfuller_dist_from_random_walks__</span><span class="p">(</span>
     <span class="n">random_walks</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">float64</span><span class="p">],</span> <span class="n">r0</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">rstep</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">kmax</span><span class="p">:</span> <span class="nb">int</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">float64</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Calculates the asymptotic distribution of the Sup ADF test statistics based on a series of simulated random walks.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Calculates the asymptotic distribution of the Sup ADF test statistics based on a series of simulated random walks.</span>
 
-<span class="sd">    Args:</span>
-<span class="sd">        random_walks (NDArray[float64]): Simulated random walks of size (nreps, nobs).</span>
-<span class="sd">        r0 (float): Minimum index.</span>
-<span class="sd">        rstep (float): Step size.</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    random_walks : NDArray[float64]</span>
+<span class="sd">        Simulated random walks of size (nreps, nobs).</span>
+<span class="sd">    r0 : float</span>
+<span class="sd">        Minimum index.</span>
+<span class="sd">    rstep : float</span>
+<span class="sd">        Step size.</span>
 
-<span class="sd">    Returns:</span>
-<span class="sd">        NDArray[float64]: Distribution matrix of Sup ADF statistics.</span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    distribution: NDArray[float64]</span>
+<span class="sd">        Distribution matrix of Sup ADF statistics.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">nreps</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">random_walks</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
     <span class="n">r1r2_grid</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">float64</span><span class="p">]</span> <span class="o">=</span> <span class="n">make_r1r2_combinations</span><span class="p">(</span><span class="n">r0</span><span class="p">,</span> <span class="n">rstep</span><span class="p">)</span>
@@ -377,20 +381,32 @@ document.write(`
 <a class="viewcode-back" href="../../psytest.sadftest.html#psytest.sadftest.bsadf_stat">[docs]</a>
 <span class="nd">@njit</span><span class="p">(</span><span class="n">parallel</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">bsadf_stat</span><span class="p">(</span><span class="n">y</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">float64</span><span class="p">],</span> <span class="n">r0</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">r2</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">kmax</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Calculates the Backward Sup ADF test statistic.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Calculates the Backward Sup ADF test statistic.</span>
 
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    y : NDArray[float64]</span>
+<span class="sd">        Time series values.</span>
+<span class="sd">    r0 : float</span>
+<span class="sd">        Minimum index.</span>
+<span class="sd">    r2 : float</span>
+<span class="sd">        End index.</span>
+<span class="sd">    kmax : int</span>
+<span class="sd">        Max lag.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    teststat: float</span>
+<span class="sd">        BSADF statistic.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The Backward Sup ADF statistic is calculated as:</span>
 <span class="sd">    .. math::</span>
-<span class="sd">        \\text{BSADF}(r_2) = \\max_{r_1 \\in [0, r_2 - r_0]} \\text{ADF}(y, r_1, r_2)</span>
 
-<span class="sd">    Args:</span>
-<span class="sd">        y (NDArray[float64]): Time series values.</span>
-<span class="sd">        r0 (float): Minimum index.</span>
-<span class="sd">        r2 (float): End index.</span>
-<span class="sd">        kmax (int): Max lag.</span>
+<span class="sd">        \\text{BSADF}(r_2) = \\max_{r_1 \\in [0, r_2 - r_0]} \\text{ADF}(y_{r_1:r_2})</span>
 
-<span class="sd">    Returns:</span>
-<span class="sd">        float: BSADF statistic.</span>
+<span class="sd">    where :math:`\\text{ADF}(y_{r_1:r_2})` is the Augmented Dickey-Fuller test statistic for the series :math:`y_{r_1:r_2}` (see :func:`psytest.adfstat.rolling_adfuller_stat`).</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">stat</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="o">-</span><span class="n">inf</span>
     <span class="k">for</span> <span class="n">r1</span> <span class="ow">in</span> <span class="n">prange</span><span class="p">(</span><span class="n">r2</span> <span class="o">-</span> <span class="n">r0</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
@@ -405,17 +421,23 @@ document.write(`
 <span class="k">def</span> <span class="nf">bsadf_stat_all_series</span><span class="p">(</span>
     <span class="n">y</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">float64</span><span class="p">],</span> <span class="n">r0</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">rstep</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">kmax</span><span class="p">:</span> <span class="nb">int</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">float64</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Calculates BSADF statistics over all possible (r1, r2) combinations.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Calculates BSADF statistics over all possible (r1, r2) combinations.</span>
 
-<span class="sd">    Args:</span>
-<span class="sd">        y (NDArray[float64]): Time series values.</span>
-<span class="sd">        r0 (float): Minimum index.</span>
-<span class="sd">        rstep (float): Step size.</span>
-<span class="sd">        kmax (int): Max lag.</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    y : NDArray[float64]</span>
+<span class="sd">        Time series values.</span>
+<span class="sd">    r0 : float</span>
+<span class="sd">        Minimum index.</span>
+<span class="sd">    rstep : float</span>
+<span class="sd">        Step size.</span>
+<span class="sd">    kmax : int</span>
+<span class="sd">        Max lag.</span>
 
-<span class="sd">    Returns:</span>
-<span class="sd">        NDArray[float64]: Array of test statistics.</span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    teststat_array: NDArray[float64]</span>
+<span class="sd">        Array of test statistics.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">r1r2_grid</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">float64</span><span class="p">]</span> <span class="o">=</span> <span class="n">make_r1r2_combinations</span><span class="p">(</span><span class="n">r0</span><span class="p">,</span> <span class="n">rstep</span><span class="p">)</span>
     <span class="n">ntups</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">r1r2_grid</span><span class="p">)</span>
@@ -452,21 +474,30 @@ document.write(`
 <a class="viewcode-back" href="../../psytest.sadftest.html#psytest.sadftest.make_r1r2_combinations">[docs]</a>
 <span class="nd">@njit</span><span class="p">(</span><span class="n">parallel</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">make_r1r2_combinations</span><span class="p">(</span><span class="n">r0</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">rstep</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">float64</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Creates a grid of all (r1, r2) index pairs to evaluate BSADF.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Creates a grid of all (r1, r2) index pairs to evaluate BSADF.</span>
 
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    r0 : float</span>
+<span class="sd">        Minimum index.</span>
+<span class="sd">    rstep : float</span>
+<span class="sd">        Step size.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    [float64]</span>
+<span class="sd">        Grid of (r1, r2) pairs.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The grid is defined as:</span>
 <span class="sd">    .. math::</span>
-<span class="sd">        r_2 \\in [r_0, 1], \\quad r_1 \\in [0, r_2 - r_0]</span>
 
-<span class="sd">    Args:</span>
-<span class="sd">        r0 (float): Minimum index.</span>
-<span class="sd">        rstep (float): Step size.</span>
+<span class="sd">        \\text{grid} = \\{(r_1, r_2) : r_0 \\leq r_2 \\leq 1, \\quad r_0 \\leq r_1 \\leq r_2 - r_0, \\\\</span>
+<span class="sd">        \\quad rstep = (r_2 - r_0)/n, \\\\</span>
+<span class="sd">        \\quad n = \\lfloor (1 - r_0)/rstep \\rfloor + 1\\}</span>
 
-<span class="sd">    Notes:</span>
-<span class="sd">        - Vector size: :math:`n(n+1)/2` where :math:`n = \\lfloor (1 - r_0)/rstep \\rfloor + 1`</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">        NDArray[float64]: Grid of (r1, r2) pairs.</span>
+<span class="sd">    with :math:`r_0` being the minimum index, :math:`r_2` being the end index, and :math:`r_1` being the start index. The values of :math:`r_1` and :math:`r_2` are created from a grid with increments of :paramref:`rstep`.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">result</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">r2</span> <span class="ow">in</span> <span class="n">make_r2_grid</span><span class="p">(</span><span class="n">r0</span><span class="o">=</span><span class="n">r0</span><span class="p">,</span> <span class="n">rstep</span><span class="o">=</span><span class="n">rstep</span><span class="p">):</span>
@@ -486,21 +517,34 @@ document.write(`
     <span class="n">test_size</span><span class="p">:</span> <span class="n">Iterable</span> <span class="o">|</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">kmax</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">float64</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Calculates critical values of BSADF statistics from Monte Carlo simulations.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Calculates critical values of BSADF statistics from Monte Carlo simulations.</span>
 
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    r0 : float</span>
+<span class="sd">        Minimum index.</span>
+<span class="sd">    rstep : float</span>
+<span class="sd">        Step size.</span>
+<span class="sd">    nreps : int</span>
+<span class="sd">        Number of replications.</span>
+<span class="sd">    nobs : int | None</span>
+<span class="sd">        Number of observations.</span>
+<span class="sd">    test_size : Iterable | float</span>
+<span class="sd">        Significance levels.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    critval: NDArray[float64]</span>
+<span class="sd">        Critical values matrix.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The critical values are calculated as:</span>
 <span class="sd">    .. math::</span>
+
 <span class="sd">        \\text{CV}_{i,\\alpha} = \\text{Quantile}_{1 - \\alpha}(\\text{BSADF}_i)</span>
 
-<span class="sd">    Args:</span>
-<span class="sd">        r0 (float): Minimum index.</span>
-<span class="sd">        rstep (float): Step size.</span>
-<span class="sd">        nreps (int): Number of replications.</span>
-<span class="sd">        nobs (int | None): Number of observations.</span>
-<span class="sd">        test_size (Iterable | float): Significance levels.</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">        NDArray[float64]: Critical values matrix.</span>
+<span class="sd">    where :math:`\\text{BSADF}_i` is the :math:`i`-th simulated BSADF statistic (see :func:`psytest.adfstat.bsadf_stat`) and :math:`\\text{Quantile}_{1 - \\alpha}` is the quantile function for the distribution of the BSADF statistic.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">rw</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">float64</span><span class="p">]</span> <span class="o">=</span> <span class="n">random_walk</span><span class="p">(</span><span class="n">nreps</span><span class="p">,</span> <span class="n">nobs</span><span class="p">)</span>
     <span class="n">sadf_dist</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">float64</span><span class="p">]</span> <span class="o">=</span> <span class="n">__sadfuller_dist_from_random_walks__</span><span class="p">(</span>
