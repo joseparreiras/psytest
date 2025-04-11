@@ -1,7 +1,7 @@
 """psytest.critval.critval
 ========================
 
-Module to handle the tables in the `psytest.critval.data` directory. The main function is :func:`psytest.critval.critval_tabulated`, which calculates the critical values for a given set of parameters. Given the parameters, the function gets the best table to use, based on the precision of the simulations used for each table (see :func:`psytest.critval.critval.find_best_table` for more info). The values in the best match are then interpolated to return the critical values for every input value of `r2_eval`.
+Module to handle the tables in the :literal:`psytest.critval.data` directory. The main function is :func:`psytest.critval.critval_tabulated`, which calculates the critical values for a given set of parameters. Given the parameters, the function gets the best table to use, based on the precision of the simulations used for each table (see :func:`psytest.critval.critval.find_best_table` for more info). The values in the best match are then interpolated to return the critical values for every input value of :paramref:`psytest.critval.critval_tabulated.r2_eval`.
 """
 
 from .critval_parameters import AVAILABLE_CRITICAL_VALUE_PARAMETERS, is_available_param
@@ -21,7 +21,7 @@ def make_colname_from_alpha(alpha: float) -> str:
 
 
 def find_best_table(kmax: int, r0: float) -> str:
-    """Finds the table with the best match for the given parameters. It sorts tables by their nreps (ascending), nobs (ascending), and rstep (descending). It then returns the one with the best value of these that satisfies the condition of having the given `kmax` and `r0` as low as given.
+    """Finds the table with the best match for the given parameters. It sorts tables by their :literal:`nreps` (ascending), :literal:`nobs` (ascending), and :literal:`rstep` (descending). It then returns the one with the best value of these that satisfies the condition of having the given :paramref:`kmax` and :paramref:`r0` as low as given.
 
     Parameters
     ----------
@@ -33,7 +33,7 @@ def find_best_table(kmax: int, r0: float) -> str:
     Returns
     -------
     table_name: str
-        The name of the table with the best match for the given parameters, or None if no match is found.
+        The name of the table with the best match for the given parameters, or :literal:`None` if no match is found.
     """
     best_match: AVAILABLE_CRITICAL_VALUE_PARAMETERS | None = max(
         (
@@ -63,7 +63,7 @@ def load_critval(kmax: int, r0: float) -> DataFrame:
     Returns
     -------
     critval_table : DataFrame
-        A DataFrame containing the critical values. The first column correspond to the `r2` parameter. The remaining columns give, for each `r2` the critical values with significance levels 0.10, 0.05, and 0.01 respectively.
+        A DataFrame containing the critical values. The first column correspond to the :code:`r2` parameter. The remaining columns give, for each :code:`r2` the critical values with significance levels as the column names.
     """
     if not is_available_param(kmax, r0):
         raise ValueError(
@@ -90,12 +90,12 @@ def critval_tabulated(
 def critval_tabulated(
     r2_eval: float | Iterable[float], kmax: int, r0: float, alpha: float = 0.05
 ) -> NDArray[float64] | float:
-    """Returns the critical values for a given `r2` or an array of `r2` from the tabulated values in the `critval.csv` file.
+    """Returns the critical values for all :code:`r2` in :paramref:`r2_eval` from the tabulated values in the :obj:`psytest.critval.data` directory.
 
     Parameters
     ----------
     r2_eval : float | Iterable[float]
-        The `r2` value or an array of `r2` values.
+        The :code:`r2` value or an array of :code:`r2` values.
     alpha : float, optional
         The significance level. Defaults to 0.05.
     kmax : int
@@ -105,20 +105,16 @@ def critval_tabulated(
 
     Returns
     -------
-    critval_table : NDArray[float64]
-        The critical values for the given `r2` or an array of critical values.
+    critval_table : NDArray[float64] | float
+        The critical values for the given :paramref:`r2_eval` (if single) or an array of critical values.
 
 
     Raises
     ------
     TypeError
-        If `r2_eval` is not a float or an iterable; if `alpha` is not a float; if `kmax` is not an integer; if `r0` is not a float.
+        If :paramref:`r2_eval` is not a float or an iterable; if :paramref:`alpha` is not a float; if :paramref:`kmax` is not an integer; if :paramref:`r0` is not a float.
     ValueError
-        If `r2_eval` is not between 0 and 1; if `alpha` is not between 0 and 1; if `kmax` is negative; if `r0` is not between 0 and 1; if the critical value for the given `alpha` is not found in the table.
-
-    Notes
-    -----
-    See :obj:`critval`: The original table with critical values from Monte Carlo simulation.
+        If :paramref:`r2_eval` is not between 0 and 1; if :paramref:`alpha` is not between 0 and 1; if :paramref:`kmax` is negative; if :paramref:`r0` is not between 0 and 1; if the critical value for the given :paramref:`alpha` is not found in the table.
     """
     if isinstance(r2_eval, float):
         if not 0 <= r2_eval <= 1:

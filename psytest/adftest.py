@@ -120,7 +120,7 @@ def rolling_adfuller_stat(
     Raises
     ------
     ValueError
-        If `r1` or `r2` are not in the range [0, 1] or if `r1` is greater than `r2`.
+        If :paramref:`r1` or :paramref:`r2` are not in the range [0, 1] or if :paramref:`r1` is greater than :paramref:`r2`.
     """
     if not 0 <= r1 <= 1 or not 0 <= r2 <= 1:
         raise ValueError("r1 and r2 should be in the range [0, 1]")
@@ -153,7 +153,7 @@ def rolling_adfuller_cdf(wiener: NDArray[float64], r1: float, r2: float) -> floa
     Raises
     ------
     ValueError
-        If `r1` or `r2` are not in the range [0, 1] or if `r1` is greater than `r2`.
+        If :paramref:`r1` or :paramref:`r2` are not in the range [0, 1] or if :paramref:`r1` is greater than :paramref:`r2`.
     """
     if not 0 <= r1 <= 1 or not 0 <= r2 <= 1:
         raise ValueError("`r1` and `r2` should be in the range [0, 1]")

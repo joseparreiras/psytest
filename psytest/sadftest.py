@@ -18,7 +18,7 @@ from numba import njit, prange
 @deprecated
 @njit(parallel=True)
 def sadfuller_stat(y: NDArray[float64], r0: float, rstep: float, kmax: int) -> float:
-    """Calculates the Sup ADF statistic by rolling over the interval [r0, 1].
+    """Calculates the Sup ADF statistic by rolling over the interval [0, 1].
 
     Parameters
     ----------
@@ -194,7 +194,7 @@ def make_r1r2_combinations(r0: float, rstep: float) -> NDArray[float64]:
         \\quad rstep = (r_2 - r_0)/n, \\\\
         \\quad n = \\lfloor (1 - r_0)/rstep \\rfloor + 1\\}
 
-    with :math:`r_0` being the minimum index, :math:`r_2` being the end index, and :math:`r_1` being the start index. The values of `r_1` and `r_2` are created from a grid with increments of `rstep`.
+    with :math:`r_0` being the minimum index, :math:`r_2` being the end index, and :math:`r_1` being the start index. The values of :math:`r_1` and :math:`r_2` are created from a grid with increments of :paramref:`rstep`.
     """
     result: list[tuple[float, float]] = []
     for r2 in make_r2_grid(r0=r0, rstep=rstep):

@@ -8,38 +8,65 @@
 
 import os
 import sys
+import psytest
+
 sys.path.insert(0, os.path.abspath(".."))
 sys.path.insert(0, os.path.abspath("../psytest"))
 
-project = 'psytest'
-copyright = '2025, Jose Antunes-Neto'
-author = 'Jose Antunes-Neto'
-release = '1.0'
+project = psytest.__name__
+author = psytest.__author__
+release = psytest.__version__
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
 extensions = [
     "sphinx.ext.autodoc",
-    "sphinx.ext.napoleon",   # For Google/NumPy style docstrings
-    "sphinx.ext.mathjax",    # For LaTeX math
-    "sphinx.ext.viewcode",   # Adds links to source code
+    "sphinx.ext.napoleon",  # For Google/NumPy style docstrings
+    "sphinx.ext.mathjax",  # For LaTeX math
+    "sphinx.ext.viewcode",  # Adds links to source code
+    "sphinx_paramlinks",
     "sphinxcontrib.bibtex",  # For bibliography management
+    "sphinx.ext.intersphinx",  # For linking to other projects
 ]
 
 bibtex_bibfiles = ["refs.bib"]
-templates_path = ['_templates']
-exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
+templates_path = ["_templates"]
+exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
 html_theme = "sphinx_book_theme"
+
+html_theme_options = {
+    "repository_url": "https://github.com/joseparreiras/psytest",  # optional
+    "use_repository_button": True,
+    "use_edit_page_button": True,
+    "path_to_docs": "docs",  # relative to root
+    "show_navbar_depth": 2,
+    "logo_only": False,
+    "home_page_in_toc": True,
+}
+
+html_title = f"{project} documentation"
+html_favicon = "_static/bubbles.gif"
+html_logo = "_static/bubbles_small.gif"
+
 autodoc_default_options = {
     "members": True,
     "undoc-members": False,
     "private-members": False,  # Change to True if you want _hidden attrs
     "show-inheritance": True,
 }
-html_static_path = ['_static']
-napoleon_google_docstring = True # Enable Google style docstrings
+
+autodoc_member_order = "bysource"
+
+html_static_path = ["_static"]
+napoleon_numpy_docstring = True  # Enable NumPy style docstrings
+
+intersphinx_mapping = {
+    "python": ("https://docs.python.org/3", None),
+    "pandas": ("https://pandas.pydata.org/pandas-docs/stable", None),
+    "numpy": ("https://numpy.org/doc/stable/", None),
+}

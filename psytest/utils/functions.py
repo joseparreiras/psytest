@@ -15,7 +15,7 @@ from .defaults import KMAX
 
 
 def r0_default(nobs: int) -> int:
-    """Calculates the default r0 parameter following Phillips, Shi & Yu (2015) as a function of the number of observations.
+    """Calculates the default :code:`r0` parameter following Phillips, Shi & Yu (2015) as a function of the number of observations.
 
     Parameters
     ----------
@@ -25,7 +25,7 @@ def r0_default(nobs: int) -> int:
     Returns
     -------
     default_r0 : int
-        The default r0 parameter
+        The default :code:`r0` parameter
 
     Notes
     -----
@@ -71,12 +71,13 @@ def random_walk(nreps: int, nobs: int) -> NDArray[float64]:
     Returns
     -------
     random_walk_matrix: NDArray[float64]
-        Matrix of shape (nreps, nobs) with the random walks.
+        Matrix of shape (:paramref:`nreps`, :paramref:`nobs`) with the random walks.
 
     Notes
     -----
     .. math::
-    RW_{i, t} = \\sum_{s=1}^{t} \\frac{\\varepsilon_{i, s}}{\\sqrt{n}}
+
+        RW_{i, t} = \\sum_{s=1}^{t} \\frac{\\varepsilon_{i, s}}{\\sqrt{n}}
     """
     rw: NDArray[float64] = zeros((nreps, nobs))
     rw[:, 1:] = nobs ** (-0.5) * normal(size=(nreps, nobs - 1))
@@ -95,7 +96,7 @@ def simulate_markov(
     p : float, optional
         Probability of staying in the same regime. Defaults to 0.975.
     beta_list : list[float], optional
-        List of beta values for the regimes. Defaults to [1.01, 1].
+        List of :math:`\\beta` values for the regimes. Defaults to [1.01, 1].
 
     Returns
     -------
@@ -109,15 +110,15 @@ def simulate_markov(
 
         y_t = \\beta_t y_{t-1} + \\varepsilon_t
 
-    where :math:`\\varepsilon_t \\sim \\mathcal{N}(0, 1)` and `\\beta_t` is a Markov switching variable that takes values from `beta_list`.
-    The transition probability is defined by `p`, which is the probability of staying in the same regime.
+    where :math:`\\varepsilon_t \\sim \\mathcal{N}(0, 1)` and :math:`\\beta_t` is a Markov switching variable that takes values from :paramref:`beta_list`.
+    The transition probability is defined by :paramref:`p`, which is the probability of staying in the same regime.
 
     Raises
     ------
     TypeError
-        If `beta_list` is not a list; `nobs` is not an integer; `p` is not a float.
+        If :paramref:`beta_list` is not a list; :paramref:`nobs` is not an integer; :paramref:`p` is not a float.
     ValueError
-        If `beta_list` does not have length 2; `nobs` is less than 1; `p` is not between 0 and 1.
+        If :paramref:`beta_list` does not have length 2; :paramref:`nobs` is less than 1; :paramref:`p` is not between 0 and 1.
     """
     if not isinstance(beta_list, Sequence):
         raise TypeError("`beta_list` must be a Sequence")
@@ -151,7 +152,7 @@ def simulate_markov(
 
 @njit
 def size_rgrid(r0: float, rstep: float) -> int:
-    """Calculates the size of the rgrid starting at `r0` and with step `rstep`.
+    """Calculates the size of the rgrid starting at :paramref:`r0` and with step :paramref:`rstep`.
 
     Parameters
     ----------
@@ -169,13 +170,14 @@ def size_rgrid(r0: float, rstep: float) -> int:
     -----
     The size is calculated as:
     .. math::
+
         \\text{size} = \\left\\lfloor \\frac{1 - r_0}{\\text{rstep}} \\right\\rfloor + 1
     """
     return int((1 - r0) / rstep) + 1
 
 
 def parse_psy_arguments(**kwargs) -> dict[str, Any]:
-    """Parses the arguments for the PSYBubbles class and raises errors if they are invalid.
+    """Parses the arguments for the :class:`psytest.bubbles.PSYBubbles` class and raises errors if they are invalid.
 
     Parameters
     ----------
@@ -198,7 +200,7 @@ def parse_psy_arguments(**kwargs) -> dict[str, Any]:
     TypeError
         If any of the parameters are of the wrong type.
     ValueError
-        If `data` is not a 1D array, if `r0` is not in the range [0, 1], if `rstep` is not in the range (0, 1], if `kmax` is not an integer or is out of bounds, if `minlength` or `delta` are not valid floats.
+        If :code:`data` is not a 1D array, if :code:`r0` is not in the range [0, 1], if :code:`rstep` is not in the range (0, 1], if :code:`kmax` is not an integer or is out of bounds, if :code:`minlength` or :code:`delta` are not valid floats.
     """
     kwargs: dict[str, Any] = {k: v for k, v in kwargs.items() if v is not None}
     data: Any = kwargs.get("data")

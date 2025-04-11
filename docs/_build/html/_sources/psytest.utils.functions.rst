@@ -5,3 +5,4 @@ psytest.utils.functions module
    :members:
    :show-inheritance:
    :undoc-members:
+   :hidden:

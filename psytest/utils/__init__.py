@@ -1,7 +1,7 @@
 """psytest.utils
 ================
 
-This module contains utility functions for the psytest package and defaults for the use of the `PSYBubbles` class and related functions.
+This module contains utility functions for the psytest package and defaults for the use of the :class:`psytest.bubbles.PSYBubbles` class and related functions.
 """
 
 from .defaults import *

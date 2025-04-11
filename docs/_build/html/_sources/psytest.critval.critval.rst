@@ -1,7 +1,7 @@
-psytest.utils.constants module
+psytest.critval.critval module
 ==============================
 
-.. automodule:: psytest.utils.constants
+.. automodule:: psytest.critval.critval
    :members:
    :show-inheritance:
    :undoc-members:

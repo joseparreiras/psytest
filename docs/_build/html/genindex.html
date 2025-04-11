@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Index &#8212; psytest 1.0 documentation</title>
+    <title>Index &#8212; psytest documentation</title>
   
   
   
@@ -27,19 +27,21 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx_paramlinks.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="_static/documentation_options.js?v=a681ed88"></script>
+    <script src="_static/documentation_options.js?v=a1637f0b"></script>
     <script src="_static/doctools.js?v=9bcbadda"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'genindex';</script>
+    <link rel="icon" href="_static/bubbles.gif"/>
     <link rel="index" title="Index" href="#" />
     <link rel="search" title="Search" href="search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
@@ -130,8 +132,14 @@
   
   
   
+    
+    
+      
+    
+    
+    <img src="_static/bubbles_small.gif" class="logo__image only-light" alt="psytest documentation - Home"/>
+    <script>document.write(`<img src="_static/bubbles_small.gif" class="logo__image only-dark" alt="psytest documentation - Home"/>`);</script>
   
-    <p class="title logo__title">psytest 1.0 documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -147,13 +155,28 @@
  </script></div>
         <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
-        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="index.html">
+                    psytest documentation
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Table of Contents</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1 has-children"><a class="reference internal" href="modules.html">psytest</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2 has-children"><a class="reference internal" href="psytest.html">psytest package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3"><a class="reference internal" href="psytest.adftest.html">psytest.adftest module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="psytest.bubbles.html">psytest.bubbles module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="psytest.sadftest.html">psytest.sadftest module</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="modules.html">psytest</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="psytest.html">psytest package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="psytest.adftest.html">psytest.adftest module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="psytest.bubbles.html">psytest.bubbles module</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="psytest.critval.html">psytest.critval package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="psytest.critval.critval.html">psytest.critval.critval module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="psytest.critval.critval_parameters.html">psytest.critval.critval_parameters module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="psytest.utils.html">psytest.utils package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="psytest.utils.defaults.html">psytest.utils.defaults module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="psytest.utils.functions.html">psytest.utils.functions module</a></li>
 </ul>
 </details></li>
 </ul>
@@ -199,6 +222,21 @@
         <div class="header-article-item">
 
 <div class="article-header-buttons">
+
+
+<a href="https://github.com/joseparreiras/psytest" target="_blank"
+   class="btn btn-sm btn-source-repository-button"
+   title="Source repository"
+   data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+
+</a>
+
 
 
 
@@ -267,13 +305,19 @@ document.write(`
  <a href="#A"><strong>A</strong></a>
  | <a href="#B"><strong>B</strong></a>
  | <a href="#C"><strong>C</strong></a>
+ | <a href="#D"><strong>D</strong></a>
+ | <a href="#E"><strong>E</strong></a>
  | <a href="#F"><strong>F</strong></a>
  | <a href="#I"><strong>I</strong></a>
+ | <a href="#K"><strong>K</strong></a>
+ | <a href="#L"><strong>L</strong></a>
  | <a href="#M"><strong>M</strong></a>
+ | <a href="#N"><strong>N</strong></a>
  | <a href="#P"><strong>P</strong></a>
  | <a href="#R"><strong>R</strong></a>
- | <a href="#S"><strong>S</strong></a>
  | <a href="#T"><strong>T</strong></a>
+ | <a href="#W"><strong>W</strong></a>
+ | <a href="#Y"><strong>Y</strong></a>
  
 </div>
 <h2 id="A">A</h2>
@@ -281,10 +325,18 @@ document.write(`
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="psytest.adftest.html#psytest.adftest.adfuller_dist">adfuller_dist() (in module psytest.adftest)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="psytest.adftest.html#psytest.adftest.adfuller_stat">adfuller_stat() (in module psytest.adftest)</a>
 </li>
+      <li><a href="psytest.bubbles.html#psytest.bubbles.PSYBubbles.find_bubbles.params.alpha">alpha (psytest.bubbles.PSYBubbles.find_bubbles parameter)</a>
+
+      <ul>
+        <li><a href="psytest.critval.critval.html#psytest.critval.critval.critval_tabulated.params.alpha">(psytest.critval.critval.critval_tabulated parameter)</a>
+</li>
+        <li><a href="psytest.critval.html#psytest.critval.critval_tabulated.params.alpha">(psytest.critval.critval_tabulated parameter)</a>
+</li>
+        <li><a href="psytest.html#psytest.PSYBubbles.find_bubbles.params.alpha">(psytest.PSYBubbles.find_bubbles parameter)</a>
+</li>
+      </ul></li>
   </ul></td>
 </tr></table>
 
@@ -311,12 +363,64 @@ document.write(`
         <li><a href="psytest.html#psytest.PSYBubbles.critval">(psytest.PSYBubbles method)</a>
 </li>
       </ul></li>
+      <li><a href="psytest.critval.html#psytest.critval.critval_tabulated">critval_tabulated() (in module psytest.critval)</a>
+
+      <ul>
+        <li><a href="psytest.critval.critval.html#psytest.critval.critval.critval_tabulated">(in module psytest.critval.critval)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="psytest.critval.critval_parameters.html#psytest.critval.critval_parameters.CritValParameterInfo">CritValParameterInfo (class in psytest.critval.critval_parameters)</a>
+</li>
+      <li><a href="psytest.critval.critval_parameters.html#psytest.critval.critval_parameters.CritValParameterName">CritValParameterName (class in psytest.critval.critval_parameters)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="D">D</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="psytest.bubbles.html#psytest.bubbles.PSYBubbles.from_pandas.params.data">data (psytest.bubbles.PSYBubbles.from_pandas parameter)</a>
+
+      <ul>
+        <li><a href="psytest.html#psytest.PSYBubbles.from_pandas.params.data">(psytest.PSYBubbles.from_pandas parameter)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="psytest.bubbles.html#psytest.bubbles.PSYBubbles.from_pandas.params.delta">delta (psytest.bubbles.PSYBubbles.from_pandas parameter)</a>
+
+      <ul>
+        <li><a href="psytest.html#psytest.PSYBubbles.from_pandas.params.delta">(psytest.PSYBubbles.from_pandas parameter)</a>
+</li>
+      </ul></li>
+  </ul></td>
+</tr></table>
+
+<h2 id="E">E</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="psytest.critval.critval_parameters.html#psytest.critval.critval_parameters.extract_parameters_from_tablenames">extract_parameters_from_tablenames() (in module psytest.critval.critval_parameters)</a>
+</li>
   </ul></td>
 </tr></table>
 
 <h2 id="F">F</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="psytest.bubbles.html#psytest.bubbles.PSYBubbles.critval.params.fast">fast (psytest.bubbles.PSYBubbles.critval parameter)</a>
+
+      <ul>
+        <li><a href="psytest.bubbles.html#psytest.bubbles.PSYBubbles.find_bubbles.params.fast">(psytest.bubbles.PSYBubbles.find_bubbles parameter)</a>
+</li>
+        <li><a href="psytest.html#psytest.PSYBubbles.critval.params.fast">(psytest.PSYBubbles.critval parameter)</a>
+</li>
+        <li><a href="psytest.html#psytest.PSYBubbles.find_bubbles.params.fast">(psytest.PSYBubbles.find_bubbles parameter)</a>
+</li>
+      </ul></li>
+      <li><a href="psytest.critval.critval.html#psytest.critval.critval.find_best_table">find_best_table() (in module psytest.critval.critval)</a>
+</li>
       <li><a href="psytest.bubbles.html#psytest.bubbles.PSYBubbles.find_bubbles">find_bubbles() (psytest.bubbles.PSYBubbles method)</a>
 
       <ul>
@@ -325,6 +429,14 @@ document.write(`
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="psytest.critval.critval_parameters.html#psytest.critval.critval_parameters.extract_parameters_from_tablenames.params.fname">fname (psytest.critval.critval_parameters.extract_parameters_from_tablenames parameter)</a>
+</li>
+      <li><a href="psytest.bubbles.html#psytest.bubbles.PSYBubbles.teststat.params.force">force (psytest.bubbles.PSYBubbles.teststat parameter)</a>
+
+      <ul>
+        <li><a href="psytest.html#psytest.PSYBubbles.teststat.params.force">(psytest.PSYBubbles.teststat parameter)</a>
+</li>
+      </ul></li>
       <li><a href="psytest.bubbles.html#psytest.bubbles.PSYBubbles.from_pandas">from_pandas() (psytest.bubbles.PSYBubbles class method)</a>
 
       <ul>
@@ -337,7 +449,77 @@ document.write(`
 <h2 id="I">I</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="psytest.utils.functions.html#psytest.utils.functions.index_combinations">index_combinations() (in module psytest.utils.functions)</a>
+      <li><a href="psytest.bubbles.html#psytest.bubbles.PSYBubbles.from_pandas.params.index">index (psytest.bubbles.PSYBubbles.from_pandas parameter)</a>
+
+      <ul>
+        <li><a href="psytest.html#psytest.PSYBubbles.from_pandas.params.index">(psytest.PSYBubbles.from_pandas parameter)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="psytest.critval.html#psytest.critval.is_available_param">is_available_param() (in module psytest.critval)</a>
+
+      <ul>
+        <li><a href="psytest.critval.critval_parameters.html#psytest.critval.critval_parameters.is_available_param">(in module psytest.critval.critval_parameters)</a>
+</li>
+      </ul></li>
+  </ul></td>
+</tr></table>
+
+<h2 id="K">K</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="psytest.adftest.html#psytest.adftest.adfuller_dist.params.kmax">kmax (psytest.adftest.adfuller_dist parameter)</a>
+
+      <ul>
+        <li><a href="psytest.adftest.html#psytest.adftest.adfuller_stat.params.kmax">(psytest.adftest.adfuller_stat parameter)</a>
+</li>
+        <li><a href="psytest.adftest.html#psytest.adftest.rolling_adfuller_stat.params.kmax">(psytest.adftest.rolling_adfuller_stat parameter)</a>
+</li>
+        <li><a href="psytest.bubbles.html#psytest.bubbles.PSYBubbles.from_pandas.params.kmax">(psytest.bubbles.PSYBubbles.from_pandas parameter)</a>
+</li>
+        <li><a href="psytest.critval.critval.html#psytest.critval.critval.critval_tabulated.params.kmax">(psytest.critval.critval.critval_tabulated parameter)</a>
+</li>
+        <li><a href="psytest.critval.critval.html#psytest.critval.critval.find_best_table.params.kmax">(psytest.critval.critval.find_best_table parameter)</a>
+</li>
+        <li><a href="psytest.critval.critval.html#psytest.critval.critval.load_critval.params.kmax">(psytest.critval.critval.load_critval parameter)</a>
+</li>
+        <li><a href="psytest.critval.critval_parameters.html#psytest.critval.critval_parameters.CritValParameterInfo.kmax">(psytest.critval.critval_parameters.CritValParameterInfo attribute)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="psytest.critval.critval_parameters.html#psytest.critval.critval_parameters.CritValParameterName.KMAX">KMAX (psytest.critval.critval_parameters.CritValParameterName attribute)</a>
+</li>
+      <li><a href="psytest.critval.critval_parameters.html#psytest.critval.critval_parameters.is_available_param.params.kmax">kmax (psytest.critval.critval_parameters.is_available_param parameter)</a>
+
+      <ul>
+        <li><a href="psytest.critval.html#psytest.critval.critval_tabulated.params.kmax">(psytest.critval.critval_tabulated parameter)</a>
+</li>
+        <li><a href="psytest.critval.html#psytest.critval.is_available_param.params.kmax">(psytest.critval.is_available_param parameter)</a>
+</li>
+        <li><a href="psytest.html#psytest.PSYBubbles.from_pandas.params.kmax">(psytest.PSYBubbles.from_pandas parameter)</a>
+</li>
+        <li><a href="psytest.sadftest.html#psytest.sadftest.bsadf_stat.params.kmax">(psytest.sadftest.bsadf_stat parameter)</a>
+</li>
+        <li><a href="psytest.sadftest.html#psytest.sadftest.bsadf_stat_all_series.params.kmax">(psytest.sadftest.bsadf_stat_all_series parameter)</a>
+</li>
+      </ul></li>
+  </ul></td>
+</tr></table>
+
+<h2 id="L">L</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="psytest.critval.critval_parameters.html#psytest.critval.critval_parameters.list_available_parameters">list_available_parameters() (in module psytest.critval.critval_parameters)</a>
+</li>
+      <li><a href="psytest.critval.critval_parameters.html#psytest.critval.critval_parameters.list_available_tables">list_available_tables() (in module psytest.critval.critval_parameters)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="psytest.critval.critval_parameters.html#psytest.critval.critval_parameters.list_critval_tables">list_critval_tables() (in module psytest.critval.critval_parameters)</a>
+</li>
+      <li><a href="psytest.critval.critval.html#psytest.critval.critval.load_critval">load_critval() (in module psytest.critval.critval)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -345,8 +527,20 @@ document.write(`
 <h2 id="M">M</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="psytest.utils.functions.html#psytest.utils.functions.minlength_default">minlength_default() (in module psytest.utils.functions)</a>
+      <li><a href="psytest.critval.critval.html#psytest.critval.critval.make_colname_from_alpha">make_colname_from_alpha() (in module psytest.critval.critval)</a>
 </li>
+      <li><a href="psytest.sadftest.html#psytest.sadftest.make_r1_grid">make_r1_grid() (in module psytest.sadftest)</a>
+</li>
+      <li><a href="psytest.sadftest.html#psytest.sadftest.make_r1r2_combinations">make_r1r2_combinations() (in module psytest.sadftest)</a>
+</li>
+      <li><a href="psytest.sadftest.html#psytest.sadftest.make_r2_grid">make_r2_grid() (in module psytest.sadftest)</a>
+</li>
+      <li><a href="psytest.bubbles.html#psytest.bubbles.PSYBubbles.from_pandas.params.minlength">minlength (psytest.bubbles.PSYBubbles.from_pandas parameter)</a>
+
+      <ul>
+        <li><a href="psytest.html#psytest.PSYBubbles.from_pandas.params.minlength">(psytest.PSYBubbles.from_pandas parameter)</a>
+</li>
+      </ul></li>
       <li>
     module
 
@@ -357,13 +551,65 @@ document.write(`
 </li>
         <li><a href="psytest.bubbles.html#module-psytest.bubbles">psytest.bubbles</a>
 </li>
+        <li><a href="psytest.critval.html#module-psytest.critval">psytest.critval</a>
+</li>
+        <li><a href="psytest.critval.critval.html#module-psytest.critval.critval">psytest.critval.critval</a>
+</li>
+        <li><a href="psytest.critval.critval_parameters.html#module-psytest.critval.critval_parameters">psytest.critval.critval_parameters</a>
+</li>
         <li><a href="psytest.sadftest.html#module-psytest.sadftest">psytest.sadftest</a>
 </li>
         <li><a href="psytest.utils.html#module-psytest.utils">psytest.utils</a>
 </li>
-        <li><a href="psytest.utils.constants.html#module-psytest.utils.constants">psytest.utils.constants</a>
+        <li><a href="psytest.utils.defaults.html#module-psytest.utils.defaults">psytest.utils.defaults</a>
 </li>
-        <li><a href="psytest.utils.functions.html#module-psytest.utils.functions">psytest.utils.functions</a>
+      </ul></li>
+  </ul></td>
+</tr></table>
+
+<h2 id="N">N</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="psytest.adftest.html#psytest.adftest.adfuller_dist.params.nobs">nobs (psytest.adftest.adfuller_dist parameter)</a>
+
+      <ul>
+        <li><a href="psytest.bubbles.html#psytest.bubbles.PSYBubbles.critval.params.nobs">(psytest.bubbles.PSYBubbles.critval parameter)</a>
+</li>
+        <li><a href="psytest.bubbles.html#psytest.bubbles.PSYBubbles.find_bubbles.params.nobs">(psytest.bubbles.PSYBubbles.find_bubbles parameter)</a>
+</li>
+        <li><a href="psytest.critval.critval_parameters.html#psytest.critval.critval_parameters.CritValParameterInfo.nobs">(psytest.critval.critval_parameters.CritValParameterInfo attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="psytest.critval.critval_parameters.html#psytest.critval.critval_parameters.CritValParameterName.NOBS">NOBS (psytest.critval.critval_parameters.CritValParameterName attribute)</a>
+</li>
+      <li><a href="psytest.html#psytest.PSYBubbles.critval.params.nobs">nobs (psytest.PSYBubbles.critval parameter)</a>
+
+      <ul>
+        <li><a href="psytest.html#psytest.PSYBubbles.find_bubbles.params.nobs">(psytest.PSYBubbles.find_bubbles parameter)</a>
+</li>
+        <li><a href="psytest.sadftest.html#psytest.sadftest.bsadfuller_critval.params.nobs">(psytest.sadftest.bsadfuller_critval parameter)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="psytest.adftest.html#psytest.adftest.adfuller_dist.params.nreps">nreps (psytest.adftest.adfuller_dist parameter)</a>
+
+      <ul>
+        <li><a href="psytest.bubbles.html#psytest.bubbles.PSYBubbles.critval.params.nreps">(psytest.bubbles.PSYBubbles.critval parameter)</a>
+</li>
+        <li><a href="psytest.bubbles.html#psytest.bubbles.PSYBubbles.find_bubbles.params.nreps">(psytest.bubbles.PSYBubbles.find_bubbles parameter)</a>
+</li>
+        <li><a href="psytest.critval.critval_parameters.html#psytest.critval.critval_parameters.CritValParameterInfo.nreps">(psytest.critval.critval_parameters.CritValParameterInfo attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="psytest.critval.critval_parameters.html#psytest.critval.critval_parameters.CritValParameterName.NREPS">NREPS (psytest.critval.critval_parameters.CritValParameterName attribute)</a>
+</li>
+      <li><a href="psytest.html#psytest.PSYBubbles.critval.params.nreps">nreps (psytest.PSYBubbles.critval parameter)</a>
+
+      <ul>
+        <li><a href="psytest.html#psytest.PSYBubbles.find_bubbles.params.nreps">(psytest.PSYBubbles.find_bubbles parameter)</a>
+</li>
+        <li><a href="psytest.sadftest.html#psytest.sadftest.bsadfuller_critval.params.nreps">(psytest.sadftest.bsadfuller_critval parameter)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -372,7 +618,7 @@ document.write(`
 <h2 id="P">P</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="psytest.utils.functions.html#psytest.utils.functions.parallel_apply">parallel_apply() (in module psytest.utils.functions)</a>
+      <li><a href="psytest.bubbles.html#psytest.bubbles.parse_psy_arguments">parse_psy_arguments() (in module psytest.bubbles)</a>
 </li>
       <li><a href="psytest.html#psytest.PSYBubbles">PSYBubbles (class in psytest)</a>
 
@@ -401,8 +647,29 @@ document.write(`
         <li><a href="psytest.bubbles.html#module-psytest.bubbles">module</a>
 </li>
       </ul></li>
+      <li>
+    psytest.critval
+
+      <ul>
+        <li><a href="psytest.critval.html#module-psytest.critval">module</a>
+</li>
+      </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li>
+    psytest.critval.critval
+
+      <ul>
+        <li><a href="psytest.critval.critval.html#module-psytest.critval.critval">module</a>
+</li>
+      </ul></li>
+      <li>
+    psytest.critval.critval_parameters
+
+      <ul>
+        <li><a href="psytest.critval.critval_parameters.html#module-psytest.critval.critval_parameters">module</a>
+</li>
+      </ul></li>
       <li>
     psytest.sadftest
 
@@ -418,17 +685,10 @@ document.write(`
 </li>
       </ul></li>
       <li>
-    psytest.utils.constants
+    psytest.utils.defaults
 
       <ul>
-        <li><a href="psytest.utils.constants.html#module-psytest.utils.constants">module</a>
-</li>
-      </ul></li>
-      <li>
-    psytest.utils.functions
-
-      <ul>
-        <li><a href="psytest.utils.functions.html#module-psytest.utils.functions">module</a>
+        <li><a href="psytest.utils.defaults.html#module-psytest.utils.defaults">module</a>
 </li>
       </ul></li>
   </ul></td>
@@ -437,44 +697,136 @@ document.write(`
 <h2 id="R">R</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="psytest.utils.functions.html#psytest.utils.functions.r0_default">r0_default() (in module psytest.utils.functions)</a>
+      <li><a href="psytest.bubbles.html#psytest.bubbles.PSYBubbles.from_pandas.params.r0">r0 (psytest.bubbles.PSYBubbles.from_pandas parameter)</a>
+
+      <ul>
+        <li><a href="psytest.critval.critval.html#psytest.critval.critval.critval_tabulated.params.r0">(psytest.critval.critval.critval_tabulated parameter)</a>
 </li>
+        <li><a href="psytest.critval.critval.html#psytest.critval.critval.find_best_table.params.r0">(psytest.critval.critval.find_best_table parameter)</a>
+</li>
+        <li><a href="psytest.critval.critval.html#psytest.critval.critval.load_critval.params.r0">(psytest.critval.critval.load_critval parameter)</a>
+</li>
+        <li><a href="psytest.critval.critval_parameters.html#psytest.critval.critval_parameters.CritValParameterInfo.r0">(psytest.critval.critval_parameters.CritValParameterInfo attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="psytest.critval.critval_parameters.html#psytest.critval.critval_parameters.CritValParameterName.R0">R0 (psytest.critval.critval_parameters.CritValParameterName attribute)</a>
+</li>
+      <li><a href="psytest.critval.critval_parameters.html#psytest.critval.critval_parameters.is_available_param.params.r0">r0 (psytest.critval.critval_parameters.is_available_param parameter)</a>
+
+      <ul>
+        <li><a href="psytest.critval.html#psytest.critval.critval_tabulated.params.r0">(psytest.critval.critval_tabulated parameter)</a>
+</li>
+        <li><a href="psytest.critval.html#psytest.critval.is_available_param.params.r0">(psytest.critval.is_available_param parameter)</a>
+</li>
+        <li><a href="psytest.html#psytest.PSYBubbles.from_pandas.params.r0">(psytest.PSYBubbles.from_pandas parameter)</a>
+</li>
+        <li><a href="psytest.sadftest.html#psytest.sadftest.bsadf_stat.params.r0">(psytest.sadftest.bsadf_stat parameter)</a>
+</li>
+        <li><a href="psytest.sadftest.html#psytest.sadftest.bsadf_stat_all_series.params.r0">(psytest.sadftest.bsadf_stat_all_series parameter)</a>
+</li>
+        <li><a href="psytest.sadftest.html#psytest.sadftest.bsadfuller_critval.params.r0">(psytest.sadftest.bsadfuller_critval parameter)</a>
+</li>
+        <li><a href="psytest.sadftest.html#psytest.sadftest.make_r1r2_combinations.params.r0">(psytest.sadftest.make_r1r2_combinations parameter)</a>
+</li>
+      </ul></li>
+      <li><a href="psytest.adftest.html#psytest.adftest.rolling_adfuller_cdf.params.r1">r1 (psytest.adftest.rolling_adfuller_cdf parameter)</a>
+
+      <ul>
+        <li><a href="psytest.adftest.html#psytest.adftest.rolling_adfuller_stat.params.r1">(psytest.adftest.rolling_adfuller_stat parameter)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="psytest.adftest.html#psytest.adftest.rolling_adfuller_cdf.params.r2">r2 (psytest.adftest.rolling_adfuller_cdf parameter)</a>
+
+      <ul>
+        <li><a href="psytest.adftest.html#psytest.adftest.rolling_adfuller_stat.params.r2">(psytest.adftest.rolling_adfuller_stat parameter)</a>
+</li>
+        <li><a href="psytest.sadftest.html#psytest.sadftest.bsadf_stat.params.r2">(psytest.sadftest.bsadf_stat parameter)</a>
+</li>
+      </ul></li>
+      <li><a href="psytest.critval.critval.html#psytest.critval.critval.critval_tabulated.params.r2_eval">r2_eval (psytest.critval.critval.critval_tabulated parameter)</a>
+
+      <ul>
+        <li><a href="psytest.critval.html#psytest.critval.critval_tabulated.params.r2_eval">(psytest.critval.critval_tabulated parameter)</a>
+</li>
+      </ul></li>
       <li><a href="psytest.bubbles.html#psytest.bubbles.PSYBubbles.r2grid">r2grid() (psytest.bubbles.PSYBubbles method)</a>
 
       <ul>
         <li><a href="psytest.html#psytest.PSYBubbles.r2grid">(psytest.PSYBubbles method)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="psytest.utils.functions.html#psytest.utils.functions.random_walk">random_walk() (in module psytest.utils.functions)</a>
-</li>
       <li><a href="psytest.adftest.html#psytest.adftest.rolling_adfuller_cdf">rolling_adfuller_cdf() (in module psytest.adftest)</a>
 </li>
       <li><a href="psytest.adftest.html#psytest.adftest.rolling_adfuller_stat">rolling_adfuller_stat() (in module psytest.adftest)</a>
 </li>
-  </ul></td>
-</tr></table>
+      <li><a href="psytest.bubbles.html#psytest.bubbles.PSYBubbles.from_pandas.params.rstep">rstep (psytest.bubbles.PSYBubbles.from_pandas parameter)</a>
 
-<h2 id="S">S</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="psytest.utils.functions.html#psytest.utils.functions.simulate_markov">simulate_markov() (in module psytest.utils.functions)</a>
+      <ul>
+        <li><a href="psytest.critval.critval_parameters.html#psytest.critval.critval_parameters.CritValParameterInfo.rstep">(psytest.critval.critval_parameters.CritValParameterInfo attribute)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="psytest.utils.functions.html#psytest.utils.functions.size_rgrid">size_rgrid() (in module psytest.utils.functions)</a>
+      </ul></li>
+      <li><a href="psytest.critval.critval_parameters.html#psytest.critval.critval_parameters.CritValParameterName.RSTEP">RSTEP (psytest.critval.critval_parameters.CritValParameterName attribute)</a>
 </li>
+      <li><a href="psytest.html#psytest.PSYBubbles.from_pandas.params.rstep">rstep (psytest.PSYBubbles.from_pandas parameter)</a>
+
+      <ul>
+        <li><a href="psytest.sadftest.html#psytest.sadftest.bsadf_stat_all_series.params.rstep">(psytest.sadftest.bsadf_stat_all_series parameter)</a>
+</li>
+        <li><a href="psytest.sadftest.html#psytest.sadftest.bsadfuller_critval.params.rstep">(psytest.sadftest.bsadfuller_critval parameter)</a>
+</li>
+        <li><a href="psytest.sadftest.html#psytest.sadftest.make_r1r2_combinations.params.rstep">(psytest.sadftest.make_r1r2_combinations parameter)</a>
+</li>
+      </ul></li>
   </ul></td>
 </tr></table>
 
 <h2 id="T">T</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="psytest.bubbles.html#psytest.bubbles.PSYBubbles.critval.params.test_size">test_size (psytest.bubbles.PSYBubbles.critval parameter)</a>
+
+      <ul>
+        <li><a href="psytest.html#psytest.PSYBubbles.critval.params.test_size">(psytest.PSYBubbles.critval parameter)</a>
+</li>
+        <li><a href="psytest.sadftest.html#psytest.sadftest.bsadfuller_critval.params.test_size">(psytest.sadftest.bsadfuller_critval parameter)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="psytest.bubbles.html#psytest.bubbles.PSYBubbles.teststat">teststat() (psytest.bubbles.PSYBubbles method)</a>
 
       <ul>
         <li><a href="psytest.html#psytest.PSYBubbles.teststat">(psytest.PSYBubbles method)</a>
+</li>
+      </ul></li>
+      <li><a href="psytest.critval.critval_parameters.html#psytest.critval.critval_parameters.traversable_to_string.params.traversable">traversable (psytest.critval.critval_parameters.traversable_to_string parameter)</a>
+</li>
+      <li><a href="psytest.critval.critval_parameters.html#psytest.critval.critval_parameters.traversable_to_string">traversable_to_string() (in module psytest.critval.critval_parameters)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="W">W</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="psytest.adftest.html#psytest.adftest.rolling_adfuller_cdf.params.wiener">wiener (psytest.adftest.rolling_adfuller_cdf parameter)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="Y">Y</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="psytest.adftest.html#psytest.adftest.adfuller_stat.params.y">y (psytest.adftest.adfuller_stat parameter)</a>
+
+      <ul>
+        <li><a href="psytest.adftest.html#psytest.adftest.rolling_adfuller_stat.params.y">(psytest.adftest.rolling_adfuller_stat parameter)</a>
+</li>
+        <li><a href="psytest.sadftest.html#psytest.sadftest.bsadf_stat.params.y">(psytest.sadftest.bsadf_stat parameter)</a>
+</li>
+        <li><a href="psytest.sadftest.html#psytest.sadftest.bsadf_stat_all_series.params.y">(psytest.sadftest.bsadf_stat_all_series parameter)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -508,20 +860,13 @@ document.write(`
   <div class="footer-item">
     
 <p class="component-author">
-By Jose Antunes-Neto
+By Jose Antunes Neto
 </p>
 
   </div>
   
   <div class="footer-item">
     
-
-  <p class="copyright">
-    
-      © Copyright 2025, Jose Antunes-Neto.
-      <br/>
-    
-  </p>
 
   </div>
   

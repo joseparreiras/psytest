@@ -3,6 +3,10 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
+.. image:: _static/bubbles.gif
+   :alt: Bubble animation
+   :width: 300px
+
 `psytest` documentation
 ========================
 
@@ -19,16 +23,15 @@ The main class of the package is the ``PSYBubbles`` class, which contains method
 **Usage Example:**
 
 .. code-block:: python
-
-    from psytest.bubbles import PSYBubbles
-
-    model = PSYBubbles(y, delta=1.5)
-    model.teststat()
+   
+   from psytest.bubbles import PSYBubbles
+   model = PSYBubbles(y, delta=2)
+   model.teststat()
 
 .. toctree::
-   :maxdepth: 3
-   :caption: Contents:
-
+   :maxdepth: 4
+   :caption: Table of Contents
+   
    modules
 
 .. bibliography:: refs.bib

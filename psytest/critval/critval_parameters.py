@@ -1,5 +1,5 @@
 """psytest.critval.critval_parameters
-=================
+===================================================
 
 This module contains the framework for checking the available parameters for the tabulated critical values. The tabulated critical values are stored in the `data` directory of the package and named according to the parameters used to calculate them. The parameters are extracted from the file names and stored in a dictionary for easy access. The module also provides functions to list all available tables and check if a given set of parameters is available.
 """
@@ -86,7 +86,7 @@ def extract_parameters_from_tablenames(fname: str) -> dict[str, int | float]:
 
 
 def list_critval_tables() -> list[str]:
-    """Lists all critical value tables in the `data` directory.
+    """Lists all critical value tables in the :literal:`data/` directory.
 
     Returns
     -------
@@ -102,7 +102,7 @@ def list_critval_tables() -> list[str]:
 
 
 def list_available_tables() -> list[str]:
-    """Lists all available critical value tables in the `data` directory.
+    """Lists all available critical value tables in the :literal:`data/` directory.
 
     Returns
     -------

@@ -7,7 +7,7 @@ Submodules
 .. toctree::
    :maxdepth: 4
 
-   psytest.utils.constants
+   psytest.utils.defaults
    psytest.utils.functions
 
 Module contents
