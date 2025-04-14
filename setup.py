@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="psytest",
-    version="0.2.1",
+    version="0.2.2",
     packages=find_packages(),
     include_package_data=True,
     package_data={"psytest": ["critval/data/*.csv"]},

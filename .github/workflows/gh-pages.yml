@@ -37,9 +37,8 @@ jobs:
 
       - name: Build documentation
         run: |
-          cd docs
-          make clean
-          make html
+          make -C docs clean
+          make -C docs html
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
