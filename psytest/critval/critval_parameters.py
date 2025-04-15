@@ -127,7 +127,7 @@ def list_available_parameters() -> dict[str, CritValParameterInfo]:
     """
     tables: list[str] = list_available_tables()
     enum_dict: dict[str, CritValParameterInfo] = {
-        fname: CritValParameterInfo(**extract_parameters_from_tablenames(fname))  # type: ignore
+        os.path.splitext(fname)[0]: CritValParameterInfo(**extract_parameters_from_tablenames(fname))  # type: ignore
         for fname in tables
     }
     return enum_dict
@@ -155,6 +155,6 @@ def is_available_param(kmax: int, r0: float) -> bool:
     """
     for param in AVAILABLE_CRITICAL_VALUE_PARAMETERS:
         if param.value.kmax == kmax:
-            if param.value.r0 > r0:
-                return False
-    return True
+            if param.value.r0 <= r0:
+                return True
+    return False
