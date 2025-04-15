@@ -371,6 +371,7 @@ class PSYBubbles:
     ) -> Generator[tuple[int, int | None], None, None]:
         i0 = 0
         while len(bubble_bool) > minlength:
+            bubble_bool = bubble_bool[i0:]
             if not PSYBubbles._check_bubble_exists(bubble_bool):
                 break
             start: int = bubble_bool.index(True)
@@ -380,5 +381,6 @@ class PSYBubbles:
                     break
                 end: int = bubble_bool[start:].index(False) + start
                 yield (start + i0, end + i0)
-            bubble_bool = bubble_bool[end:]
-            i0 += end
+                i0 += end
+            else:
+                i0 += start + 1
