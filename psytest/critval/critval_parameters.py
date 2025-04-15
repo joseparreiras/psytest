@@ -127,7 +127,7 @@ def list_available_parameters() -> dict[str, CritValParameterInfo]:
     """
     tables: list[str] = list_available_tables()
     enum_dict: dict[str, CritValParameterInfo] = {
-        os.path.splitext(fname)[0]: CritValParameterInfo(**extract_parameters_from_tablenames(fname))  # type: ignore
+        fname: CritValParameterInfo(**extract_parameters_from_tablenames(fname))  # type: ignore
         for fname in tables
     }
     return enum_dict
