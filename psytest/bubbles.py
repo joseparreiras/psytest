@@ -361,7 +361,7 @@ class PSYBubbles:
     @staticmethod
     def _is_bubble_long_enough(bubble_bool: list[bool], minlength: int) -> bool:
         try:
-            return bubble_bool[minlength]
+            return all(bubble_bool[:minlength])
         except IndexError:
             return False
 
