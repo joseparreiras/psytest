@@ -12,8 +12,37 @@ from .utils.functions import random_walk
 
 
 @njit(parallel=False)
+def adfuller_fit(y: NDArray[float64], kmax: int) -> NDArray[float64]:
+    """Calculates the fitted values of the Augmented Dickey-Fuller regression.
+
+    Parameters
+    ----------
+    y : NDArray[float64]
+        The time series data.
+    kmax : int
+        Maximum lag to use in the test.
+
+    Returns
+    -------
+    fit: NDArray[float64]
+        The fitted values of the regression.
+    """
+    nobs: int = len(y)
+    y_diff: NDArray[float64] = diff(y)
+    X: NDArray[float64] = empty((nobs - kmax - 1, 2 + kmax))
+    X[:, 0] = ones(nobs - kmax - 1)
+    for lag in range(1, kmax + 1):
+        X[:, lag] = y_diff[kmax - lag : -lag]
+    X[:, -1] = y[kmax:-1]
+    y_diff = y_diff[kmax:]
+    beta: NDArray[float64] = inv(X.T @ X) @ X.T @ y_diff
+    fit: NDArray[float64] = X @ beta
+    return fit
+
+
+@njit(parallel=False)
 def adfuller_stat(y: NDArray[float64], kmax: int) -> float:
-    """Calculates the test statistic for the Augmented Dickey-Fuller test.
+    """Calculates the test statistic for the Augmented Dickey-Fuller.
 
     Parameters
     ----------

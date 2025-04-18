@@ -5,12 +5,12 @@ This module contains the main class for the PSY test (see :class:`psytest.bubble
 """
 
 from numpy.typing import NDArray
-from numpy import object_, float64, bool_, array, arange, vstack
+from numpy import float64, bool_, array, arange, vstack, int64
 from collections.abc import Generator
 from typing import Any, Literal, overload
 from .critval import critval_tabulated, is_available_param
 from .utils.functions import parse_psy_arguments
-from .utils.defaults import KMAX, TEST_SIZE, NREPS
+from .utils.defaults import TEST_SIZE, NREPS
 from .sadftest import bsadf_stat_all_series, bsadfuller_critval
 from functools import lru_cache
 from pandas import Series
@@ -47,7 +47,7 @@ class PSYBubbles:
         data: NDArray[float64],
         r0: float | None = None,
         rstep: float | None = None,
-        kmax: int = KMAX,
+        kmax: int | None = None,
         minlength: float | None = None,
         delta: float | None = None,
     ) -> None:

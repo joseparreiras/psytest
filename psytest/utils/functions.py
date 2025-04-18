@@ -12,6 +12,7 @@ from numpy.random import normal, uniform
 from collections.abc import Sequence
 from typing import Any
 from .defaults import KMAX
+from ..info_criteria import find_optimal_kmax
 
 
 def r0_default(nobs: int) -> int:
@@ -186,7 +187,7 @@ def parse_psy_arguments(**kwargs) -> dict[str, Any]:
         - data: 1D array-like of numbers
         - r0: float, default is calculated using `r0_default`
         - rstep: float, default is 1 / len(data)
-        - kmax: int, default is KMAX
+        - kmax: int | None, default is KMAX
         - minlength: float, default is calculated using `minlength_default`
         - delta: float, default is None
 
@@ -225,8 +226,10 @@ def parse_psy_arguments(**kwargs) -> dict[str, Any]:
     if not 0 < rstep <= 1:
         raise ValueError("`rstep` must be in the range (0, 1]")
     kmax: Any = kwargs.get("kmax", KMAX)
-    if not isinstance(kmax, int):
-        raise TypeError("`kmax` must be an integer")
+    if kmax is None:
+        kmax: int = find_optimal_kmax(data, KMAX)
+    elif not isinstance(kmax, int):
+        raise TypeError("`kmax` must be an integer or None")
     if kmax < 0:
         raise ValueError("`kmax` must be greater than or equal to 0")
     if kmax > len(data) - 1:
