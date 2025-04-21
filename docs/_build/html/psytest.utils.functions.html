@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>psytest.utils.functions module &#8212; psytest 0.1.0 documentation</title>
+    <title>psytest.utils.functions module &#8212; psytest 0.2.4 documentation</title>
   
   
   
@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="_static/documentation_options.js?v=a1637f0b"></script>
+    <script src="_static/documentation_options.js?v=fd1d25c9"></script>
     <script src="_static/doctools.js?v=9bcbadda"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
@@ -137,8 +137,8 @@
       
     
     
-    <img src="_static/logo.svg" class="logo__image only-light" alt="psytest 0.1.0 documentation - Home"/>
-    <script>document.write(`<img src="_static/logo.svg" class="logo__image only-dark" alt="psytest 0.1.0 documentation - Home"/>`);</script>
+    <img src="_static/logo.svg" class="logo__image only-light" alt="psytest 0.2.4 documentation - Home"/>
+    <script>document.write(`<img src="_static/logo.svg" class="logo__image only-dark" alt="psytest 0.2.4 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -370,7 +370,6 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#psytest.utils.functions.random_walk"><code class="docutils literal notranslate"><span class="pre">random_walk()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#psytest.utils.functions.simulate_markov"><code class="docutils literal notranslate"><span class="pre">simulate_markov()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#psytest.utils.functions.size_rgrid"><code class="docutils literal notranslate"><span class="pre">size_rgrid()</span></code></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#psytest.utils.functions.parse_psy_arguments"><code class="docutils literal notranslate"><span class="pre">parse_psy_arguments()</span></code></a></li>
 </ul>
             </nav>
         </div>
@@ -406,8 +405,10 @@ It should NOT be used directly by users and is solely intended for internal use 
 </dd>
 </dl>
 <p class="rubric">Notes</p>
+<p>Following the original paper, we set the default <code class="code docutils literal notranslate"><span class="pre">r0</span></code> parameter as:</p>
 <div class="math notranslate nohighlight">
 \[r_0 = 0.01 \times 0.08 \times \sqrt{n}\]</div>
+<p>where <span class="math notranslate nohighlight">\(n\)</span> is the number of observations.</p>
 </dd></dl>
 
 <dl class="py function">
@@ -429,8 +430,10 @@ It should NOT be used directly by users and is solely intended for internal use 
 </dd>
 </dl>
 <p class="rubric">Notes</p>
+<p>Following the original paper, we set the minimum bubble length as:</p>
 <div class="math notranslate nohighlight">
-\[\text{min\_length} = \frac{\delta \log(n)}{n}\]</div>
+\[\text{min_length} = \frac{\delta \log(n)}{n}\]</div>
+<p>where <span class="math notranslate nohighlight">\(n\)</span> is the number of observations and <span class="math notranslate nohighlight">\(\delta\)</span> is a multiplier parameter which should be input by the user.</p>
 </dd></dl>
 
 <dl class="py function">
@@ -476,11 +479,9 @@ It should NOT be used directly by users and is solely intended for internal use 
 </dd>
 </dl>
 <p class="rubric">Notes</p>
-<p>The process is defined as:
-.. math:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">y_t</span> <span class="o">=</span> \<span class="n">beta_t</span> <span class="n">y_</span><span class="p">{</span><span class="n">t</span><span class="o">-</span><span class="mi">1</span><span class="p">}</span> <span class="o">+</span> \<span class="n">varepsilon_t</span>
-</pre></div>
-</div>
+<p>The process is defined as:</p>
+<div class="math notranslate nohighlight">
+\[y_t = \beta_t y_{t-1} + \varepsilon_t\]</div>
 <p>where <span class="math notranslate nohighlight">\(\varepsilon_t \sim \mathcal{N}(0, 1)\)</span> and <span class="math notranslate nohighlight">\(\beta_t\)</span> is a Markov switching variable that takes values from <a class="reference internal" href="#psytest.utils.functions.simulate_markov.params.beta_list" title="psytest.utils.functions.simulate_markov"><code class="xref py py-paramref docutils literal notranslate"><span class="pre">beta_list</span></code></a>.
 The transition probability is defined by <a class="reference internal" href="#psytest.utils.functions.simulate_markov.params.p" title="psytest.utils.functions.simulate_markov"><code class="xref py py-paramref docutils literal notranslate"><span class="pre">p</span></code></a>, which is the probability of staying in the same regime.</p>
 <dl class="field-list simple">
@@ -512,40 +513,9 @@ The transition probability is defined by <a class="reference internal" href="#ps
 </dd>
 </dl>
 <p class="rubric">Notes</p>
-<p>The size is calculated as:
-.. math:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>\<span class="n">text</span><span class="p">{</span><span class="n">size</span><span class="p">}</span> <span class="o">=</span> \<span class="n">left</span>\<span class="n">lfloor</span> \<span class="n">frac</span><span class="p">{</span><span class="mi">1</span> <span class="o">-</span> <span class="n">r_0</span><span class="p">}{</span>\<span class="n">text</span><span class="p">{</span><span class="n">rstep</span><span class="p">}}</span> \<span class="n">right</span>\<span class="n">rfloor</span> <span class="o">+</span> <span class="mi">1</span>
-</pre></div>
-</div>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="psytest.utils.functions.parse_psy_arguments">
-<span class="sig-prename descclassname"><span class="pre">psytest.utils.functions.</span></span><span class="sig-name descname"><span class="pre">parse_psy_arguments</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.13)"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/psytest/utils/functions.html#parse_psy_arguments"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#psytest.utils.functions.parse_psy_arguments" title="Link to this definition">#</a></dt>
-<dd><p>Parses the arguments for the <a class="reference internal" href="psytest.bubbles.html#psytest.bubbles.PSYBubbles" title="psytest.bubbles.PSYBubbles"><code class="xref py py-class docutils literal notranslate"><span class="pre">psytest.bubbles.PSYBubbles</span></code></a> class and raises errors if they are invalid.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><span class="target" id="psytest.utils.functions.parse_psy_arguments.params.**kwargs"></span><strong>**kwargs</strong><a class="paramlink headerlink reference internal" href="#psytest.utils.functions.parse_psy_arguments.params.**kwargs">¶</a> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><em>dict</em></a>) – Keyword arguments containing the parameters to be validated.
-- data: 1D array-like of numbers
-- r0: float, default is calculated using <cite>r0_default</cite>
-- rstep: float, default is 1 / len(data)
-- kmax: int, default is KMAX
-- minlength: float, default is calculated using <cite>minlength_default</cite>
-- delta: float, default is None</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A dictionary with the validated parameters.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)">dict</a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a>, Any]</p>
-</dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><ul class="simple">
-<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.13)"><strong>TypeError</strong></a> – If any of the parameters are of the wrong type.</p></li>
-<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.13)"><strong>ValueError</strong></a> – If <code class="code docutils literal notranslate"><span class="pre">data</span></code> is not a 1D array, if <code class="code docutils literal notranslate"><span class="pre">r0</span></code> is not in the range [0, 1], if <code class="code docutils literal notranslate"><span class="pre">rstep</span></code> is not in the range (0, 1], if <code class="code docutils literal notranslate"><span class="pre">kmax</span></code> is not an integer or is out of bounds, if <code class="code docutils literal notranslate"><span class="pre">minlength</span></code> or <code class="code docutils literal notranslate"><span class="pre">delta</span></code> are not valid floats.</p></li>
-</ul>
-</dd>
-</dl>
+<p>The size is calculated as:</p>
+<div class="math notranslate nohighlight">
+\[\text{size} = \left\lfloor \frac{1 - r_0}{\text{rstep}} \right\rfloor + 1\]</div>
 </dd></dl>
 
 </section>
@@ -583,7 +553,6 @@ The transition probability is defined by <a class="reference internal" href="#ps
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#psytest.utils.functions.random_walk"><code class="docutils literal notranslate"><span class="pre">random_walk()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#psytest.utils.functions.simulate_markov"><code class="docutils literal notranslate"><span class="pre">simulate_markov()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#psytest.utils.functions.size_rgrid"><code class="docutils literal notranslate"><span class="pre">size_rgrid()</span></code></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#psytest.utils.functions.parse_psy_arguments"><code class="docutils literal notranslate"><span class="pre">parse_psy_arguments()</span></code></a></li>
 </ul>
   </nav></div>
 
@@ -598,7 +567,7 @@ The transition probability is defined by <a class="reference internal" href="#ps
   <div class="footer-item">
     
 <p class="component-author">
-By Jose Antunes Neto
+By José Antunes Neto
 </p>
 
   </div>

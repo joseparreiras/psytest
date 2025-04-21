@@ -5,13 +5,14 @@ This module contains the main class for the PSY test (see :class:`psytest.bubble
 """
 
 from numpy.typing import NDArray
-from numpy import float64, bool_, array, arange, vstack, int64
+from numpy import float64, bool_, array, arange, vstack, int64, ndarray
 from collections.abc import Generator
 from typing import Any, Literal, overload
 from .critval import critval_tabulated, is_available_param
-from .utils.functions import parse_psy_arguments
-from .utils.defaults import TEST_SIZE, NREPS
+from .utils.functions import r0_default, minlength_default
+from .utils.defaults import TEST_SIZE, NREPS, KMAX
 from .sadftest import bsadf_stat_all_series, bsadfuller_critval
+from .info_criteria import find_optimal_kmax
 from functools import lru_cache
 from pandas import Series
 
@@ -28,9 +29,9 @@ class PSYBubbles:
     rstep : float | None, optional
         Step size :math:`r_{\\text{step}}`. Defaults to :math:`1/n` where :math:`n` is the size of :paramref:`data`.
     kmax : int, optional
-        Maximum lag :math:`k_{\\max}`. Defaults to KMAX (see :mod:`psytest.utils.defaults`).
+        Maximum lag :math:`k_{\\max}`. If none, uses :func:`psytest.info_criteria.find_optimal_kmax` to find the optimal value.
     minlength : float | None, optional
-        Minimum bubble length.
+        Minimum bubble length. Defaults to :func:`psytest.utils.functions.minlength_default`.
     delta : float | None, optional
         Used to compute default minlength via :math:`\\delta \\log(n)/n`.
 
@@ -51,7 +52,7 @@ class PSYBubbles:
         minlength: float | None = None,
         delta: float | None = None,
     ) -> None:
-        parsed_args: dict[str, Any] = parse_psy_arguments(
+        parsed_args: dict[str, Any] = __parse_psy_arguments(
             data=data, r0=r0, rstep=rstep, kmax=kmax, minlength=minlength, delta=delta
         )
         self.data: NDArray[float64] = parsed_args["data"]
@@ -384,3 +385,85 @@ class PSYBubbles:
                 i0 += end
             else:
                 i0 += start + 1
+
+
+def __parse_psy_arguments(**kwargs) -> dict[str, Any]:
+    """Parses the arguments for the :class:`psytest.bubbles.PSYBubbles` class and raises errors if they are invalid.
+
+    Parameters
+    ----------
+    **kwargs : dict
+        Keyword arguments containing the parameters to be validated.
+        - data: 1D array-like of numbers
+        - r0: float, default is calculated using :func:`r0_default`
+        - rstep: float, default is 1 / len(data)
+        - kmax: int | None. If none, finds the optimal value using :func:`psytest.info_criteria.find_optimal_kmax`.
+        - minlength: float, default is calculated using `minlength_default`
+        - delta: float, default is None
+
+    Returns
+    -------
+    dict[str, Any]
+        A dictionary with the validated parameters.
+
+    Raises
+    -------
+    TypeError
+        If any of the parameters are of the wrong type.
+    ValueError
+        If :code:`data` is not a 1D array, if :code:`r0` is not in the range [0, 1], if :code:`rstep` is not in the range (0, 1], if :code:`kmax` is not an integer or is out of bounds, if :code:`minlength` or :code:`delta` are not valid floats.
+    """
+    kwargs: dict[str, Any] = {k: v for k, v in kwargs.items() if v is not None}
+    data: Any = kwargs.get("data")
+    if data is None:
+        raise ValueError("`data` must be provided")
+    if not isinstance(data, ndarray):
+        data: NDArray = array(data)
+    if data.ndim != 1:
+        raise ValueError("`data` must be a 1D array")
+    if data.dtype not in [float64, int64]:
+        raise ValueError("`data` must be a number array")
+    if len(data) < 2:
+        raise ValueError("`data` must have at least 2 elements")
+    r0: Any = kwargs.get("r0", r0_default(len(data)))
+    if not isinstance(r0, float):
+        raise TypeError("`r0` must be a float")
+    if not 0 <= r0 <= 1:
+        raise ValueError("`r0` must be in the range [0, 1]")
+    rstep: Any = kwargs.get("rstep", 1 / len(data))
+    if not isinstance(rstep, float):
+        raise TypeError("`rstep` must be a float")
+    if not 0 < rstep <= 1:
+        raise ValueError("`rstep` must be in the range (0, 1]")
+    kmax: Any = kwargs.get("kmax", KMAX)
+    if kmax is None:
+        kmax: int = find_optimal_kmax(y=data, klimit=KMAX)
+    elif not isinstance(kmax, int):
+        raise TypeError("`kmax` must be an integer or None")
+    if kmax < 0:
+        raise ValueError("`kmax` must be greater than or equal to 0")
+    if kmax > len(data) - 1:
+        raise ValueError("`kmax` must be less than the length of `data`")
+    minlength: Any = kwargs.get("minlength")
+    delta: Any = kwargs.get("delta")
+    if minlength is not None and delta is not None:
+        raise ValueError("Only one of `minlength` or `delta` should be provided")
+    if delta is not None:
+        if not isinstance(delta, float):
+            raise TypeError("`delta` must be a float")
+        if delta <= 0:
+            raise ValueError("`delta` must be greater than 0")
+        minlength = minlength_default(nobs=len(data), delta=delta)
+    if minlength is not None:
+        if not isinstance(minlength, float):
+            raise TypeError("`minlength` must be a float")
+        if not 0 < minlength <= 1:
+            raise ValueError("`minlength` must be in the range (0, 1]")
+    return {
+        "data": data,
+        "r0": r0,
+        "rstep": rstep,
+        "kmax": kmax,
+        "minlength": minlength,
+        "delta": delta,
+    }

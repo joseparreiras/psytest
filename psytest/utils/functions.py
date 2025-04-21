@@ -6,13 +6,10 @@ It should NOT be used directly by users and is solely intended for internal use 
 """
 
 from numba import njit
-from numpy import cumsum, float64, zeros, log, array, int64, ndarray, float64
+from numpy import cumsum, float64, zeros, log, array, float64
 from numpy.typing import NDArray
 from numpy.random import normal, uniform
 from collections.abc import Sequence
-from typing import Any
-from .defaults import KMAX
-from ..info_criteria import find_optimal_kmax
 
 
 def r0_default(nobs: int) -> int:
@@ -30,8 +27,12 @@ def r0_default(nobs: int) -> int:
 
     Notes
     -----
+    Following the original paper, we set the default :code:`r0` parameter as:
+
     .. math::
         r_0 = 0.01 \\times 0.08 \\times \\sqrt{n}
+
+    where :math:`n` is the number of observations.
     """
     return 0.01 * 0.08 * nobs**0.5
 
@@ -53,8 +54,12 @@ def minlength_default(nobs: int, delta: float) -> int:
 
     Notes
     -----
+    Following the original paper, we set the minimum bubble length as:
+
     .. math::
-        \\text{min\\_length} = \\frac{\\delta \\log(n)}{n}
+        \\text{min_length} = \\frac{\\delta \\log(n)}{n}
+
+    where :math:`n` is the number of observations and :math:`\\delta` is a multiplier parameter which should be input by the user.
     """
     return delta * log(nobs) / nobs
 
@@ -107,8 +112,8 @@ def simulate_markov(
     Notes
     -----
     The process is defined as:
-    .. math::
 
+    .. math::
         y_t = \\beta_t y_{t-1} + \\varepsilon_t
 
     where :math:`\\varepsilon_t \\sim \\mathcal{N}(0, 1)` and :math:`\\beta_t` is a Markov switching variable that takes values from :paramref:`beta_list`.
@@ -170,90 +175,8 @@ def size_rgrid(r0: float, rstep: float) -> int:
     Notes
     -----
     The size is calculated as:
-    .. math::
 
+    .. math::
         \\text{size} = \\left\\lfloor \\frac{1 - r_0}{\\text{rstep}} \\right\\rfloor + 1
     """
     return int((1 - r0) / rstep) + 1
-
-
-def parse_psy_arguments(**kwargs) -> dict[str, Any]:
-    """Parses the arguments for the :class:`psytest.bubbles.PSYBubbles` class and raises errors if they are invalid.
-
-    Parameters
-    ----------
-    **kwargs : dict
-        Keyword arguments containing the parameters to be validated.
-        - data: 1D array-like of numbers
-        - r0: float, default is calculated using :func:`r0_default`
-        - rstep: float, default is 1 / len(data)
-        - kmax: int | None. If none, finds the optimal value using :func:`psytest.info_criteria.find_optimal_kmax`.
-        - minlength: float, default is calculated using `minlength_default`
-        - delta: float, default is None
-
-    Returns
-    -------
-    dict[str, Any]
-        A dictionary with the validated parameters.
-
-    Raises
-    -------
-    TypeError
-        If any of the parameters are of the wrong type.
-    ValueError
-        If :code:`data` is not a 1D array, if :code:`r0` is not in the range [0, 1], if :code:`rstep` is not in the range (0, 1], if :code:`kmax` is not an integer or is out of bounds, if :code:`minlength` or :code:`delta` are not valid floats.
-    """
-    kwargs: dict[str, Any] = {k: v for k, v in kwargs.items() if v is not None}
-    data: Any = kwargs.get("data")
-    if data is None:
-        raise ValueError("`data` must be provided")
-    if not isinstance(data, ndarray):
-        data: NDArray = array(data)
-    if data.ndim != 1:
-        raise ValueError("`data` must be a 1D array")
-    if data.dtype not in [float64, int64]:
-        raise ValueError("`data` must be a number array")
-    if len(data) < 2:
-        raise ValueError("`data` must have at least 2 elements")
-    r0: Any = kwargs.get("r0", r0_default(len(data)))
-    if not isinstance(r0, float):
-        raise TypeError("`r0` must be a float")
-    if not 0 <= r0 <= 1:
-        raise ValueError("`r0` must be in the range [0, 1]")
-    rstep: Any = kwargs.get("rstep", 1 / len(data))
-    if not isinstance(rstep, float):
-        raise TypeError("`rstep` must be a float")
-    if not 0 < rstep <= 1:
-        raise ValueError("`rstep` must be in the range (0, 1]")
-    kmax: Any = kwargs.get("kmax", KMAX)
-    if kmax is None:
-        kmax: int = find_optimal_kmax(y=data, klimit=KMAX)
-    elif not isinstance(kmax, int):
-        raise TypeError("`kmax` must be an integer or None")
-    if kmax < 0:
-        raise ValueError("`kmax` must be greater than or equal to 0")
-    if kmax > len(data) - 1:
-        raise ValueError("`kmax` must be less than the length of `data`")
-    minlength: Any = kwargs.get("minlength")
-    delta: Any = kwargs.get("delta")
-    if minlength is not None and delta is not None:
-        raise ValueError("Only one of `minlength` or `delta` should be provided")
-    if delta is not None:
-        if not isinstance(delta, float):
-            raise TypeError("`delta` must be a float")
-        if delta <= 0:
-            raise ValueError("`delta` must be greater than 0")
-        minlength = minlength_default(nobs=len(data), delta=delta)
-    if minlength is not None:
-        if not isinstance(minlength, float):
-            raise TypeError("`minlength` must be a float")
-        if not 0 < minlength <= 1:
-            raise ValueError("`minlength` must be in the range (0, 1]")
-    return {
-        "data": data,
-        "r0": r0,
-        "rstep": rstep,
-        "kmax": kmax,
-        "minlength": minlength,
-        "delta": delta,
-    }

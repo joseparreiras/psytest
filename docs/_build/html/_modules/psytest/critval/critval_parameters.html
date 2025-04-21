@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>psytest.critval.critval_parameters &#8212; psytest 0.1.0 documentation</title>
+    <title>psytest.critval.critval_parameters &#8212; psytest 0.2.4 documentation</title>
   
   
   
@@ -36,7 +36,7 @@
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../../_static/documentation_options.js?v=a1637f0b"></script>
+    <script src="../../../_static/documentation_options.js?v=fd1d25c9"></script>
     <script src="../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
@@ -137,8 +137,8 @@
       
     
     
-    <img src="../../../_static/logo.svg" class="logo__image only-light" alt="psytest 0.1.0 documentation - Home"/>
-    <script>document.write(`<img src="../../../_static/logo.svg" class="logo__image only-dark" alt="psytest 0.1.0 documentation - Home"/>`);</script>
+    <img src="../../../_static/logo.svg" class="logo__image only-light" alt="psytest 0.2.4 documentation - Home"/>
+    <script>document.write(`<img src="../../../_static/logo.svg" class="logo__image only-dark" alt="psytest 0.2.4 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -467,9 +467,9 @@ document.write(`
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">for</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">AVAILABLE_CRITICAL_VALUE_PARAMETERS</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">param</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">kmax</span> <span class="o">==</span> <span class="n">kmax</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">param</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">r0</span> <span class="o">&gt;</span> <span class="n">r0</span><span class="p">:</span>
-                <span class="k">return</span> <span class="kc">False</span>
-    <span class="k">return</span> <span class="kc">True</span></div>
+            <span class="k">if</span> <span class="n">param</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">r0</span> <span class="o">&lt;=</span> <span class="n">r0</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">return</span> <span class="kc">False</span></div>
 
 </pre></div>
 
@@ -499,7 +499,7 @@ document.write(`
   <div class="footer-item">
     
 <p class="component-author">
-By Jose Antunes Neto
+By José Antunes Neto
 </p>
 
   </div>

@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>psytest.utils.functions &#8212; psytest 0.1.0 documentation</title>
+    <title>psytest.utils.functions &#8212; psytest 0.2.4 documentation</title>
   
   
   
@@ -36,7 +36,7 @@
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../../_static/documentation_options.js?v=a1637f0b"></script>
+    <script src="../../../_static/documentation_options.js?v=fd1d25c9"></script>
     <script src="../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
@@ -137,8 +137,8 @@
       
     
     
-    <img src="../../../_static/logo.svg" class="logo__image only-light" alt="psytest 0.1.0 documentation - Home"/>
-    <script>document.write(`<img src="../../../_static/logo.svg" class="logo__image only-dark" alt="psytest 0.1.0 documentation - Home"/>`);</script>
+    <img src="../../../_static/logo.svg" class="logo__image only-light" alt="psytest 0.2.4 documentation - Home"/>
+    <script>document.write(`<img src="../../../_static/logo.svg" class="logo__image only-dark" alt="psytest 0.2.4 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -295,12 +295,10 @@ document.write(`
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">from</span> <span class="nn">numba</span> <span class="kn">import</span> <span class="n">njit</span>
-<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">cumsum</span><span class="p">,</span> <span class="n">float64</span><span class="p">,</span> <span class="n">zeros</span><span class="p">,</span> <span class="n">log</span><span class="p">,</span> <span class="n">array</span><span class="p">,</span> <span class="n">int64</span><span class="p">,</span> <span class="n">ndarray</span><span class="p">,</span> <span class="n">float64</span>
+<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">cumsum</span><span class="p">,</span> <span class="n">float64</span><span class="p">,</span> <span class="n">zeros</span><span class="p">,</span> <span class="n">log</span><span class="p">,</span> <span class="n">array</span><span class="p">,</span> <span class="n">float64</span>
 <span class="kn">from</span> <span class="nn">numpy.typing</span> <span class="kn">import</span> <span class="n">NDArray</span>
 <span class="kn">from</span> <span class="nn">numpy.random</span> <span class="kn">import</span> <span class="n">normal</span><span class="p">,</span> <span class="n">uniform</span>
 <span class="kn">from</span> <span class="nn">collections.abc</span> <span class="kn">import</span> <span class="n">Sequence</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span>
-<span class="kn">from</span> <span class="nn">.defaults</span> <span class="kn">import</span> <span class="n">KMAX</span>
 
 
 <div class="viewcode-block" id="r0_default">
@@ -320,8 +318,12 @@ document.write(`
 
 <span class="sd">    Notes</span>
 <span class="sd">    -----</span>
+<span class="sd">    Following the original paper, we set the default :code:`r0` parameter as:</span>
+
 <span class="sd">    .. math::</span>
 <span class="sd">        r_0 = 0.01 \\times 0.08 \\times \\sqrt{n}</span>
+
+<span class="sd">    where :math:`n` is the number of observations.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="mf">0.01</span> <span class="o">*</span> <span class="mf">0.08</span> <span class="o">*</span> <span class="n">nobs</span><span class="o">**</span><span class="mf">0.5</span></div>
 
@@ -346,8 +348,12 @@ document.write(`
 
 <span class="sd">    Notes</span>
 <span class="sd">    -----</span>
+<span class="sd">    Following the original paper, we set the minimum bubble length as:</span>
+
 <span class="sd">    .. math::</span>
-<span class="sd">        \\text{min\\_length} = \\frac{\\delta \\log(n)}{n}</span>
+<span class="sd">        \\text{min_length} = \\frac{\\delta \\log(n)}{n}</span>
+
+<span class="sd">    where :math:`n` is the number of observations and :math:`\\delta` is a multiplier parameter which should be input by the user.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">delta</span> <span class="o">*</span> <span class="n">log</span><span class="p">(</span><span class="n">nobs</span><span class="p">)</span> <span class="o">/</span> <span class="n">nobs</span></div>
 
@@ -406,8 +412,8 @@ document.write(`
 <span class="sd">    Notes</span>
 <span class="sd">    -----</span>
 <span class="sd">    The process is defined as:</span>
-<span class="sd">    .. math::</span>
 
+<span class="sd">    .. math::</span>
 <span class="sd">        y_t = \\beta_t y_{t-1} + \\varepsilon_t</span>
 
 <span class="sd">    where :math:`\\varepsilon_t \\sim \\mathcal{N}(0, 1)` and :math:`\\beta_t` is a Markov switching variable that takes values from :paramref:`beta_list`.</span>
@@ -472,94 +478,11 @@ document.write(`
 <span class="sd">    Notes</span>
 <span class="sd">    -----</span>
 <span class="sd">    The size is calculated as:</span>
-<span class="sd">    .. math::</span>
 
+<span class="sd">    .. math::</span>
 <span class="sd">        \\text{size} = \\left\\lfloor \\frac{1 - r_0}{\\text{rstep}} \\right\\rfloor + 1</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="nb">int</span><span class="p">((</span><span class="mi">1</span> <span class="o">-</span> <span class="n">r0</span><span class="p">)</span> <span class="o">/</span> <span class="n">rstep</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span></div>
-
-
-
-<div class="viewcode-block" id="parse_psy_arguments">
-<a class="viewcode-back" href="../../../psytest.utils.functions.html#psytest.utils.functions.parse_psy_arguments">[docs]</a>
-<span class="k">def</span> <span class="nf">parse_psy_arguments</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Parses the arguments for the :class:`psytest.bubbles.PSYBubbles` class and raises errors if they are invalid.</span>
-
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    **kwargs : dict</span>
-<span class="sd">        Keyword arguments containing the parameters to be validated.</span>
-<span class="sd">        - data: 1D array-like of numbers</span>
-<span class="sd">        - r0: float, default is calculated using `r0_default`</span>
-<span class="sd">        - rstep: float, default is 1 / len(data)</span>
-<span class="sd">        - kmax: int, default is KMAX</span>
-<span class="sd">        - minlength: float, default is calculated using `minlength_default`</span>
-<span class="sd">        - delta: float, default is None</span>
-
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    dict[str, Any]</span>
-<span class="sd">        A dictionary with the validated parameters.</span>
-
-<span class="sd">    Raises</span>
-<span class="sd">    -------</span>
-<span class="sd">    TypeError</span>
-<span class="sd">        If any of the parameters are of the wrong type.</span>
-<span class="sd">    ValueError</span>
-<span class="sd">        If :code:`data` is not a 1D array, if :code:`r0` is not in the range [0, 1], if :code:`rstep` is not in the range (0, 1], if :code:`kmax` is not an integer or is out of bounds, if :code:`minlength` or :code:`delta` are not valid floats.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">kwargs</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">v</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">}</span>
-    <span class="n">data</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;data&quot;</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">data</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;`data` must be provided&quot;</span><span class="p">)</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">ndarray</span><span class="p">):</span>
-        <span class="n">data</span><span class="p">:</span> <span class="n">NDArray</span> <span class="o">=</span> <span class="n">array</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">data</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;`data` must be a 1D array&quot;</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">data</span><span class="o">.</span><span class="n">dtype</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="n">float64</span><span class="p">,</span> <span class="n">int64</span><span class="p">]:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;`data` must be a number array&quot;</span><span class="p">)</span>
-    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;`data` must have at least 2 elements&quot;</span><span class="p">)</span>
-    <span class="n">r0</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;r0&quot;</span><span class="p">,</span> <span class="n">r0_default</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)))</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">r0</span><span class="p">,</span> <span class="nb">float</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;`r0` must be a float&quot;</span><span class="p">)</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">r0</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;`r0` must be in the range [0, 1]&quot;</span><span class="p">)</span>
-    <span class="n">rstep</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;rstep&quot;</span><span class="p">,</span> <span class="mi">1</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">rstep</span><span class="p">,</span> <span class="nb">float</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;`rstep` must be a float&quot;</span><span class="p">)</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="mi">0</span> <span class="o">&lt;</span> <span class="n">rstep</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;`rstep` must be in the range (0, 1]&quot;</span><span class="p">)</span>
-    <span class="n">kmax</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;kmax&quot;</span><span class="p">,</span> <span class="n">KMAX</span><span class="p">)</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">kmax</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;`kmax` must be an integer&quot;</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">kmax</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;`kmax` must be greater than or equal to 0&quot;</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">kmax</span> <span class="o">&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;`kmax` must be less than the length of `data`&quot;</span><span class="p">)</span>
-    <span class="n">minlength</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;minlength&quot;</span><span class="p">)</span>
-    <span class="n">delta</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;delta&quot;</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">minlength</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">delta</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Only one of `minlength` or `delta` should be provided&quot;</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">delta</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">delta</span><span class="p">,</span> <span class="nb">float</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;`delta` must be a float&quot;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">delta</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;`delta` must be greater than 0&quot;</span><span class="p">)</span>
-        <span class="n">minlength</span> <span class="o">=</span> <span class="n">minlength_default</span><span class="p">(</span><span class="n">nobs</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">),</span> <span class="n">delta</span><span class="o">=</span><span class="n">delta</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">minlength</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">minlength</span><span class="p">,</span> <span class="nb">float</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;`minlength` must be a float&quot;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="mi">0</span> <span class="o">&lt;</span> <span class="n">minlength</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;`minlength` must be in the range (0, 1]&quot;</span><span class="p">)</span>
-    <span class="k">return</span> <span class="p">{</span>
-        <span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="n">data</span><span class="p">,</span>
-        <span class="s2">&quot;r0&quot;</span><span class="p">:</span> <span class="n">r0</span><span class="p">,</span>
-        <span class="s2">&quot;rstep&quot;</span><span class="p">:</span> <span class="n">rstep</span><span class="p">,</span>
-        <span class="s2">&quot;kmax&quot;</span><span class="p">:</span> <span class="n">kmax</span><span class="p">,</span>
-        <span class="s2">&quot;minlength&quot;</span><span class="p">:</span> <span class="n">minlength</span><span class="p">,</span>
-        <span class="s2">&quot;delta&quot;</span><span class="p">:</span> <span class="n">delta</span><span class="p">,</span>
-    <span class="p">}</span></div>
 
 </pre></div>
 
@@ -589,7 +512,7 @@ document.write(`
   <div class="footer-item">
     
 <p class="component-author">
-By Jose Antunes Neto
+By José Antunes Neto
 </p>
 
   </div>

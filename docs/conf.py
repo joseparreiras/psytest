@@ -44,7 +44,7 @@ html_favicon = "_static/bubbles.gif"
 html_logo = "_static/logo.svg"
 
 html_theme_options = {
-    "repository_url": "https://github.com/joseparreiras/psytest",  # optional
+    "repository_url": psytest.__url__,  # optional
     "use_repository_button": True,
     "use_edit_page_button": True,
     "path_to_docs": "docs",  # relative to root

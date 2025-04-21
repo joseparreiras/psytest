@@ -21,9 +21,11 @@ If your data is a :class:`pandas.Series`, you can use the :func:`psytest.bubbles
 """
 
 from .bubbles import PSYBubbles
-from .info_criteria import InfoCriteriaFunc
 
-__all__: list[str] = ["PSYBubbles", "InfoCriteriaFunc"]
+__all__: list[str] = ["PSYBubbles"]
 __name__: str = "psytest"
-__version__: str = "0.1.0"
-__author__: str = "Jose Antunes Neto"
+__version__: str = "0.2.5"
+__author__: str = "José Antunes Neto"
+__email__: str = "jose.neto@kellogg.northwestern.edu"
+__description__: str = "Python module to test for the presence of bubbles."
+__url__: str = "https://github.com/joseparreiras/psytest"
