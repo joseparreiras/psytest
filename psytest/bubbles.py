@@ -52,7 +52,7 @@ class PSYBubbles:
         minlength: float | None = None,
         delta: float | None = None,
     ) -> None:
-        parsed_args: dict[str, Any] = __parse_psy_arguments(
+        parsed_args: dict[str, Any] = __parse_psy_arguments__(
             data=data, r0=r0, rstep=rstep, kmax=kmax, minlength=minlength, delta=delta
         )
         self.data: NDArray[float64] = parsed_args["data"]
@@ -387,7 +387,7 @@ class PSYBubbles:
                 i0 += start + 1
 
 
-def __parse_psy_arguments(**kwargs) -> dict[str, Any]:
+def __parse_psy_arguments__(**kwargs) -> dict[str, Any]:
     """Parses the arguments for the :class:`psytest.bubbles.PSYBubbles` class and raises errors if they are invalid.
 
     Parameters
