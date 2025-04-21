@@ -185,9 +185,9 @@ def parse_psy_arguments(**kwargs) -> dict[str, Any]:
     **kwargs : dict
         Keyword arguments containing the parameters to be validated.
         - data: 1D array-like of numbers
-        - r0: float, default is calculated using `r0_default`
+        - r0: float, default is calculated using :func:`r0_default`
         - rstep: float, default is 1 / len(data)
-        - kmax: int | None, default is KMAX
+        - kmax: int | None. If none, finds the optimal value using :func:`psytest.info_criteria.find_optimal_kmax`.
         - minlength: float, default is calculated using `minlength_default`
         - delta: float, default is None
 
@@ -227,7 +227,7 @@ def parse_psy_arguments(**kwargs) -> dict[str, Any]:
         raise ValueError("`rstep` must be in the range (0, 1]")
     kmax: Any = kwargs.get("kmax", KMAX)
     if kmax is None:
-        kmax: int = find_optimal_kmax(data, KMAX)
+        kmax: int = find_optimal_kmax(y=data, klimit=KMAX)
     elif not isinstance(kmax, int):
         raise TypeError("`kmax` must be an integer or None")
     if kmax < 0:

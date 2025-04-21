@@ -18,12 +18,12 @@ def bic(y: NDArray[float64], k: int) -> float:
     ----------
     y : :class:`numpy.ndarray`
         Fitted error values.
-    k : :class:`int`
+    k : int
         Number of parameters in the model.
 
     Returns
     -------
-    bic : :class:`float`
+    bic : float
         The BIC value.
     """
     sigma_sq: float64 = var(y, ddof=k)
@@ -38,12 +38,12 @@ def aic(y: NDArray[float64], k: int) -> float:
     ----------
     y : :class:`numpy.ndarray`
         Fitted error values.
-    k : :class:`int`
+    k : int
         Number of parameters in the model.
 
     Returns
     -------
-    aic : :class:`float`
+    aic : float
         The AIC value.
     """
 
@@ -59,12 +59,12 @@ def aicc(y: NDArray[float64], k: int) -> float:
     ----------
     y : :class:`numpy.ndarray`
         Fitted error values.
-    k : :class:`int`
+    k : int
         Number of parameters in the model.
 
     Returns
     -------
-    aicc : :class:`float`
+    aicc : float
         The AICc value.
     """
     n: int = len(y)
@@ -84,17 +84,20 @@ def find_optimal_kmax(
         List of `m` fitted error values for each model.
     k_list : :class:`numpy.ndarray`
         List of `m` values for the number of parameters of each model.
-    criteria : :class:`InfoCriteriaFunc`
-        Enum member representing the information criterion to use.
+    criteria : "aic", "bic" or "aicc".
+        Information criteria to use for evaluation. Defaults to "bic".
 
     Raises
     ------
+    TypeError
+        If :paramref:`klimi` is not an integer
     ValueError
-        If :paramref:`k_list` and :paramref:`error` have different lengths.
+        If :paramref:`klimit` is negative or greater than sample size.
+        If :paramref:`criteria` is not in ("aic", "bic", "aicc")
 
     Returns
     -------
-    best_model : :class:`int`
+    best_model : int
         The optimal value of KMAX.
     """
     match criteria:
