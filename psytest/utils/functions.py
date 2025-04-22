@@ -37,15 +37,13 @@ def r0_default(nobs: int) -> int:
     return 0.01 + 1.8 / nobs**0.5
 
 
-def minlength_default(nobs: int, delta: float) -> int:
+def minlength_default(nobs: int) -> int:
     """Calculates the minimum bubble length based on the number of observations.
 
     Parameters
     ----------
     nobs : int
         Number of observations
-    delta : float
-        Multiplier parameter for bubble length
 
     Returns
     -------
@@ -57,11 +55,11 @@ def minlength_default(nobs: int, delta: float) -> int:
     Following the original paper, we set the minimum bubble length as:
 
     .. math::
-        \\text{min_length} = \\frac{\\delta \\log(n)}{n}
+        \\text{min_length} = \\frac{\\log(n)}{n}
 
-    where :math:`n` is the number of observations and :math:`\\delta` is a multiplier parameter which should be input by the user.
+    where :math:`n` is the number of observations.
     """
-    return delta * log(nobs) / nobs
+    return log(nobs) / nobs
 
 
 def random_walk(nreps: int, nobs: int) -> NDArray[float64]:

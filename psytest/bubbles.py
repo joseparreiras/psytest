@@ -32,8 +32,6 @@ class PSYBubbles:
         Maximum lag :math:`k_{\\max}`. If none, uses :func:`psytest.info_criteria.find_optimal_kmax` to find the optimal value.
     minlength : float | None, optional
         Minimum bubble length. Defaults to :func:`psytest.utils.functions.minlength_default`.
-    delta : float | None, optional
-        Used to compute default minlength via :math:`\\delta \\log(n)/n`.
 
     Raises
     -------
@@ -50,10 +48,9 @@ class PSYBubbles:
         rstep: float | None = None,
         kmax: int | None = None,
         minlength: float | None = None,
-        delta: float | None = None,
     ) -> None:
         parsed_args: dict[str, Any] = __parse_psy_arguments__(
-            data=data, r0=r0, rstep=rstep, kmax=kmax, minlength=minlength, delta=delta
+            data=data, r0=r0, rstep=rstep, kmax=kmax, minlength=minlength
         )
         self.data: NDArray[float64] = parsed_args["data"]
         self.nobs: int = len(self.data)
@@ -62,7 +59,6 @@ class PSYBubbles:
         self.rstep: float = parsed_args["rstep"]
         self.kmax: int = parsed_args["kmax"]
         self.minlength: float = parsed_args["minlength"]
-        self.delta: float | None = parsed_args["delta"]
         self.r2grid: NDArray[float64] = arange(self.r0, 1 + 1e-16, self.rstep)
 
     @lru_cache(maxsize=128)
@@ -305,7 +301,6 @@ class PSYBubbles:
         rstep: float | None = None,
         kmax: int = 0,
         minlength: int | None = None,
-        delta: float | None = None,
     ) -> "PSYBubbles":
         """Creates a PSYBubbles object from a :class:`pandas.Series`.
 
@@ -321,8 +316,6 @@ class PSYBubbles:
             Maximum lag :math:`k_{\\max}`. Defaults to 0.
         minlength : int | None, optional
             Minimum bubble length.
-        delta : float | None, optional
-            Used to compute default minlength via :math:`\\delta \\log(n)/n`.
 
         Returns
         -------
@@ -346,7 +339,6 @@ class PSYBubbles:
             rstep=rstep,
             kmax=kmax,
             minlength=minlength,
-            delta=delta,
         )
         obj.index = data_index
         return obj
@@ -399,7 +391,6 @@ def __parse_psy_arguments__(**kwargs) -> dict[str, Any]:
         - rstep: float, default is 1 / len(data)
         - kmax: int | None. If none, finds the optimal value using :func:`psytest.info_criteria.find_optimal_kmax`.
         - minlength: float, default is calculated using `minlength_default`
-        - delta: float, default is None
 
     Returns
     -------
@@ -411,7 +402,7 @@ def __parse_psy_arguments__(**kwargs) -> dict[str, Any]:
     TypeError
         If any of the parameters are of the wrong type.
     ValueError
-        If :code:`data` is not a 1D array, if :code:`r0` is not in the range [0, 1], if :code:`rstep` is not in the range (0, 1], if :code:`kmax` is not an integer or is out of bounds, if :code:`minlength` or :code:`delta` are not valid floats.
+        If :code:`data` is not a 1D array, if :code:`r0` is not in the range [0, 1], if :code:`rstep` is not in the range (0, 1], if :code:`kmax` is not an integer or is out of bounds, if :code:`minlength` is not valid floats.
     """
     kwargs: dict[str, Any] = {k: v for k, v in kwargs.items() if v is not None}
     data: Any = kwargs.get("data")
@@ -445,25 +436,14 @@ def __parse_psy_arguments__(**kwargs) -> dict[str, Any]:
     if kmax > len(data) - 1:
         raise ValueError("`kmax` must be less than the length of `data`")
     minlength: Any = kwargs.get("minlength")
-    delta: Any = kwargs.get("delta")
-    if minlength is not None and delta is not None:
-        raise ValueError("Only one of `minlength` or `delta` should be provided")
-    if delta is not None:
-        if not isinstance(delta, float):
-            raise TypeError("`delta` must be a float")
-        if delta <= 0:
-            raise ValueError("`delta` must be greater than 0")
-        minlength = minlength_default(nobs=len(data), delta=delta)
-    if minlength is not None:
-        if not isinstance(minlength, float):
-            raise TypeError("`minlength` must be a float")
-        if not 0 < minlength <= 1:
-            raise ValueError("`minlength` must be in the range (0, 1]")
+    if minlength is None:
+        minlength: float = minlength_default(nobs=len(data))
+    elif not isinstance(minlength, float):
+        raise TypeError("`minlength` must be a float")
     return {
         "data": data,
         "r0": r0,
         "rstep": rstep,
         "kmax": kmax,
         "minlength": minlength,
-        "delta": delta,
     }

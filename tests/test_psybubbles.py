@@ -50,7 +50,6 @@ def test_init_all_args(psy_instance: PSYBubbles, sim_data: NDArray[float64]) -> 
     assert psy_instance.minlength == 0.10
     assert psy_instance.nobs == 1000
     assert isinstance(psy_instance.r0, float)
-    assert psy_instance.delta is None
     assert isinstance(psy_instance.data, ndarray)
     assert psy_instance.data.dtype == float64
     assert len(psy_instance.data) == 1000
