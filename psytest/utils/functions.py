@@ -34,7 +34,7 @@ def r0_default(nobs: int) -> int:
 
     where :math:`n` is the number of observations.
     """
-    return 0.01 * 0.08 * nobs**0.5
+    return 0.01 + 1.8 / nobs**0.5
 
 
 def minlength_default(nobs: int, delta: float) -> int:
