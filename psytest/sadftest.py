@@ -152,8 +152,8 @@ def bsadf_stat_all_series(
     for i in prange(ntups):
         r1: int = r1r2_grid[i][0]
         r2: int = r1r2_grid[i][1]
-        i: int = int((r2 - r1 - r0) / rstep)
-        stat[i] = max(stat[i], rolling_adfuller_stat(y, kmax=kmax, r1=r1, r2=r2))
+        j: int = int(r2 * nstat)
+        stat[j] = max(stat[j], rolling_adfuller_stat(y, kmax=kmax, r1=r1, r2=r2))
     return stat
 
 
@@ -246,7 +246,7 @@ def bsadfuller_critval(
     )
     if isinstance(test_size, float):
         quant_float: float = 1 - test_size
-        critval: NDArray[float64] = quantile(sadf_dist, quant_float, axis=0)
+        critval: NDArray[float64] = quantile(sadf_dist, quant_float, axis=0)    
     elif isinstance(test_size, Iterable):
         quant_list: list[float] = [1 - q for q in test_size]
         critval: NDArray[float64] = quantile(sadf_dist, quant_list, axis=0)
