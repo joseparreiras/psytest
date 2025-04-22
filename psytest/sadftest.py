@@ -80,7 +80,7 @@ def __sadfuller_dist_from_random_walks__(
         for i in prange(ntups):
             r1: int = r1r2_grid[i][0]
             r2: int = r1r2_grid[i][1]
-            idx: int = int((r2 - r1 - r0) / rstep)
+            idx: int = int(r2 * nstat)
             stats[j, idx] = max(
                 stats[j, idx],
                 rolling_adfuller_stat(random_walks[j], kmax=kmax, r1=r1, r2=r2),
@@ -246,7 +246,7 @@ def bsadfuller_critval(
     )
     if isinstance(test_size, float):
         quant_float: float = 1 - test_size
-        critval: NDArray[float64] = quantile(sadf_dist, quant_float, axis=0)    
+        critval: NDArray[float64] = quantile(sadf_dist, quant_float, axis=0)
     elif isinstance(test_size, Iterable):
         quant_list: list[float] = [1 - q for q in test_size]
         critval: NDArray[float64] = quantile(sadf_dist, quant_list, axis=0)
