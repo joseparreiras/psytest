@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>psytest.utils.functions module &#8212; psytest 0.2.4 documentation</title>
+    <title>psytest.utils.functions module &#8212; psytest 0.2.8 documentation</title>
   
   
   
@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="_static/documentation_options.js?v=fd1d25c9"></script>
+    <script src="_static/documentation_options.js?v=a0cf2451"></script>
     <script src="_static/doctools.js?v=9bcbadda"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
@@ -137,8 +137,8 @@
       
     
     
-    <img src="_static/logo.svg" class="logo__image only-light" alt="psytest 0.2.4 documentation - Home"/>
-    <script>document.write(`<img src="_static/logo.svg" class="logo__image only-dark" alt="psytest 0.2.4 documentation - Home"/>`);</script>
+    <img src="_static/logo.svg" class="logo__image only-light" alt="psytest 0.2.8 documentation - Home"/>
+    <script>document.write(`<img src="_static/logo.svg" class="logo__image only-dark" alt="psytest 0.2.8 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -419,7 +419,7 @@ It should NOT be used directly by users and is solely intended for internal use 
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><span class="target" id="psytest.utils.functions.minlength_default.params.nobs"></span><strong>nobs</strong><a class="paramlink headerlink reference internal" href="#psytest.utils.functions.minlength_default.params.nobs">¶</a> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><em>int</em></a>) – Number of observations</p></li>
-<li><p><span class="target" id="psytest.utils.functions.minlength_default.params.delta"></span><strong>delta</strong><a class="paramlink headerlink reference internal" href="#psytest.utils.functions.minlength_default.params.delta">¶</a> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a>) – Multiplier parameter for bubble length</p></li>
+<li><p><span class="target" id="psytest.utils.functions.minlength_default.params.delta"></span><strong>delta</strong><a class="paramlink headerlink reference internal" href="#psytest.utils.functions.minlength_default.params.delta">¶</a> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a>) – The delta parameter for the bubble length calculation</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -432,8 +432,8 @@ It should NOT be used directly by users and is solely intended for internal use 
 <p class="rubric">Notes</p>
 <p>Following the original paper, we set the minimum bubble length as:</p>
 <div class="math notranslate nohighlight">
-\[\text{min_length} = \frac{\delta \log(n)}{n}\]</div>
-<p>where <span class="math notranslate nohighlight">\(n\)</span> is the number of observations and <span class="math notranslate nohighlight">\(\delta\)</span> is a multiplier parameter which should be input by the user.</p>
+\[\text{min_length} = \delta\frac{\log(n)}{n}\]</div>
+<p>where <span class="math notranslate nohighlight">\(n\)</span> is the number of observations.</p>
 </dd></dl>
 
 <dl class="py function">

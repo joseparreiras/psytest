@@ -22,5 +22,8 @@ plt.show()
 psy = PSYBubbles.from_pandas(data=pdratio, r0=None, minlength=None, rstep=None, kmax=0)
 
 stat = psy.teststat()
-plt.plot(pd.Series(stat))
-plt.plot()
+# cval = psy.critval(test_size=0.05, fast=False, nreps=2000, nobs=2000)
+
+plt.plot(stat.keys(), stat.values(), label="Test Stat")
+# plt.plot(cval.keys(), cval.values(), linestyle="--", label="95% Critval")
+plt.show()

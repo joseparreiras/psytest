@@ -32,6 +32,8 @@ class PSYBubbles:
         Maximum lag :math:`k_{\\max}`. If none, uses :func:`psytest.info_criteria.find_optimal_kmax` to find the optimal value.
     minlength : float | None, optional
         Minimum bubble length. Defaults to :func:`psytest.utils.functions.minlength_default`.
+    delta: float.
+        Default is 1.0. The parameter to determine the minimum length of bubbles. Used only if :paramref:`minlength` is None.
 
     Raises
     -------
@@ -48,9 +50,10 @@ class PSYBubbles:
         rstep: float | None = None,
         kmax: int | None = None,
         minlength: float | None = None,
+        delta: float = 1.0,
     ) -> None:
         parsed_args: dict[str, Any] = __parse_psy_arguments__(
-            data=data, r0=r0, rstep=rstep, kmax=kmax, minlength=minlength
+            data=data, r0=r0, rstep=rstep, kmax=kmax, minlength=minlength, delta=delta
         )
         self.data: NDArray[float64] = parsed_args["data"]
         self.nobs: int = len(self.data)
@@ -391,6 +394,7 @@ def __parse_psy_arguments__(**kwargs) -> dict[str, Any]:
         - rstep: float, default is 1 / len(data)
         - kmax: int | None. If none, finds the optimal value using :func:`psytest.info_criteria.find_optimal_kmax`.
         - minlength: float, default is calculated using `minlength_default`
+        - delta: float, default is 1.0. The parameter to determine the minimum length of bubbles. Used only if minlength is None.
 
     Returns
     -------
@@ -437,7 +441,11 @@ def __parse_psy_arguments__(**kwargs) -> dict[str, Any]:
         raise ValueError("`kmax` must be less than the length of `data`")
     minlength: Any = kwargs.get("minlength")
     if minlength is None:
-        minlength: float = minlength_default(nobs=len(data))
+        if not isinstance(delta, float):
+            raise TypeError("`delta` must be a float")
+        if delta <= 0:
+            raise ValueError("`delta` must be greater than 0")
+        minlength: float = minlength_default(nobs=len(data), delta=delta)
     elif not isinstance(minlength, float):
         raise TypeError("`minlength` must be a float")
     return {

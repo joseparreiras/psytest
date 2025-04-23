@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>psytest.sadftest &#8212; psytest 0.2.4 documentation</title>
+    <title>psytest.sadftest &#8212; psytest 0.2.8 documentation</title>
   
   
   
@@ -36,7 +36,7 @@
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../_static/documentation_options.js?v=fd1d25c9"></script>
+    <script src="../../_static/documentation_options.js?v=a0cf2451"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
@@ -137,8 +137,8 @@
       
     
     
-    <img src="../../_static/logo.svg" class="logo__image only-light" alt="psytest 0.2.4 documentation - Home"/>
-    <script>document.write(`<img src="../../_static/logo.svg" class="logo__image only-dark" alt="psytest 0.2.4 documentation - Home"/>`);</script>
+    <img src="../../_static/logo.svg" class="logo__image only-light" alt="psytest 0.2.8 documentation - Home"/>
+    <script>document.write(`<img src="../../_static/logo.svg" class="logo__image only-dark" alt="psytest 0.2.8 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -369,7 +369,7 @@ document.write(`
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">prange</span><span class="p">(</span><span class="n">ntups</span><span class="p">):</span>
             <span class="n">r1</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">r1r2_grid</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
             <span class="n">r2</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">r1r2_grid</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
-            <span class="n">idx</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="nb">int</span><span class="p">((</span><span class="n">r2</span> <span class="o">-</span> <span class="n">r1</span> <span class="o">-</span> <span class="n">r0</span><span class="p">)</span> <span class="o">/</span> <span class="n">rstep</span><span class="p">)</span>
+            <span class="n">idx</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">r2</span> <span class="o">*</span> <span class="n">nstat</span><span class="p">)</span>
             <span class="n">stats</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span>
                 <span class="n">stats</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="n">idx</span><span class="p">],</span>
                 <span class="n">rolling_adfuller_stat</span><span class="p">(</span><span class="n">random_walks</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="n">kmax</span><span class="o">=</span><span class="n">kmax</span><span class="p">,</span> <span class="n">r1</span><span class="o">=</span><span class="n">r1</span><span class="p">,</span> <span class="n">r2</span><span class="o">=</span><span class="n">r2</span><span class="p">),</span>
@@ -446,8 +446,8 @@ document.write(`
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">prange</span><span class="p">(</span><span class="n">ntups</span><span class="p">):</span>
         <span class="n">r1</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">r1r2_grid</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">r2</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">r1r2_grid</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
-        <span class="n">i</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="nb">int</span><span class="p">((</span><span class="n">r2</span> <span class="o">-</span> <span class="n">r1</span> <span class="o">-</span> <span class="n">r0</span><span class="p">)</span> <span class="o">/</span> <span class="n">rstep</span><span class="p">)</span>
-        <span class="n">stat</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">stat</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">rolling_adfuller_stat</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">kmax</span><span class="o">=</span><span class="n">kmax</span><span class="p">,</span> <span class="n">r1</span><span class="o">=</span><span class="n">r1</span><span class="p">,</span> <span class="n">r2</span><span class="o">=</span><span class="n">r2</span><span class="p">))</span>
+        <span class="n">j</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">r2</span> <span class="o">*</span> <span class="n">nstat</span><span class="p">)</span>
+        <span class="n">stat</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">stat</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="n">rolling_adfuller_stat</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">kmax</span><span class="o">=</span><span class="n">kmax</span><span class="p">,</span> <span class="n">r1</span><span class="o">=</span><span class="n">r1</span><span class="p">,</span> <span class="n">r2</span><span class="o">=</span><span class="n">r2</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">stat</span></div>
 
 

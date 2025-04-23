@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>psytest documentation &#8212; psytest 0.2.4 documentation</title>
+    <title>psytest documentation &#8212; psytest 0.2.8 documentation</title>
   
   
   
@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="_static/documentation_options.js?v=fd1d25c9"></script>
+    <script src="_static/documentation_options.js?v=a0cf2451"></script>
     <script src="_static/doctools.js?v=9bcbadda"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
@@ -139,8 +139,8 @@
       
     
     
-    <img src="_static/logo.svg" class="logo__image only-light" alt="psytest 0.2.4 documentation - Home"/>
-    <script>document.write(`<img src="_static/logo.svg" class="logo__image only-dark" alt="psytest 0.2.4 documentation - Home"/>`);</script>
+    <img src="_static/logo.svg" class="logo__image only-light" alt="psytest 0.2.8 documentation - Home"/>
+    <script>document.write(`<img src="_static/logo.svg" class="logo__image only-dark" alt="psytest 0.2.8 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -370,15 +370,15 @@ document.write(`
                   
   <section id="psytest-documentation">
 <h1><code class="code docutils literal notranslate"><span class="pre">psytest</span></code> documentation<a class="headerlink" href="#psytest-documentation" title="Link to this heading">#</a></h1>
-<p>This is the documentation for the <cite>psytest</cite> package, a Python testing framework that applies the methodology of <span id="id1">[<a class="reference internal" href="#id3" title="Peter CB Phillips, Shu-Ping Shi, and Jun Yu. Testing for multiple bubbles. Working Paper, 2011.">1</a>]</span> (<em>PSY</em>) to test for the presence of multiple bubbles in a dataset.</p>
+<p>This is the documentation for the <cite>psytest</cite> package, a Python testing framework that applies the methodology of <span id="id1">[<a class="reference internal" href="#id4" title="Peter CB Phillips, Shuping Shi, and Jun Yu. Testing for multiple bubbles: historical episodes of exuberance and collapse in the s&amp;p 500. International economic review, 56(4):1043–1078, 2015.">1</a>]</span> (<em>PSY</em>) to test for the presence of multiple bubbles in a dataset.</p>
 <p>A bubble is defined as a period of explosive growth above a unit root in the time series for a consistent period of time.</p>
 <p>The main test in the package is the Backward Sup Augmented Dickey Fuller (<em>BSADF</em>) test of <em>PSY</em>. This test consists of applying the Augmented Dickey Fuller (<em>ADF</em>) test to an backward expanding window of the time series at each point in time to identify the presence of bubbles. A bubble is detected once this test rises above the critical value and ends when it returns to the region of non-rejection of the null hypothesis.</p>
 <p>The benefits of this test relative to other tests in the literature is its ability to identify multiple bubbles in a dataset.</p>
 <p>The main class of the package is the <code class="docutils literal notranslate"><span class="pre">PSYBubbles</span></code> class, which contains methods to calculate the BSADF test statistics and critical values as well as finding the start and end dates of the bubbles.</p>
 <p><strong>Usage Example:</strong></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">psytest.bubbles</span> <span class="kn">import</span> <span class="n">PSYBubbles</span>
-<span class="n">model</span> <span class="o">=</span> <span class="n">PSYBubbles</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">delta</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-<span class="n">model</span><span class="o">.</span><span class="n">teststat</span><span class="p">()</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">PSYBubbles</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+<span class="n">bubbles</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">find_bubbles</span><span class="p">()</span>
 </pre></div>
 </div>
 <div class="toctree-wrapper compound">
@@ -399,9 +399,9 @@ document.write(`
 </div>
 <div class="docutils container" id="id2">
 <div role="list" class="citation-list">
-<div class="citation" id="id3" role="doc-biblioentry">
+<div class="citation" id="id4" role="doc-biblioentry">
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
-<p>Peter CB Phillips, Shu-Ping Shi, and Jun Yu. Testing for multiple bubbles. <em>Working Paper</em>, 2011.</p>
+<p>Peter CB Phillips, Shuping Shi, and Jun Yu. Testing for multiple bubbles: historical episodes of exuberance and collapse in the s&amp;p 500. <em>International economic review</em>, 56(4):1043–1078, 2015.</p>
 </div>
 </div>
 </div>

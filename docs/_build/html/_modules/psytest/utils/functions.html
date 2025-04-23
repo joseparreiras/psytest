@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>psytest.utils.functions &#8212; psytest 0.2.4 documentation</title>
+    <title>psytest.utils.functions &#8212; psytest 0.2.8 documentation</title>
   
   
   
@@ -36,7 +36,7 @@
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../../_static/documentation_options.js?v=fd1d25c9"></script>
+    <script src="../../../_static/documentation_options.js?v=a0cf2451"></script>
     <script src="../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
@@ -137,8 +137,8 @@
       
     
     
-    <img src="../../../_static/logo.svg" class="logo__image only-light" alt="psytest 0.2.4 documentation - Home"/>
-    <script>document.write(`<img src="../../../_static/logo.svg" class="logo__image only-dark" alt="psytest 0.2.4 documentation - Home"/>`);</script>
+    <img src="../../../_static/logo.svg" class="logo__image only-light" alt="psytest 0.2.8 documentation - Home"/>
+    <script>document.write(`<img src="../../../_static/logo.svg" class="logo__image only-dark" alt="psytest 0.2.8 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -325,7 +325,7 @@ document.write(`
 
 <span class="sd">    where :math:`n` is the number of observations.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="mf">0.01</span> <span class="o">*</span> <span class="mf">0.08</span> <span class="o">*</span> <span class="n">nobs</span><span class="o">**</span><span class="mf">0.5</span></div>
+    <span class="k">return</span> <span class="mf">0.01</span> <span class="o">+</span> <span class="mf">1.8</span> <span class="o">/</span> <span class="n">nobs</span><span class="o">**</span><span class="mf">0.5</span></div>
 
 
 
@@ -338,8 +338,8 @@ document.write(`
 <span class="sd">    ----------</span>
 <span class="sd">    nobs : int</span>
 <span class="sd">        Number of observations</span>
-<span class="sd">    delta : float</span>
-<span class="sd">        Multiplier parameter for bubble length</span>
+<span class="sd">    delta: float</span>
+<span class="sd">        The delta parameter for the bubble length calculation</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -351,9 +351,9 @@ document.write(`
 <span class="sd">    Following the original paper, we set the minimum bubble length as:</span>
 
 <span class="sd">    .. math::</span>
-<span class="sd">        \\text{min_length} = \\frac{\\delta \\log(n)}{n}</span>
+<span class="sd">        \\text{min_length} = \\delta\\frac{\\log(n)}{n}</span>
 
-<span class="sd">    where :math:`n` is the number of observations and :math:`\\delta` is a multiplier parameter which should be input by the user.</span>
+<span class="sd">    where :math:`n` is the number of observations.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">delta</span> <span class="o">*</span> <span class="n">log</span><span class="p">(</span><span class="n">nobs</span><span class="p">)</span> <span class="o">/</span> <span class="n">nobs</span></div>
 

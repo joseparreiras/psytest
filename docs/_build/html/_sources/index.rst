@@ -6,7 +6,7 @@
 :code:`psytest` documentation
 ========================
 
-This is the documentation for the `psytest` package, a Python testing framework that applies the methodology of :cite:`phillips2011testing` (*PSY*) to test for the presence of multiple bubbles in a dataset. 
+This is the documentation for the `psytest` package, a Python testing framework that applies the methodology of :cite:`phillips2015testing` (*PSY*) to test for the presence of multiple bubbles in a dataset. 
 
 A bubble is defined as a period of explosive growth above a unit root in the time series for a consistent period of time.
 
@@ -21,8 +21,8 @@ The main class of the package is the ``PSYBubbles`` class, which contains method
 .. code-block:: python
    
    from psytest.bubbles import PSYBubbles
-   model = PSYBubbles(y, delta=2)
-   model.teststat()
+   model = PSYBubbles(y)
+   bubbles = model.find_bubbles()
 
 .. toctree::
    :maxdepth: 4

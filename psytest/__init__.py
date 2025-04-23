@@ -1,7 +1,7 @@
 """psytest
 =================
 
-This package provides a replication of the :cite:`phillips2011testing` tests for the detection of multiple bubbles in time series data. The main class is :class:`psytest.bubbles.PSYBubbles` (See :mod:`psytest.bubbles` for details), which implements the tests and provides methods for their application and interpretation.
+This package provides a replication of the :cite:`phillips2015testing` tests for the detection of multiple bubbles in time series data. The main class is :class:`psytest.bubbles.PSYBubbles` (See :mod:`psytest.bubbles` for details), which implements the tests and provides methods for their application and interpretation.
 
 Usage
 -----
