@@ -1,9 +1,0 @@
-numpy
-numba
-scipy
-pandas
-deprecation
-importlib-resources
-
-[testing]
-pytest
