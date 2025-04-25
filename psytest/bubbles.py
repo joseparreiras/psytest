@@ -440,6 +440,7 @@ def __parse_psy_arguments__(**kwargs) -> dict[str, Any]:
     if kmax > len(data) - 1:
         raise ValueError("`kmax` must be less than the length of `data`")
     minlength: Any = kwargs.get("minlength")
+    delta: Any = kwargs.get("delta", 1.0)
     if minlength is None:
         if not isinstance(delta, float):
             raise TypeError("`delta` must be a float")
