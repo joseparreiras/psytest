@@ -5,19 +5,25 @@ This module contains the main class for the PSY test (see :class:`psytest.bubble
 """
 
 from numpy.typing import NDArray
-from numpy import float64, bool_, array, arange, vstack, int64, ndarray
+from numpy import float64, int64, generic, bool_, array, arange, vstack, ndarray
 from collections.abc import Generator
-from typing import Any, Literal, overload
+from typing import Any, Literal, overload, TypeVar, Generic
+from functools import lru_cache
+from pandas import Series
+import logging
+
 from .critval import critval_tabulated, is_available_param
 from .utils.functions import r0_default, minlength_default
 from .utils.defaults import TEST_SIZE, NREPS, KMAX
 from .sadftest import bsadf_stat_all_series, bsadfuller_critval
 from .info_criteria import find_optimal_kmax
-from functools import lru_cache
-from pandas import Series
+
+logging.basicConfig(level=logging.CRITICAL, format="%(levelname)s: %(message)s")
+
+IndexType = TypeVar("IndexType", bound=generic)
 
 
-class PSYBubbles:
+class PSYBubbles(Generic[IndexType]):
     """Class to perform the Phillips, Shi & Yu (2015) test for bubbles in time series data.
 
     Parameters
@@ -57,7 +63,7 @@ class PSYBubbles:
         )
         self.data: NDArray[float64] = parsed_args["data"]
         self.nobs: int = len(self.data)
-        self.index: NDArray | None = None
+        self.index: NDArray[IndexType] | None = None
         self.r0: float = parsed_args["r0"]
         self.rstep: float = parsed_args["rstep"]
         self.kmax: int = parsed_args["kmax"]
@@ -65,7 +71,7 @@ class PSYBubbles:
         self.r2grid: NDArray[float64] = arange(self.r0, 1 + 1e-16, self.rstep)
 
     @lru_cache(maxsize=128)
-    def teststat(self, force: bool = False) -> dict[float, float]:
+    def teststat(self, force: bool = False) -> dict[float | IndexType, float]:
         """Retrieves the BSADF test statistic.
 
         Parameters
@@ -76,7 +82,7 @@ class PSYBubbles:
         Returns
         -------
         teststat : dictionary with float keys and float values
-            Test statistics for each :math:`r_2` in :func:`psytest.PSYBubbles.r2grid`.
+            Test statistics for each observation. If the object contains an index. It will be used as keys for the dictionary. Otherwise, the function returns the test statistic as a function of :math:`r_2` in :func:`psytest.PSYBubbles.r2grid`.
 
         Notes
         -----
@@ -95,12 +101,16 @@ class PSYBubbles:
                 self.data, self.r0, self.rstep, self.kmax
             )
             self.__teststat: dict[float, float] = dict(zip(self.r2grid, stat))
-        return self.__teststat
+        if hasattr(self, "index") and self.index is not None:
+            i0: int = int(self.nobs * self.r0)
+            return dict(zip(self.index[i0:], self.__teststat.values()))
+        else:
+            return self.__teststat
 
     @overload
     def critval(
         self, test_size: float | list[float], fast: Literal[True]
-    ) -> dict[float, NDArray[float64]]: ...
+    ) -> dict[float | IndexType, NDArray[float64]]: ...
 
     @overload
     def critval(
@@ -109,7 +119,7 @@ class PSYBubbles:
         fast: Literal[False],
         nreps: int,
         nobs: int | None,
-    ) -> dict[float, NDArray[float64]]: ...
+    ) -> dict[float | IndexType, NDArray[float64]]: ...
 
     @lru_cache(maxsize=5)
     def critval(
@@ -118,7 +128,7 @@ class PSYBubbles:
         fast: Literal[True, False] = True,
         nreps: int = NREPS,
         nobs: int | None = None,
-    ) -> dict[float, NDArray[float64]]:
+    ) -> dict[float | IndexType, NDArray[float64]]:
         """Retrieves BSADF critical values using Monte Carlo Simulations.
 
         Parameters
@@ -164,9 +174,18 @@ class PSYBubbles:
         else:
             raise TypeError("`test_size` must be a list of floats or a float")
         if fast:
-            return self._critval_tabulated(test_size=test_size)
+            statvals: dict[float, NDArray[float64]] = self._critval_tabulated(
+                test_size=test_size
+            )
         else:
-            return self._critval_simulated(test_size=test_size, nreps=nreps, nobs=nobs)
+            statvals: dict[float, NDArray[float64]] = self._critval_simulated(
+                test_size=test_size, nreps=nreps, nobs=nobs
+            )
+        if hasattr(self, "index") and self.index is not None:
+            i0: int = int(self.nobs * self.r0)
+            return dict(zip(self.index[i0:], statvals.values()))
+        else:
+            return statvals
 
     def _critval_tabulated(
         self, test_size: float | list[float]
@@ -276,10 +295,10 @@ class PSYBubbles:
             nreps=nreps,
             nobs=nobs,
         )
-        bubble_bool: list[NDArray[bool_]] = [stat[i] > cval[i] for i in stat.keys()]
+        bubble_bool: list[NDArray[bool_]] = [stat[i] >= cval[i] for i in stat.keys()]
         minlength: int = int(self.nobs * self.minlength)
         bubble_r2index: NDArray = array(
-            list(self._find_bubble_dates(bubble_bool, minlength))
+            list(PSYBubbles._find_bubble_dates(bubble_bool, minlength))
         )
         bubble_index: NDArray = array(
             [
@@ -288,7 +307,7 @@ class PSYBubbles:
             ]
         ).reshape((-1, 2))
         if hasattr(self, "index") and self.index is not None:
-            bubble_dates: list[tuple[Any, Any | None]] = []
+            bubble_dates: list[tuple[IndexType, IndexType | None]] = []
             for start, end in bubble_index:
                 idx_start: Any = self.index[start]
                 idx_end: Any = self.index[end] if end is not None else None
@@ -357,7 +376,7 @@ class PSYBubbles:
     @staticmethod
     def _is_bubble_long_enough(bubble_bool: list[bool], minlength: int) -> bool:
         try:
-            return all(bubble_bool[:minlength])
+            return all(bubble_bool[: minlength - 1])
         except IndexError:
             return False
 
@@ -367,19 +386,27 @@ class PSYBubbles:
     ) -> Generator[tuple[int, int | None], None, None]:
         i0 = 0
         while len(bubble_bool) > minlength:
-            bubble_bool = bubble_bool[i0:]
             if not PSYBubbles._check_bubble_exists(bubble_bool):
+                logging.info("No bubble found")
                 break
             start: int = bubble_bool.index(True)
+            logging.info(f"Potential bubble found at {start}")
             if PSYBubbles._is_bubble_long_enough(bubble_bool[start:], minlength):
                 if not PSYBubbles._check_bubble_ends(bubble_bool[start:]):
+                    logging.info(
+                        f"Bubble starting at {start} does not end on the last observation"
+                    )
                     yield (start + i0, None)
                     break
                 end: int = bubble_bool[start:].index(False) + start
+                logging.info(f"Bubble starting at {start} ends at {end}")
                 yield (start + i0, end + i0)
+                bubble_bool = bubble_bool[end:]
                 i0 += end
             else:
-                i0 += start + 1
+                logging.info("Bubble is not long enough")
+                bubble_bool = bubble_bool[start + minlength :]
+                i0 += start + minlength
 
 
 def __parse_psy_arguments__(**kwargs) -> dict[str, Any]:

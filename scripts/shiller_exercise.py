@@ -1,13 +1,13 @@
 from psytest import PSYBubbles
 import pandas as pd
 import matplotlib.pyplot as plt
-import numpy as np
-from statsmodels.tsa.stattools import adfuller
-from psytest.adftest import adfuller_stat, rolling_adfuller_stat
-from psytest.sadftest import bsadf_stat
+import logging
+from numpy import datetime64
+
+logging.basicConfig(level=logging.DEBUG)
 
 data = pd.read_csv(
-    filepath_or_buffer="tests/data/shiller_data.csv",
+    filepath_or_buffer="scripts/data/shiller_data.csv",
     parse_dates=["date"],
     index_col="date",
 )
@@ -19,11 +19,24 @@ pdratio = pdratio.dropna()
 plt.plot(pdratio)
 plt.show()
 
-psy = PSYBubbles.from_pandas(data=pdratio, r0=None, minlength=None, rstep=None, kmax=0)
+psy: PSYBubbles[datetime64] = PSYBubbles.from_pandas(
+    data=pdratio, r0=None, minlength=None, rstep=None, kmax=0
+)
 
-stat = psy.teststat()
-# cval = psy.critval(test_size=0.05, fast=False, nreps=2000, nobs=2000)
 
+stat: dict[datetime64, float] = psy.teststat()
+cval: dict[datetime64, float] = psy.critval(test_size=0.05, fast=True)
+
+
+bubbles: list = psy.find_bubbles(alpha=0.05)
+
+
+plt.figure(figsize=(12, 6))
 plt.plot(stat.keys(), stat.values(), label="Test Stat")
-# plt.plot(cval.keys(), cval.values(), linestyle="--", label="95% Critval")
+plt.plot(cval.keys(), cval.values(), linestyle="--", label="95% Critval")
+for b in bubbles:
+    plt.axvspan(b[0], b[1], color="gray", alpha=0.5, zorder=-1)
 plt.show()
+
+bubbles_table = pd.DataFrame(bubbles, columns=["start", "end"])
+print(bubbles_table)

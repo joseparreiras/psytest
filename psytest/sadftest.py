@@ -6,13 +6,14 @@ This module contains the functions related to the Sup ADF test and the Backward 
 See :mod:`psytest.adfstat` for the basic Augmented Dickey-Fuller test.
 """
 
-from .adftest import rolling_adfuller_stat
-from .utils.functions import random_walk, size_rgrid
 from numpy.typing import NDArray
-from numpy import float64, inf, repeat, arange, array, quantile
+from numpy import float64, inf, repeat, arange, array, quantile, round
 from collections.abc import Iterable
 from deprecation import deprecated
 from numba import njit, prange
+
+from .adftest import rolling_adfuller_stat
+from .utils.functions import random_walk, size_rgrid
 
 
 @deprecated
@@ -74,13 +75,14 @@ def __sadfuller_dist_from_random_walks__(
     nreps: int = random_walks.shape[0]
     r1r2_grid: NDArray[float64] = make_r1r2_combinations(r0, rstep)
     ntups: int = len(r1r2_grid)
-    nstat: int = size_rgrid(r0, rstep)
+    r2_grid: NDArray[float64] = make_r2_grid(r0, rstep)
+    nstat: int = len(r2_grid)
     stats: NDArray[float64] = repeat(-inf, nreps * nstat).reshape((nreps, nstat))
     for j in range(nreps):
         for i in prange(ntups):
             r1: int = r1r2_grid[i][0]
             r2: int = r1r2_grid[i][1]
-            idx: int = int(r2 * nstat)
+            idx: int = int(round((r2 - r0) / rstep, 0))
             stats[j, idx] = max(
                 stats[j, idx],
                 rolling_adfuller_stat(random_walks[j], kmax=kmax, r1=r1, r2=r2),
@@ -152,9 +154,15 @@ def bsadf_stat_all_series(
     for i in prange(ntups):
         r1: int = r1r2_grid[i][0]
         r2: int = r1r2_grid[i][1]
-        j: int = int(r2 * nstat)
+        j: int = int(round((r2 - r0) / rstep, 0))
         stat[j] = max(stat[j], rolling_adfuller_stat(y, kmax=kmax, r1=r1, r2=r2))
     return stat
+
+
+@njit
+def r2_index(r2: float, r0: float, rstep: float) -> int:
+    """Get the index of :paramref:`r2` in the grid from :paramref:`r0` to 1 with step size :paramref:`rstep`"""
+    return int((r2 - r0) // rstep)
 
 
 @njit
