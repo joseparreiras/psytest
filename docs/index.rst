@@ -14,21 +14,18 @@ The main test in the package is the Backward Sup Augmented Dickey Fuller (*BSADF
 
 The benefits of this test relative to other tests in the literature is its ability to identify multiple bubbles in a dataset.
 
-The main class of the package is the ``PSYBubbles`` class, which contains methods to calculate the BSADF test statistics and critical values as well as finding the start and end dates of the bubbles.
+The main class of the package is the :class:`psytest.PSYBubbles` class, which contains methods to calculate the BSADF test statistics and critical values as well as finding the start and end dates of the bubbles.
 
 **Usage Example:**
 
-.. code-block:: python
-   
-   from psytest.bubbles import PSYBubbles
-   model = PSYBubbles(y)
-   bubbles = model.find_bubbles()
+See :ref:`notebooks/replication.ipynb` for a replication example of the original paper as well as a walkthrough of the package.
 
 .. toctree::
    :maxdepth: 4
    :caption: Table of Contents
-   
+
    modules
+   notebooks/replication.ipynb
 
 .. bibliography:: refs.bib
    :style: plain

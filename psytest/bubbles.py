@@ -30,14 +30,14 @@ class PSYBubbles(Generic[IndexType]):
     ----------
     data : :class:`numpy.ndarray` of dtype :class:`numpy.float64`
         Time series values.
-    r0 : float | None, optional
-        Minimum window size :math:`r_0`. Defaults to :func:`psytest.utils.functions.r0_default`.
+    minwindow : int | None, optional
+        Minimum window size for the estimation. Defaults to using :func:`psytest.utils.functions.r0_default`.
+    minlength : int | None, optional
+        Minimum bubble length. Defaults to :func:`psytest.utils.functions.minlength_default`.
+    lagmax : int, optional
+        Maximum lag :math:`k_{\\max}`. If none, uses :func:`psytest.info_criteria.find_optimal_kmax` to find the optimal value.
     rstep : float | None, optional
         Step size :math:`r_{\\text{step}}`. Defaults to :math:`1/n` where :math:`n` is the size of :paramref:`data`.
-    kmax : int, optional
-        Maximum lag :math:`k_{\\max}`. If none, uses :func:`psytest.info_criteria.find_optimal_kmax` to find the optimal value.
-    minlength : float | None, optional
-        Minimum bubble length. Defaults to :func:`psytest.utils.functions.minlength_default`.
     delta: float.
         Default is 1.0. The parameter to determine the minimum length of bubbles. Used only if :paramref:`minlength` is None.
 
@@ -52,21 +52,27 @@ class PSYBubbles(Generic[IndexType]):
     def __init__(
         self,
         data: NDArray[float64],
-        r0: float | None = None,
+        minwindow: int | None = None,
+        minlength: int | None = None,
+        lagmax: int | None = None,
         rstep: float | None = None,
-        kmax: int | None = None,
-        minlength: float | None = None,
         delta: float = 1.0,
     ) -> None:
         parsed_args: dict[str, Any] = __parse_psy_arguments__(
-            data=data, r0=r0, rstep=rstep, kmax=kmax, minlength=minlength, delta=delta
+            data=data,
+            minwindow=minwindow,
+            rstep=rstep,
+            lagmax=lagmax,
+            minlength=minlength,
+            delta=delta,
         )
         self.data: NDArray[float64] = parsed_args["data"]
         self.nobs: int = len(self.data)
         self.index: NDArray[IndexType] | None = None
-        self.r0: float = parsed_args["r0"]
+        self.minwindow: int = parsed_args["minwindow"]
+        self.r0: float = self.minwindow / self.nobs
         self.rstep: float = parsed_args["rstep"]
-        self.kmax: int = parsed_args["kmax"]
+        self.lagmax: int = parsed_args["lagmax"]
         self.minlength: float = parsed_args["minlength"]
         self.r2grid: NDArray[float64] = arange(self.r0, 1 + 1e-16, self.rstep)
 
@@ -98,7 +104,7 @@ class PSYBubbles(Generic[IndexType]):
             raise TypeError("`force` must be a boolean")
         if force or not hasattr(self, "__teststat"):
             stat: NDArray[float64] = bsadf_stat_all_series(
-                self.data, self.r0, self.rstep, self.kmax
+                self.data, self.r0, self.rstep, self.lagmax
             )
             self.__teststat: dict[float, float] = dict(zip(self.r2grid, stat))
         if hasattr(self, "index") and self.index is not None:
@@ -190,21 +196,21 @@ class PSYBubbles(Generic[IndexType]):
     def _critval_tabulated(
         self, test_size: float | list[float]
     ) -> dict[float, NDArray[float64]]:
-        kmax: int = self.kmax
+        kmax: int = self.lagmax
         r0: float = self.r0
         r2grid: NDArray[float64] = self.r2grid
-        if not is_available_param(kmax=self.kmax, r0=self.r0):
+        if not is_available_param(kmax=self.lagmax, r0=self.r0):
             raise ValueError(
                 f"Parameters kmax={kmax!r} and r0={r0!r} are not available for tabulated critical values."
             )
         if isinstance(test_size, float):
             cval: NDArray[float64] | float = critval_tabulated(
-                r2grid, alpha=test_size, kmax=self.kmax, r0=self.r0
+                r2grid, alpha=test_size, kmax=self.lagmax, r0=self.r0
             )
         elif isinstance(test_size, list):
             cval: NDArray[float64] | float = vstack(
                 [
-                    critval_tabulated(r2grid, alpha=alpha, kmax=self.kmax, r0=self.r0)
+                    critval_tabulated(r2grid, alpha=alpha, kmax=self.lagmax, r0=self.r0)
                     for alpha in test_size
                 ]
             ).T
@@ -231,7 +237,7 @@ class PSYBubbles(Generic[IndexType]):
             nreps=nreps,
             nobs=nobs,
             test_size=test_size,
-            kmax=self.kmax,
+            kmax=self.lagmax,
         )
         return dict(zip(r2grid, cval))
 
@@ -296,7 +302,7 @@ class PSYBubbles(Generic[IndexType]):
             nobs=nobs,
         )
         bubble_bool: list[NDArray[bool_]] = [stat[i] >= cval[i] for i in stat.keys()]
-        minlength: int = int(self.nobs * self.minlength)
+        minlength: int = self.minlength
         bubble_r2index: NDArray = array(
             list(PSYBubbles._find_bubble_dates(bubble_bool, minlength))
         )
@@ -319,10 +325,10 @@ class PSYBubbles(Generic[IndexType]):
     def from_pandas(
         cls,
         data: Series,
-        r0: float | None = None,
-        rstep: float | None = None,
-        kmax: int = 0,
+        minwindow: int | None = None,
         minlength: int | None = None,
+        lagmax: int = 0,
+        rstep: float | None = None,
     ) -> "PSYBubbles":
         """Creates a PSYBubbles object from a :class:`pandas.Series`.
 
@@ -330,14 +336,14 @@ class PSYBubbles(Generic[IndexType]):
         ----------
         data : :class:`pandas.Series` of dtype :class:`numpy.float64`
             Time series data.
-        r0 : float | None, optional
-            Minimum window size :math:`r_0`. Defaults to `r0_default`.
-        rstep : float | None, optional
-            Step size :math:`r_{\\text{step}}`. Defaults to :math:`1/n`.
-        kmax : int, optional
-            Maximum lag :math:`k_{\\max}`. Defaults to 0.
+        minwindow : int | None, optional
+            Minimum window size to calculate the test. Defaults to `r0_default`.
         minlength : int | None, optional
             Minimum bubble length.
+        lagmax : int, optional
+            Maximum lag :math:`k_{\\max}`. Defaults to 0.
+        rstep : float | None, optional
+            Step size :math:`r_{\\text{step}}`. Defaults to :math:`1/n`.
 
         Returns
         -------
@@ -357,10 +363,10 @@ class PSYBubbles(Generic[IndexType]):
         data_index: NDArray | None = data.index.to_numpy()
         obj = cls(
             data=data_values,
-            r0=r0,
-            rstep=rstep,
-            kmax=kmax,
+            minwindow=minwindow,
             minlength=minlength,
+            lagmax=lagmax,
+            rstep=rstep,
         )
         obj.index = data_index
         return obj
@@ -417,9 +423,9 @@ def __parse_psy_arguments__(**kwargs) -> dict[str, Any]:
     **kwargs : dict
         Keyword arguments containing the parameters to be validated.
         - data: 1D array-like of numbers
-        - r0: float, default is calculated using :func:`r0_default`
+        - minwindow: float, default is calculated using :func:`r0_default`
         - rstep: float, default is 1 / len(data)
-        - kmax: int | None. If none, finds the optimal value using :func:`psytest.info_criteria.find_optimal_kmax`.
+        - lagmax: int | None. If none, finds the optimal value using :func:`psytest.info_criteria.find_optimal_kmax`.
         - minlength: float, default is calculated using `minlength_default`
         - delta: float, default is 1.0. The parameter to determine the minimum length of bubbles. Used only if minlength is None.
 
@@ -447,25 +453,27 @@ def __parse_psy_arguments__(**kwargs) -> dict[str, Any]:
         raise ValueError("`data` must be a number array")
     if len(data) < 2:
         raise ValueError("`data` must have at least 2 elements")
-    r0: Any = kwargs.get("r0", r0_default(len(data)))
-    if not isinstance(r0, float):
-        raise TypeError("`r0` must be a float")
-    if not 0 <= r0 <= 1:
-        raise ValueError("`r0` must be in the range [0, 1]")
+    minwindow: Any = kwargs.get("minwindow", r0_default(len(data)))
+    if not isinstance(minwindow, int):
+        raise TypeError("`minwindow` must be a int")
+    elif not 0 <= minwindow:
+        raise ValueError("`minwindow` must be positive")
+    elif minwindow >= len(data):
+        raise ValueError("`minwindow` must be less than the length of `data`")
     rstep: Any = kwargs.get("rstep", 1 / len(data))
     if not isinstance(rstep, float):
         raise TypeError("`rstep` must be a float")
     if not 0 < rstep <= 1:
         raise ValueError("`rstep` must be in the range (0, 1]")
-    kmax: Any = kwargs.get("kmax", KMAX)
-    if kmax is None:
-        kmax: int = find_optimal_kmax(y=data, klimit=KMAX)
-    elif not isinstance(kmax, int):
-        raise TypeError("`kmax` must be an integer or None")
-    if kmax < 0:
-        raise ValueError("`kmax` must be greater than or equal to 0")
-    if kmax > len(data) - 1:
-        raise ValueError("`kmax` must be less than the length of `data`")
+    lagmax: Any = kwargs.get("lagmax", KMAX)
+    if lagmax is None:
+        lagmax: int = find_optimal_kmax(y=data, klimit=KMAX)
+    elif not isinstance(lagmax, int):
+        raise TypeError("`lagmax` must be an integer or None")
+    if lagmax < 0:
+        raise ValueError("`lagmax` must be greater than or equal to 0")
+    if lagmax > len(data) - 1:
+        raise ValueError("`lagmax` must be less than the length of `data`")
     minlength: Any = kwargs.get("minlength")
     delta: Any = kwargs.get("delta", 1.0)
     if minlength is None:
@@ -474,12 +482,12 @@ def __parse_psy_arguments__(**kwargs) -> dict[str, Any]:
         if delta <= 0:
             raise ValueError("`delta` must be greater than 0")
         minlength: float = minlength_default(nobs=len(data), delta=delta)
-    elif not isinstance(minlength, float):
-        raise TypeError("`minlength` must be a float")
+    elif not isinstance(minlength, int):
+        raise TypeError("`minlength` must be a int")
     return {
         "data": data,
-        "r0": r0,
+        "minwindow": minwindow,
         "rstep": rstep,
-        "kmax": kmax,
+        "lagmax": lagmax,
         "minlength": minlength,
     }

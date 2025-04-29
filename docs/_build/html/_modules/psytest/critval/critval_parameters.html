@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>psytest.critval.critval_parameters &#8212; psytest 0.2.8 documentation</title>
+    <title>psytest.critval.critval_parameters &#8212; psytest 0.2.9 documentation</title>
   
   
   
@@ -27,7 +27,7 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sphinx_paramlinks.css" />
   
@@ -36,10 +36,11 @@
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../../_static/documentation_options.js?v=a0cf2451"></script>
+    <script src="../../../_static/documentation_options.js?v=1b33a64c"></script>
     <script src="../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/psytest/critval/critval_parameters';</script>
     <link rel="icon" href="../../../_static/bubbles.gif"/>
     <link rel="index" title="Index" href="../../../genindex.html" />
@@ -137,8 +138,8 @@
       
     
     
-    <img src="../../../_static/logo.svg" class="logo__image only-light" alt="psytest 0.2.8 documentation - Home"/>
-    <script>document.write(`<img src="../../../_static/logo.svg" class="logo__image only-dark" alt="psytest 0.2.8 documentation - Home"/>`);</script>
+    <img src="../../../_static/logo.svg" class="logo__image only-light" alt="psytest 0.2.9 documentation - Home"/>
+    <script>document.write(`<img src="../../../_static/logo.svg" class="logo__image only-dark" alt="psytest 0.2.9 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -169,6 +170,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../psytest.html">psytest package</a></li>
 </ul>
 </details></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../notebooks/replication.html">Replication of PSY</a></li>
 </ul>
 
     </div>
@@ -293,18 +295,18 @@ document.write(`
 <span class="sd">This module contains the framework for checking the available parameters for the tabulated critical values. The tabulated critical values are stored in the `data` directory of the package and named according to the parameters used to calculate them. The parameters are extracted from the file names and stored in a dictionary for easy access. The module also provides functions to list all available tables and check if a given set of parameters is available.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span>
-<span class="kn">from</span> <span class="nn">importlib.resources</span> <span class="kn">import</span> <span class="n">files</span>
-<span class="kn">from</span> <span class="nn">importlib.resources.abc</span> <span class="kn">import</span> <span class="n">Traversable</span>
-<span class="kn">from</span> <span class="nn">io</span> <span class="kn">import</span> <span class="n">StringIO</span>
-<span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">NamedTuple</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">enum</span><span class="w"> </span><span class="kn">import</span> <span class="n">Enum</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">importlib.resources</span><span class="w"> </span><span class="kn">import</span> <span class="n">files</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">importlib.resources.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Traversable</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">io</span><span class="w"> </span><span class="kn">import</span> <span class="n">StringIO</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">enum</span><span class="w"> </span><span class="kn">import</span> <span class="n">Enum</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">NamedTuple</span>
 
 
 <div class="viewcode-block" id="CritValParameterName">
 <a class="viewcode-back" href="../../../psytest.critval.critval_parameters.html#psytest.critval.CritValParameterName">[docs]</a>
-<span class="k">class</span> <span class="nc">CritValParameterName</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">CritValParameterName</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Enum for the critical value parameter names.&quot;&quot;&quot;</span>
 
     <span class="n">R0</span> <span class="o">=</span> <span class="s2">&quot;r0&quot;</span>
@@ -317,7 +319,7 @@ document.write(`
 
 <div class="viewcode-block" id="CritValParameterInfo">
 <a class="viewcode-back" href="../../../psytest.critval.critval_parameters.html#psytest.critval.CritValParameterInfo">[docs]</a>
-<span class="k">class</span> <span class="nc">CritValParameterInfo</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">CritValParameterInfo</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Named tuple for the critical value parameters.&quot;&quot;&quot;</span>
 
     <span class="n">kmax</span><span class="p">:</span> <span class="nb">int</span>
@@ -326,14 +328,14 @@ document.write(`
     <span class="n">nreps</span><span class="p">:</span> <span class="nb">int</span>
     <span class="n">nobs</span><span class="p">:</span> <span class="nb">int</span>
 
-    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;kmax=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">kmax</span><span class="si">}</span><span class="s2">, r0=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">r0</span><span class="si">}</span><span class="s2">, rstep=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">rstep</span><span class="si">}</span><span class="s2">, nreps=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">nreps</span><span class="si">}</span><span class="s2">, nobs=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">nobs</span><span class="si">}</span><span class="s2">&quot;</span></div>
 
 
 
 <div class="viewcode-block" id="traversable_to_string">
 <a class="viewcode-back" href="../../../psytest.critval.critval_parameters.html#psytest.critval.traversable_to_string">[docs]</a>
-<span class="k">def</span> <span class="nf">traversable_to_string</span><span class="p">(</span><span class="n">traversable</span><span class="p">:</span> <span class="n">Traversable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">traversable_to_string</span><span class="p">(</span><span class="n">traversable</span><span class="p">:</span> <span class="n">Traversable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert a Traversable object to a string representation.</span>
 
 <span class="sd">    Parameters</span>
@@ -354,7 +356,7 @@ document.write(`
 
 <div class="viewcode-block" id="extract_parameters_from_tablenames">
 <a class="viewcode-back" href="../../../psytest.critval.critval_parameters.html#psytest.critval.extract_parameters_from_tablenames">[docs]</a>
-<span class="k">def</span> <span class="nf">extract_parameters_from_tablenames</span><span class="p">(</span><span class="n">fname</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span> <span class="o">|</span> <span class="nb">float</span><span class="p">]:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">extract_parameters_from_tablenames</span><span class="p">(</span><span class="n">fname</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span> <span class="o">|</span> <span class="nb">float</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Retrieve the parameters from the file name of a critical value table.</span>
 
 <span class="sd">    Parameters</span>
@@ -388,7 +390,7 @@ document.write(`
 
 <div class="viewcode-block" id="list_critval_tables">
 <a class="viewcode-back" href="../../../psytest.critval.critval_parameters.html#psytest.critval.list_critval_tables">[docs]</a>
-<span class="k">def</span> <span class="nf">list_critval_tables</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">list_critval_tables</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Lists all critical value tables in the :literal:`data/` directory.</span>
 
 <span class="sd">    Returns</span>
@@ -407,7 +409,7 @@ document.write(`
 
 <div class="viewcode-block" id="list_available_tables">
 <a class="viewcode-back" href="../../../psytest.critval.critval_parameters.html#psytest.critval.list_available_tables">[docs]</a>
-<span class="k">def</span> <span class="nf">list_available_tables</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">list_available_tables</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Lists all available critical value tables in the :literal:`data/` directory.</span>
 
 <span class="sd">    Returns</span>
@@ -426,7 +428,7 @@ document.write(`
 
 <div class="viewcode-block" id="list_available_parameters">
 <a class="viewcode-back" href="../../../psytest.critval.critval_parameters.html#psytest.critval.list_available_parameters">[docs]</a>
-<span class="k">def</span> <span class="nf">list_available_parameters</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">CritValParameterInfo</span><span class="p">]:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">list_available_parameters</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">CritValParameterInfo</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Retrieves the parameters used to calculate the critical values from the available tables.</span>
 
 <span class="sd">    Returns</span>
@@ -450,7 +452,7 @@ document.write(`
 
 <div class="viewcode-block" id="is_available_param">
 <a class="viewcode-back" href="../../../psytest.critval.critval_parameters.html#psytest.critval.is_available_param">[docs]</a>
-<span class="k">def</span> <span class="nf">is_available_param</span><span class="p">(</span><span class="n">kmax</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">r0</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">is_available_param</span><span class="p">(</span><span class="n">kmax</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">r0</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Checks if the given parameters are available in the critical value tables.</span>
 
 <span class="sd">    Parameters</span>

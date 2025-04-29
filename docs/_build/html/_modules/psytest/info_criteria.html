@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>psytest.info_criteria &#8212; psytest 0.2.8 documentation</title>
+    <title>psytest.info_criteria &#8212; psytest 0.2.9 documentation</title>
   
   
   
@@ -27,7 +27,7 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx_paramlinks.css" />
   
@@ -36,10 +36,11 @@
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../_static/documentation_options.js?v=a0cf2451"></script>
+    <script src="../../_static/documentation_options.js?v=1b33a64c"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/psytest/info_criteria';</script>
     <link rel="icon" href="../../_static/bubbles.gif"/>
     <link rel="index" title="Index" href="../../genindex.html" />
@@ -137,8 +138,8 @@
       
     
     
-    <img src="../../_static/logo.svg" class="logo__image only-light" alt="psytest 0.2.8 documentation - Home"/>
-    <script>document.write(`<img src="../../_static/logo.svg" class="logo__image only-dark" alt="psytest 0.2.8 documentation - Home"/>`);</script>
+    <img src="../../_static/logo.svg" class="logo__image only-light" alt="psytest 0.2.9 documentation - Home"/>
+    <script>document.write(`<img src="../../_static/logo.svg" class="logo__image only-dark" alt="psytest 0.2.9 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -169,6 +170,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../psytest.html">psytest package</a></li>
 </ul>
 </details></li>
+<li class="toctree-l1"><a class="reference internal" href="../../notebooks/replication.html">Replication of PSY</a></li>
 </ul>
 
     </div>
@@ -293,16 +295,16 @@ document.write(`
 <span class="sd">This module contains functions to calculate various information criteria which allow us to choose the parameters for the ADF test.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">from</span> <span class="nn">numpy.typing</span> <span class="kn">import</span> <span class="n">NDArray</span>
-<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">float64</span><span class="p">,</span> <span class="n">var</span><span class="p">,</span> <span class="n">log</span><span class="p">,</span> <span class="n">int64</span><span class="p">,</span> <span class="n">diff</span><span class="p">,</span> <span class="n">array</span><span class="p">,</span> <span class="n">arange</span>
-<span class="kn">from</span> <span class="nn">collections.abc</span> <span class="kn">import</span> <span class="n">Callable</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Literal</span>
-<span class="kn">from</span> <span class="nn">.adftest</span> <span class="kn">import</span> <span class="n">adfuller_fit</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">numpy.typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">NDArray</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="kn">import</span> <span class="n">float64</span><span class="p">,</span> <span class="n">var</span><span class="p">,</span> <span class="n">log</span><span class="p">,</span> <span class="n">int64</span><span class="p">,</span> <span class="n">diff</span><span class="p">,</span> <span class="n">array</span><span class="p">,</span> <span class="n">arange</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Callable</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Literal</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.adftest</span><span class="w"> </span><span class="kn">import</span> <span class="n">adfuller_fit</span>
 
 
 <div class="viewcode-block" id="bic">
 <a class="viewcode-back" href="../../psytest.info_criteria.html#psytest.info_criteria.bic">[docs]</a>
-<span class="k">def</span> <span class="nf">bic</span><span class="p">(</span><span class="n">y</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">float64</span><span class="p">],</span> <span class="n">k</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">bic</span><span class="p">(</span><span class="n">y</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">float64</span><span class="p">],</span> <span class="n">k</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Bayes Information Criterion (BIC)</span>
 
 <span class="sd">    Parameters</span>
@@ -325,7 +327,7 @@ document.write(`
 
 <div class="viewcode-block" id="aic">
 <a class="viewcode-back" href="../../psytest.info_criteria.html#psytest.info_criteria.aic">[docs]</a>
-<span class="k">def</span> <span class="nf">aic</span><span class="p">(</span><span class="n">y</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">float64</span><span class="p">],</span> <span class="n">k</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">aic</span><span class="p">(</span><span class="n">y</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">float64</span><span class="p">],</span> <span class="n">k</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Akaike Information Criterion (AIC)</span>
 
 <span class="sd">    Parameters</span>
@@ -349,7 +351,7 @@ document.write(`
 
 <div class="viewcode-block" id="aicc">
 <a class="viewcode-back" href="../../psytest.info_criteria.html#psytest.info_criteria.aicc">[docs]</a>
-<span class="k">def</span> <span class="nf">aicc</span><span class="p">(</span><span class="n">y</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">float64</span><span class="p">],</span> <span class="n">k</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">aicc</span><span class="p">(</span><span class="n">y</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">float64</span><span class="p">],</span> <span class="n">k</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Corrected Akaike Information Criterion (AICc)</span>
 
 <span class="sd">    Parameters</span>
@@ -371,7 +373,7 @@ document.write(`
 
 <div class="viewcode-block" id="find_optimal_kmax">
 <a class="viewcode-back" href="../../psytest.info_criteria.html#psytest.info_criteria.find_optimal_kmax">[docs]</a>
-<span class="k">def</span> <span class="nf">find_optimal_kmax</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">find_optimal_kmax</span><span class="p">(</span>
     <span class="n">y</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">float64</span><span class="p">],</span>
     <span class="n">klimit</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="n">criteria</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;aic&quot;</span><span class="p">,</span> <span class="s2">&quot;bic&quot;</span><span class="p">,</span> <span class="s2">&quot;aicc&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;bic&quot;</span><span class="p">,</span>

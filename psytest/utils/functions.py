@@ -34,7 +34,7 @@ def r0_default(nobs: int) -> int:
 
     where :math:`n` is the number of observations.
     """
-    return 0.01 + 1.8 / nobs**0.5
+    return int((0.01 + 1.8 / nobs**0.5) * nobs)
 
 
 def minlength_default(nobs: int, delta: float) -> int:
@@ -61,7 +61,7 @@ def minlength_default(nobs: int, delta: float) -> int:
 
     where :math:`n` is the number of observations.
     """
-    return delta * log(nobs) / nobs
+    return int(delta * log(nobs))
 
 
 def random_walk(nreps: int, nobs: int) -> NDArray[float64]:

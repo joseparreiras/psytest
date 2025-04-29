@@ -53,7 +53,7 @@ def test_init_all_args(psy_instance: PSYBubbles, sim_data: NDArray[float64]) -> 
     assert isinstance(psy_instance.data, ndarray)
     assert psy_instance.data.dtype == float64
     assert len(psy_instance.data) == 1000
-    assert psy_instance.kmax == KMAX
+    assert psy_instance.lagmax == KMAX
 
 
 def test_init_with_defaults(psy_params: dict[str, Any]) -> None:
@@ -66,7 +66,7 @@ def test_init_with_defaults(psy_params: dict[str, Any]) -> None:
     assert isinstance(psy_instance, PSYBubbles)
     assert psy_instance.r0 == r0_default(psy_instance.nobs)
     assert psy_instance.rstep == 1 / psy_instance.nobs
-    assert psy_instance.kmax == KMAX
+    assert psy_instance.lagmax == KMAX
 
 
 def test_teststat(psy_instance: PSYBubbles) -> None:

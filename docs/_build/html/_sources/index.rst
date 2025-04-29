@@ -18,17 +18,14 @@ The main class of the package is the ``PSYBubbles`` class, which contains method
 
 **Usage Example:**
 
-.. code-block:: python
-   
-   from psytest.bubbles import PSYBubbles
-   model = PSYBubbles(y)
-   bubbles = model.find_bubbles()
+We replicate the findings of :cite:`phillips2015testing` in the following example.
 
 .. toctree::
    :maxdepth: 4
    :caption: Table of Contents
-   
+
    modules
+   notebooks/replication.ipynb
 
 .. bibliography:: refs.bib
    :style: plain

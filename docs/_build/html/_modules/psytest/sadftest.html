@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>psytest.sadftest &#8212; psytest 0.2.8 documentation</title>
+    <title>psytest.sadftest &#8212; psytest 0.2.9 documentation</title>
   
   
   
@@ -27,7 +27,7 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx_paramlinks.css" />
   
@@ -36,10 +36,11 @@
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../_static/documentation_options.js?v=a0cf2451"></script>
+    <script src="../../_static/documentation_options.js?v=1b33a64c"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/psytest/sadftest';</script>
     <link rel="icon" href="../../_static/bubbles.gif"/>
     <link rel="index" title="Index" href="../../genindex.html" />
@@ -137,8 +138,8 @@
       
     
     
-    <img src="../../_static/logo.svg" class="logo__image only-light" alt="psytest 0.2.8 documentation - Home"/>
-    <script>document.write(`<img src="../../_static/logo.svg" class="logo__image only-dark" alt="psytest 0.2.8 documentation - Home"/>`);</script>
+    <img src="../../_static/logo.svg" class="logo__image only-light" alt="psytest 0.2.9 documentation - Home"/>
+    <script>document.write(`<img src="../../_static/logo.svg" class="logo__image only-dark" alt="psytest 0.2.9 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -169,6 +170,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../psytest.html">psytest package</a></li>
 </ul>
 </details></li>
+<li class="toctree-l1"><a class="reference internal" href="../../notebooks/replication.html">Replication of PSY</a></li>
 </ul>
 
     </div>
@@ -295,18 +297,19 @@ document.write(`
 <span class="sd">See :mod:`psytest.adfstat` for the basic Augmented Dickey-Fuller test.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">from</span> <span class="nn">.adftest</span> <span class="kn">import</span> <span class="n">rolling_adfuller_stat</span>
-<span class="kn">from</span> <span class="nn">.utils.functions</span> <span class="kn">import</span> <span class="n">random_walk</span><span class="p">,</span> <span class="n">size_rgrid</span>
-<span class="kn">from</span> <span class="nn">numpy.typing</span> <span class="kn">import</span> <span class="n">NDArray</span>
-<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">float64</span><span class="p">,</span> <span class="n">inf</span><span class="p">,</span> <span class="n">repeat</span><span class="p">,</span> <span class="n">arange</span><span class="p">,</span> <span class="n">array</span><span class="p">,</span> <span class="n">quantile</span>
-<span class="kn">from</span> <span class="nn">collections.abc</span> <span class="kn">import</span> <span class="n">Iterable</span>
-<span class="kn">from</span> <span class="nn">deprecation</span> <span class="kn">import</span> <span class="n">deprecated</span>
-<span class="kn">from</span> <span class="nn">numba</span> <span class="kn">import</span> <span class="n">njit</span><span class="p">,</span> <span class="n">prange</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">numpy.typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">NDArray</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="kn">import</span> <span class="n">float64</span><span class="p">,</span> <span class="n">inf</span><span class="p">,</span> <span class="n">repeat</span><span class="p">,</span> <span class="n">arange</span><span class="p">,</span> <span class="n">array</span><span class="p">,</span> <span class="n">quantile</span><span class="p">,</span> <span class="nb">round</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Iterable</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deprecation</span><span class="w"> </span><span class="kn">import</span> <span class="n">deprecated</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">numba</span><span class="w"> </span><span class="kn">import</span> <span class="n">njit</span><span class="p">,</span> <span class="n">prange</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">.adftest</span><span class="w"> </span><span class="kn">import</span> <span class="n">rolling_adfuller_stat</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.utils.functions</span><span class="w"> </span><span class="kn">import</span> <span class="n">random_walk</span><span class="p">,</span> <span class="n">size_rgrid</span>
 
 
 <span class="nd">@deprecated</span>
 <span class="nd">@njit</span><span class="p">(</span><span class="n">parallel</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">sadfuller_stat</span><span class="p">(</span><span class="n">y</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">float64</span><span class="p">],</span> <span class="n">r0</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">rstep</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">kmax</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">sadfuller_stat</span><span class="p">(</span><span class="n">y</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">float64</span><span class="p">],</span> <span class="n">r0</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">rstep</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">kmax</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Calculates the Sup ADF statistic by rolling over the interval [0, 1].</span>
 
 <span class="sd">    Parameters</span>
@@ -341,7 +344,7 @@ document.write(`
 
 
 <span class="nd">@njit</span><span class="p">(</span><span class="n">parallel</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">__sadfuller_dist_from_random_walks__</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">__sadfuller_dist_from_random_walks__</span><span class="p">(</span>
     <span class="n">random_walks</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">float64</span><span class="p">],</span> <span class="n">r0</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">rstep</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">kmax</span><span class="p">:</span> <span class="nb">int</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">float64</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Calculates the asymptotic distribution of the Sup ADF test statistics based on a series of simulated random walks.</span>
@@ -363,13 +366,14 @@ document.write(`
     <span class="n">nreps</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">random_walks</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
     <span class="n">r1r2_grid</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">float64</span><span class="p">]</span> <span class="o">=</span> <span class="n">make_r1r2_combinations</span><span class="p">(</span><span class="n">r0</span><span class="p">,</span> <span class="n">rstep</span><span class="p">)</span>
     <span class="n">ntups</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">r1r2_grid</span><span class="p">)</span>
-    <span class="n">nstat</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">size_rgrid</span><span class="p">(</span><span class="n">r0</span><span class="p">,</span> <span class="n">rstep</span><span class="p">)</span>
+    <span class="n">r2_grid</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">float64</span><span class="p">]</span> <span class="o">=</span> <span class="n">make_r2_grid</span><span class="p">(</span><span class="n">r0</span><span class="p">,</span> <span class="n">rstep</span><span class="p">)</span>
+    <span class="n">nstat</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">r2_grid</span><span class="p">)</span>
     <span class="n">stats</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">float64</span><span class="p">]</span> <span class="o">=</span> <span class="n">repeat</span><span class="p">(</span><span class="o">-</span><span class="n">inf</span><span class="p">,</span> <span class="n">nreps</span> <span class="o">*</span> <span class="n">nstat</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">nreps</span><span class="p">,</span> <span class="n">nstat</span><span class="p">))</span>
     <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nreps</span><span class="p">):</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">prange</span><span class="p">(</span><span class="n">ntups</span><span class="p">):</span>
             <span class="n">r1</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">r1r2_grid</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
             <span class="n">r2</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">r1r2_grid</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
-            <span class="n">idx</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">r2</span> <span class="o">*</span> <span class="n">nstat</span><span class="p">)</span>
+            <span class="n">idx</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">round</span><span class="p">((</span><span class="n">r2</span> <span class="o">-</span> <span class="n">r0</span><span class="p">)</span> <span class="o">/</span> <span class="n">rstep</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
             <span class="n">stats</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span>
                 <span class="n">stats</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="n">idx</span><span class="p">],</span>
                 <span class="n">rolling_adfuller_stat</span><span class="p">(</span><span class="n">random_walks</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="n">kmax</span><span class="o">=</span><span class="n">kmax</span><span class="p">,</span> <span class="n">r1</span><span class="o">=</span><span class="n">r1</span><span class="p">,</span> <span class="n">r2</span><span class="o">=</span><span class="n">r2</span><span class="p">),</span>
@@ -380,7 +384,7 @@ document.write(`
 <div class="viewcode-block" id="bsadf_stat">
 <a class="viewcode-back" href="../../psytest.sadftest.html#psytest.sadftest.bsadf_stat">[docs]</a>
 <span class="nd">@njit</span><span class="p">(</span><span class="n">parallel</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">bsadf_stat</span><span class="p">(</span><span class="n">y</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">float64</span><span class="p">],</span> <span class="n">r0</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">r2</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">kmax</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">bsadf_stat</span><span class="p">(</span><span class="n">y</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">float64</span><span class="p">],</span> <span class="n">r0</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">r2</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">kmax</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Calculates the Backward Sup ADF test statistic.</span>
 
 <span class="sd">    Parameters</span>
@@ -418,7 +422,7 @@ document.write(`
 <div class="viewcode-block" id="bsadf_stat_all_series">
 <a class="viewcode-back" href="../../psytest.sadftest.html#psytest.sadftest.bsadf_stat_all_series">[docs]</a>
 <span class="nd">@njit</span><span class="p">(</span><span class="n">parallel</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">bsadf_stat_all_series</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">bsadf_stat_all_series</span><span class="p">(</span>
     <span class="n">y</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">float64</span><span class="p">],</span> <span class="n">r0</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">rstep</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">kmax</span><span class="p">:</span> <span class="nb">int</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">float64</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Calculates BSADF statistics over all possible (r1, r2) combinations.</span>
@@ -446,16 +450,25 @@ document.write(`
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">prange</span><span class="p">(</span><span class="n">ntups</span><span class="p">):</span>
         <span class="n">r1</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">r1r2_grid</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">r2</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">r1r2_grid</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
-        <span class="n">j</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">r2</span> <span class="o">*</span> <span class="n">nstat</span><span class="p">)</span>
+        <span class="n">j</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">round</span><span class="p">((</span><span class="n">r2</span> <span class="o">-</span> <span class="n">r0</span><span class="p">)</span> <span class="o">/</span> <span class="n">rstep</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
         <span class="n">stat</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">stat</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="n">rolling_adfuller_stat</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">kmax</span><span class="o">=</span><span class="n">kmax</span><span class="p">,</span> <span class="n">r1</span><span class="o">=</span><span class="n">r1</span><span class="p">,</span> <span class="n">r2</span><span class="o">=</span><span class="n">r2</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">stat</span></div>
+
+
+
+<div class="viewcode-block" id="r2_index">
+<a class="viewcode-back" href="../../psytest.sadftest.html#psytest.sadftest.r2_index">[docs]</a>
+<span class="nd">@njit</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">r2_index</span><span class="p">(</span><span class="n">r2</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">r0</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">rstep</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the index of :paramref:`r2` in the grid from :paramref:`r0` to 1 with step size :paramref:`rstep`&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="nb">int</span><span class="p">((</span><span class="n">r2</span> <span class="o">-</span> <span class="n">r0</span><span class="p">)</span> <span class="o">//</span> <span class="n">rstep</span><span class="p">)</span></div>
 
 
 
 <div class="viewcode-block" id="make_r2_grid">
 <a class="viewcode-back" href="../../psytest.sadftest.html#psytest.sadftest.make_r2_grid">[docs]</a>
 <span class="nd">@njit</span>
-<span class="k">def</span> <span class="nf">make_r2_grid</span><span class="p">(</span><span class="n">r0</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">rstep</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">float64</span><span class="p">]:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">make_r2_grid</span><span class="p">(</span><span class="n">r0</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">rstep</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">float64</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Creates the grid of all possible `r2` values.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">arange</span><span class="p">(</span><span class="n">r0</span><span class="p">,</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">rstep</span><span class="p">,</span> <span class="n">rstep</span><span class="p">)</span></div>
 
@@ -464,7 +477,7 @@ document.write(`
 <div class="viewcode-block" id="make_r1_grid">
 <a class="viewcode-back" href="../../psytest.sadftest.html#psytest.sadftest.make_r1_grid">[docs]</a>
 <span class="nd">@njit</span>
-<span class="k">def</span> <span class="nf">make_r1_grid</span><span class="p">(</span><span class="n">r2</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">r0</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">rstep</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">float64</span><span class="p">]:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">make_r1_grid</span><span class="p">(</span><span class="n">r2</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">r0</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">rstep</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">float64</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Creates the grid of all possible `r1` values given `r2`.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">r2</span> <span class="o">-</span> <span class="n">r0</span> <span class="o">+</span> <span class="n">rstep</span><span class="p">,</span> <span class="n">rstep</span><span class="p">)</span></div>
 
@@ -473,7 +486,7 @@ document.write(`
 <div class="viewcode-block" id="make_r1r2_combinations">
 <a class="viewcode-back" href="../../psytest.sadftest.html#psytest.sadftest.make_r1r2_combinations">[docs]</a>
 <span class="nd">@njit</span><span class="p">(</span><span class="n">parallel</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">make_r1r2_combinations</span><span class="p">(</span><span class="n">r0</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">rstep</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">float64</span><span class="p">]:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">make_r1r2_combinations</span><span class="p">(</span><span class="n">r0</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">rstep</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">float64</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Creates a grid of all (r1, r2) index pairs to evaluate BSADF.</span>
 
 <span class="sd">    Parameters</span>
@@ -509,7 +522,7 @@ document.write(`
 
 <div class="viewcode-block" id="bsadfuller_critval">
 <a class="viewcode-back" href="../../psytest.sadftest.html#psytest.sadftest.bsadfuller_critval">[docs]</a>
-<span class="k">def</span> <span class="nf">bsadfuller_critval</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">bsadfuller_critval</span><span class="p">(</span>
     <span class="n">r0</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">rstep</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">nreps</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>

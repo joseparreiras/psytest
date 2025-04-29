@@ -29,6 +29,7 @@ extensions = [
     "sphinx_paramlinks",
     "sphinxcontrib.bibtex",  # For bibliography management
     "sphinx.ext.intersphinx",  # For linking to other projects
+    "nbsphinx",
 ]
 
 bibtex_bibfiles = ["refs.bib"]
@@ -70,3 +71,5 @@ intersphinx_mapping = {
     "pandas": ("https://pandas.pydata.org/pandas-docs/stable", None),
     "numpy": ("https://numpy.org/doc/stable/", None),
 }
+
+nbsphinx_allow_errors = True  # Optional: allows notebooks with errors to build

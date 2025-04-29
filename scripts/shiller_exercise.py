@@ -20,7 +20,7 @@ plt.plot(pdratio)
 plt.show()
 
 psy: PSYBubbles[datetime64] = PSYBubbles.from_pandas(
-    data=pdratio, r0=None, minlength=None, rstep=None, kmax=0
+    data=pdratio, minwindow=None, minlength=None, lagmax=0
 )
 
 
