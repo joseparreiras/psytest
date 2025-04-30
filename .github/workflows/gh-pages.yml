@@ -24,8 +24,13 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install sphinx sphinx-book-theme sphinx-paramlinks sphinxcontrib-bibtex myst-parser importlib-resources nbsphinx pandoc
+          pip install sphinx sphinx-book-theme sphinx-paramlinks sphinxcontrib-bibtex myst-parser importlib-resources nbsphinx
           pip install -e .
+
+      - name: Install Pandoc
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y pandoc
 
       - name: List structure
         run: |
