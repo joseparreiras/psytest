@@ -9,7 +9,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 import pytest
 from psytest import PSYBubbles
 from psytest.utils.functions import simulate_markov, r0_default
-from psytest.utils.defaults import KMAX
+from psytest.utils.defaults import LAGMAX
 
 
 @pytest.fixture(scope="session")
@@ -26,7 +26,7 @@ def psy_params(sim_data: NDArray[float64]) -> dict[str, Any]:
         "r0": 0.10,
         "rstep": 0.10,
         "minlength": 0.10,
-        "kmax": KMAX,
+        "kmax": LAGMAX,
     }
 
 
@@ -53,7 +53,7 @@ def test_init_all_args(psy_instance: PSYBubbles, sim_data: NDArray[float64]) -> 
     assert isinstance(psy_instance.data, ndarray)
     assert psy_instance.data.dtype == float64
     assert len(psy_instance.data) == 1000
-    assert psy_instance.lagmax == KMAX
+    assert psy_instance.lagmax == LAGMAX
 
 
 def test_init_with_defaults(psy_params: dict[str, Any]) -> None:
@@ -66,7 +66,7 @@ def test_init_with_defaults(psy_params: dict[str, Any]) -> None:
     assert isinstance(psy_instance, PSYBubbles)
     assert psy_instance.r0 == r0_default(psy_instance.nobs)
     assert psy_instance.rstep == 1 / psy_instance.nobs
-    assert psy_instance.lagmax == KMAX
+    assert psy_instance.lagmax == LAGMAX
 
 
 def test_teststat(psy_instance: PSYBubbles) -> None:
@@ -77,7 +77,7 @@ def test_teststat(psy_instance: PSYBubbles) -> None:
 
 
 def test_critval_tabulated(psy_instance: PSYBubbles) -> None:
-    critval = psy_instance.critval(test_size=0.05, fast=True)
+    critval = psy_instance.critval(alpha=0.05, fast=True)
     for r, cv in critval.items():
         assert isinstance(r, float)
         assert isinstance(cv, float)
@@ -86,7 +86,7 @@ def test_critval_tabulated(psy_instance: PSYBubbles) -> None:
 def test_critval_simulated(
     psy_instance: PSYBubbles, simulation_params: dict[str, Any]
 ) -> None:
-    critval = psy_instance.critval(test_size=0.05, fast=False, **simulation_params)
+    critval = psy_instance.critval(alpha=0.05, fast=False, **simulation_params)
     assert isinstance(critval, dict)
     for r, cv in critval.items():
         assert isinstance(r, float)
@@ -98,11 +98,11 @@ def test_critval_simulated_cache(
 ) -> None:
     # Run it first time
     critval: dict[float, NDArray[float64]] = psy_instance.critval(
-        test_size=0.05, fast=False, **simulation_params
+        alpha=0.05, fast=False, **simulation_params
     )
     # Run it after caching
     critval2: dict[float, NDArray[float64]] = psy_instance.critval(
-        test_size=0.05, fast=False, **simulation_params
+        alpha=0.05, fast=False, **simulation_params
     )
     assert critval == critval2
     assert hasattr(psy_instance.critval, "cache_info")

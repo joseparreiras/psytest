@@ -25,7 +25,7 @@ psy: PSYBubbles[datetime64] = PSYBubbles.from_pandas(
 
 
 stat: dict[datetime64, float] = psy.teststat()
-cval: dict[datetime64, float] = psy.critval(test_size=0.05, fast=True)
+cval: dict[datetime64, float] = psy.critval(alpha=0.05, fast=True)
 
 
 bubbles: list = psy.find_bubbles(alpha=0.05)

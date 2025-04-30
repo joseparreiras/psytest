@@ -16,9 +16,49 @@ The benefits of this test relative to other tests in the literature is its abili
 
 The main class of the package is the :class:`psytest.PSYBubbles` class, which contains methods to calculate the BSADF test statistics and critical values as well as finding the start and end dates of the bubbles.
 
-**Usage Example:**
 
-See :doc:`notebooks/replication` for a replication example of the original paper as well as a walkthrough of the package.
+Installation
+------------
+
+You can install the package from my GitHub repository using :code:`pip`:
+
+
+.. code-block:: bash
+
+    pip install git+https://github.com/joseparreiras/psytest
+
+or clone the repository and install it locally:
+
+.. code-block:: bash
+
+    git clone https://github.com/joseparreiras/psytest
+    cd psytest
+    pip install .
+
+Usage Example
+-------------
+
+The package is designed to be easy to use. The main class is :class:`psytest.PSYBubbles`, which contains methods to calculate the BSADF test statistics and critical values as well as finding the start and end dates of the bubbles.
+
+Assuming the time series data is stored in a :class:`numpy.ndarray`, you can innitiate the class with the data and the desired parameters:
+
+.. code-block:: python
+
+    import numpy as np
+    from psytest import PSYBubbles
+
+    # Create an instance of the PSYBubbles class
+    psy = PSYBubbles(
+       data,
+       minwindow=10,
+       minlength=90,
+       maxlag=2,
+    )
+
+    # Find the start and end dates of the bubbles
+    psy.find_bubbles(alpha=0.05)
+
+See :doc:`notebooks/replication` for a replication example of the original paper as well as a walkthrough of the package. Also see the :doc:`modules` for a detailed description of the methods and attributes of the :class:`psytest.PSYBubbles` class.
 
 .. toctree::
    :maxdepth: 4
@@ -27,5 +67,9 @@ See :doc:`notebooks/replication` for a replication example of the original paper
    modules
    notebooks/replication.ipynb
 
+References
+------------
+
 .. bibliography:: refs.bib
    :style: plain
+   :all:

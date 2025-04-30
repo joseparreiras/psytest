@@ -14,7 +14,7 @@ import logging
 
 from .critval import critval_tabulated, is_available_param
 from .utils.functions import r0_default, minlength_default
-from .utils.defaults import TEST_SIZE, NREPS, KMAX
+from .utils.defaults import ALPHA_LIST, NREPS, LAGMAX
 from .sadftest import bsadf_stat_all_series, bsadfuller_critval
 from .info_criteria import find_optimal_kmax
 
@@ -70,10 +70,10 @@ class PSYBubbles(Generic[IndexType]):
         self.nobs: int = len(self.data)
         self.index: NDArray[IndexType] | None = None
         self.minwindow: int = parsed_args["minwindow"]
+        self.minlength: int = parsed_args["minlength"]
+        self.lagmax: int = parsed_args["lagmax"]
         self.r0: float = self.minwindow / self.nobs
         self.rstep: float = parsed_args["rstep"]
-        self.lagmax: int = parsed_args["lagmax"]
-        self.minlength: float = parsed_args["minlength"]
         self.r2grid: NDArray[float64] = arange(self.r0, 1 + 1e-16, self.rstep)
 
     @lru_cache(maxsize=128)
@@ -115,13 +115,13 @@ class PSYBubbles(Generic[IndexType]):
 
     @overload
     def critval(
-        self, test_size: float | list[float], fast: Literal[True]
+        self, alpha: float | list[float], fast: Literal[True]
     ) -> dict[float | IndexType, NDArray[float64]]: ...
 
     @overload
     def critval(
         self,
-        test_size: float | list[float],
+        alpha: float | list[float],
         fast: Literal[False],
         nreps: int,
         nobs: int | None,
@@ -130,7 +130,7 @@ class PSYBubbles(Generic[IndexType]):
     @lru_cache(maxsize=5)
     def critval(
         self,
-        test_size: list[float] | float = TEST_SIZE,
+        alpha: list[float] | float = ALPHA_LIST,
         fast: Literal[True, False] = True,
         nreps: int = NREPS,
         nobs: int | None = None,
@@ -139,8 +139,8 @@ class PSYBubbles(Generic[IndexType]):
 
         Parameters
         ----------
-        test_size : list[float] | float, optional
-            Significance levels :math:`\\alpha`. Defaults to TEST_SIZE (see :mod:`psytest.utils.defaults`)
+        alpha : list[float] | float, optional
+            Significance levels :math:`\\alpha`. Defaults to ALPHA_LIST (see :mod:`psytest.utils.defaults`)
         fast : bool, optional
             If :literal:`True` (Default), uses tabulated critical values. Otherwise, simulates them using :paramref:`nreps` simulations of size :paramref:`nobs`.
         nreps : int, optional
@@ -152,15 +152,15 @@ class PSYBubbles(Generic[IndexType]):
         -------
         critval : dict
             Dictionary with critical values for each :math:`r_2` in :func:`psytest.PSYBubbles.r2grid`. The keys are the :math:`r_2` values and the values are the critical values for the given significance level.
-            If :paramref:`test_size` is a list, the keys are the :math:`r_2` values and the values are an array of critical values for each significance level.
-            If :paramref:`test_size` is a float, the keys are the :math:`r_2` values and the values are the critical values for the given significance level.
+            If :paramref:`alpha` is a list, the keys are the :math:`r_2` values and the values are an array of critical values for each significance level.
+            If :paramref:`alpha` is a float, the keys are the :math:`r_2` values and the values are the critical values for the given significance level.
 
         Raises
         -------
         TypeError
-            If :paramref:`test_size` is not a float or list of floats, or if :paramref:`fast` is not a boolean.
+            If :paramref:`alpha` is not a float or list of floats, or if :paramref:`fast` is not a boolean.
         ValueError
-            If :paramref:`test_size` is not in the range (0, 1) or if :paramref:`nreps` is not a positive integer.
+            If :paramref:`alpha` is not in the range (0, 1) or if :paramref:`nreps` is not a positive integer.
 
         Notes
         -----
@@ -168,24 +168,24 @@ class PSYBubbles(Generic[IndexType]):
         """
         if not isinstance(fast, bool):
             raise TypeError("`fast` must be a boolean")
-        if isinstance(test_size, float):
-            if test_size <= 0 or test_size >= 1:
-                raise ValueError("`test_size` must be in the range (0, 1)")
-        elif isinstance(test_size, list):
-            for size in test_size:
+        if isinstance(alpha, float):
+            if alpha <= 0 or alpha >= 1:
+                raise ValueError("`alpha` must be in the range (0, 1)")
+        elif isinstance(alpha, list):
+            for size in alpha:
                 if not isinstance(size, float):
-                    raise TypeError("`test_size` must be a list of floats")
+                    raise TypeError("`alpha` must be a list of floats")
                 if size <= 0 or size >= 1:
-                    raise ValueError("`test_size` must be in the range (0, 1)")
+                    raise ValueError("`alpha` must be in the range (0, 1)")
         else:
-            raise TypeError("`test_size` must be a list of floats or a float")
+            raise TypeError("`alpha` must be a list of floats or a float")
         if fast:
             statvals: dict[float, NDArray[float64]] = self._critval_tabulated(
-                test_size=test_size
+                alpha=alpha
             )
         else:
             statvals: dict[float, NDArray[float64]] = self._critval_simulated(
-                test_size=test_size, nreps=nreps, nobs=nobs
+                alpha=alpha, nreps=nreps, nobs=nobs
             )
         if hasattr(self, "index") and self.index is not None:
             i0: int = int(self.nobs * self.r0)
@@ -194,7 +194,7 @@ class PSYBubbles(Generic[IndexType]):
             return statvals
 
     def _critval_tabulated(
-        self, test_size: float | list[float]
+        self, alpha: float | list[float]
     ) -> dict[float, NDArray[float64]]:
         kmax: int = self.lagmax
         r0: float = self.r0
@@ -203,21 +203,21 @@ class PSYBubbles(Generic[IndexType]):
             raise ValueError(
                 f"Parameters kmax={kmax!r} and r0={r0!r} are not available for tabulated critical values."
             )
-        if isinstance(test_size, float):
+        if isinstance(alpha, float):
             cval: NDArray[float64] | float = critval_tabulated(
-                r2grid, alpha=test_size, kmax=self.lagmax, r0=self.r0
+                r2grid, alpha=alpha, kmax=self.lagmax, r0=self.r0
             )
-        elif isinstance(test_size, list):
+        elif isinstance(alpha, list):
             cval: NDArray[float64] | float = vstack(
                 [
                     critval_tabulated(r2grid, alpha=alpha, kmax=self.lagmax, r0=self.r0)
-                    for alpha in test_size
+                    for alpha in alpha
                 ]
             ).T
         return dict(zip(r2grid, cval))
 
     def _critval_simulated(
-        self, test_size: float | list[float], nreps: int, nobs: int | None
+        self, alpha: float | list[float], nreps: int, nobs: int | None
     ) -> dict[float, NDArray[float64]]:
         if not isinstance(nreps, int):
             raise TypeError("`nreps` must be an integer")
@@ -236,7 +236,7 @@ class PSYBubbles(Generic[IndexType]):
             rstep=self.rstep,
             nreps=nreps,
             nobs=nobs,
-            test_size=test_size,
+            alpha=alpha,
             kmax=self.lagmax,
         )
         return dict(zip(r2grid, cval))
@@ -296,7 +296,7 @@ class PSYBubbles(Generic[IndexType]):
             raise TypeError("`fast` must be a boolean")
         stat: dict[float, float] = self.teststat()
         cval: dict[float, NDArray[float64]] = self.critval(
-            test_size=alpha,
+            alpha=alpha,
             fast=fast,  # type: ignore[assignment]
             nreps=nreps,
             nobs=nobs,
@@ -465,9 +465,9 @@ def __parse_psy_arguments__(**kwargs) -> dict[str, Any]:
         raise TypeError("`rstep` must be a float")
     if not 0 < rstep <= 1:
         raise ValueError("`rstep` must be in the range (0, 1]")
-    lagmax: Any = kwargs.get("lagmax", KMAX)
+    lagmax: Any = kwargs.get("lagmax", LAGMAX)
     if lagmax is None:
-        lagmax: int = find_optimal_kmax(y=data, klimit=KMAX)
+        lagmax: int = find_optimal_kmax(y=data, klimit=LAGMAX)
     elif not isinstance(lagmax, int):
         raise TypeError("`lagmax` must be an integer or None")
     if lagmax < 0:

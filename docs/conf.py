@@ -29,6 +29,7 @@ extensions = [
     "sphinx_paramlinks",
     "sphinxcontrib.bibtex",  # For bibliography management
     "sphinx.ext.intersphinx",  # For linking to other projects
+    "sphinx_copybutton",  # For copy buttons in code blocks
     "nbsphinx",
 ]
 

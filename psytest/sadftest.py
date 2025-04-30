@@ -216,7 +216,7 @@ def bsadfuller_critval(
     rstep: float,
     nreps: int,
     nobs: int,
-    test_size: Iterable | float,
+    alpha: Iterable | float,
     kmax: int,
 ) -> NDArray[float64]:
     """Calculates critical values of BSADF statistics from Monte Carlo simulations.
@@ -231,7 +231,7 @@ def bsadfuller_critval(
         Number of replications.
     nobs : int | None
         Number of observations.
-    test_size : Iterable | float
+    alpha : Iterable | float
         Significance levels.
 
     Returns
@@ -252,10 +252,10 @@ def bsadfuller_critval(
     sadf_dist: NDArray[float64] = __sadfuller_dist_from_random_walks__(
         random_walks=rw, r0=r0, rstep=rstep, kmax=kmax
     )
-    if isinstance(test_size, float):
-        quant_float: float = 1 - test_size
+    if isinstance(alpha, float):
+        quant_float: float = 1 - alpha
         critval: NDArray[float64] = quantile(sadf_dist, quant_float, axis=0)
-    elif isinstance(test_size, Iterable):
-        quant_list: list[float] = [1 - q for q in test_size]
+    elif isinstance(alpha, Iterable):
+        quant_list: list[float] = [1 - q for q in alpha]
         critval: NDArray[float64] = quantile(sadf_dist, quant_list, axis=0)
     return critval

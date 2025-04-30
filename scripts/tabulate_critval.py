@@ -10,7 +10,7 @@ import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from psytest.sadftest import bsadfuller_critval, make_r2_grid
 from psytest.critval.critval import make_colname_from_alpha
-from psytest.utils.defaults import TEST_SIZE
+from psytest.utils.defaults import ALPHA_LIST
 
 # Parameters -------------------------------------------------------------------
 
@@ -56,11 +56,11 @@ def main() -> None:
             rstep=RSTEP,
             nreps=NREPS,
             nobs=NOBS,
-            test_size=TEST_SIZE,
+            alpha=ALPHA_LIST,
             kmax=kmax,
         ).T
         # Convert to DataFrame
-        col_names: list[str] = [make_colname_from_alpha(s) for s in TEST_SIZE]
+        col_names: list[str] = [make_colname_from_alpha(s) for s in ALPHA_LIST]
         df: DataFrame = DataFrame(critval, columns=col_names, index=r2grid)
         fname: str = (
             f"critval_"
