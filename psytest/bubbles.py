@@ -38,7 +38,7 @@ class PSYBubbles(Generic[IndexType]):
         Maximum lag :math:`k_{\\max}`. If none, uses :func:`psytest.info_criteria.find_optimal_kmax` to find the optimal value.
     rstep : float | None, optional
         Step size :math:`r_{\\text{step}}`. Defaults to :math:`1/n` where :math:`n` is the size of :paramref:`data`.
-    delta: float.
+    delta: float, optional
         Default is 1.0. The parameter to determine the minimum length of bubbles. Used only if :paramref:`minlength` is None.
 
     Raises

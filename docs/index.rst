@@ -18,7 +18,7 @@ The main class of the package is the :class:`psytest.PSYBubbles` class, which co
 
 **Usage Example:**
 
-See :ref:`notebooks/replication.ipynb` for a replication example of the original paper as well as a walkthrough of the package.
+See :doc:`notebooks/replication` for a replication example of the original paper as well as a walkthrough of the package.
 
 .. toctree::
    :maxdepth: 4
