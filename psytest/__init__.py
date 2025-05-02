@@ -24,7 +24,7 @@ from .bubbles import PSYBubbles
 
 __all__: list[str] = ["PSYBubbles"]
 __name__: str = "psytest"
-__version__: str = "0.3.0"
+__version__: str = "0.3.1"
 __author__: str = "José Antunes Neto"
 __email__: str = "jose.neto@kellogg.northwestern.edu"
 __description__: str = "Python module to test for the presence of bubbles."
