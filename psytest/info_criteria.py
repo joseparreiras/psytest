@@ -80,17 +80,17 @@ def find_optimal_kmax(
 
     Parameters
     ----------
-    error : list of :class:`numpy.ndarray`
-        List of `m` fitted error values for each model.
-    k_list : :class:`numpy.ndarray`
-        List of `m` values for the number of parameters of each model.
+    y : list of :class:`numpy.ndarray`
+        List of `m` data values for each model.
+    klimit : int
+        Maximum number of lags to consider.
     criteria : "aic", "bic" or "aicc".
         Information criteria to use for evaluation. Defaults to "bic".
 
     Raises
     ------
     TypeError
-        If :paramref:`klimi` is not an integer
+        If :paramref:`klimit` is not an integer
     ValueError
         If :paramref:`klimit` is negative or greater than sample size.
         If :paramref:`criteria` is not in ("aic", "bic", "aicc")
@@ -116,11 +116,10 @@ def find_optimal_kmax(
 
     y_diff: NDArray[float64] = diff(y)
     klist: NDArray[int64] = arange(0, klimit + 1)
-    kmax: int = klimit + 1
     y_diff_fitted: NDArray[float64] = array(
-        [adfuller_fit(y=y, kmax=k)[kmax - k :] for k in klist]
+        [adfuller_fit(y=y, kmax=k)[klimit - k :] for k in klist]
     )
-    error: NDArray[float64] = y_diff - y_diff_fitted
+    error: NDArray[float64] = y_diff[klimit:] - y_diff_fitted
     criteria_values: list[float] = [func(y, k + 1) for y, k in zip(error, klist)]
     koptimal: int = klist[criteria_values.index(min(criteria_values))]
     return koptimal
