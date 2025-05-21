@@ -1,6 +1,7 @@
 # `psytest` package documentation
 
 [![Docs](https://img.shields.io/badge/docs-online-blue.svg)](https://joseparreiras.github.io/docs/_build/html/index.html)
+[![License](https://img.shields.io/github/license/joseparreiras/psytest)](https://github.com/joseparreiras/psytest/blob/main/LICENSE)
 [![Issues](https://img.shields.io/github/issues/joseparreiras/psytest)](https://github.com/joseparreiras/psytest/issues)
 [![Last Commit](https://img.shields.io/github/last-commit/joseparreiras/psytest)](https://github.com/joseparreiras/psytest/commits/main)
 [![Stars](https://img.shields.io/github/stars/joseparreiras/psytest?style=social)](https://github.com/joseparreiras/psytest/stargazers)
