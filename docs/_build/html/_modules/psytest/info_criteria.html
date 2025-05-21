@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>psytest.info_criteria &#8212; psytest 0.3.0 documentation</title>
+    <title>psytest.info_criteria &#8212; psytest 0.3.1 documentation</title>
   
   
   
@@ -29,6 +29,7 @@
 
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx_paramlinks.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
@@ -36,9 +37,11 @@
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../_static/documentation_options.js?v=83a61292"></script>
+    <script src="../../_static/documentation_options.js?v=385a908f"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
     <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/psytest/info_criteria';</script>
@@ -138,8 +141,8 @@
       
     
     
-    <img src="../../_static/logo.svg" class="logo__image only-light" alt="psytest 0.3.0 documentation - Home"/>
-    <script>document.write(`<img src="../../_static/logo.svg" class="logo__image only-dark" alt="psytest 0.3.0 documentation - Home"/>`);</script>
+    <img src="../../_static/psytest-logo.png" class="logo__image only-light" alt="psytest 0.3.1 documentation - Home"/>
+    <script>document.write(`<img src="../../_static/psytest-logo-white.png" class="logo__image only-dark" alt="psytest 0.3.1 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -383,17 +386,17 @@ document.write(`
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    error : list of :class:`numpy.ndarray`</span>
-<span class="sd">        List of `m` fitted error values for each model.</span>
-<span class="sd">    k_list : :class:`numpy.ndarray`</span>
-<span class="sd">        List of `m` values for the number of parameters of each model.</span>
+<span class="sd">    y : list of :class:`numpy.ndarray`</span>
+<span class="sd">        List of `m` data values for each model.</span>
+<span class="sd">    klimit : int</span>
+<span class="sd">        Maximum number of lags to consider.</span>
 <span class="sd">    criteria : &quot;aic&quot;, &quot;bic&quot; or &quot;aicc&quot;.</span>
 <span class="sd">        Information criteria to use for evaluation. Defaults to &quot;bic&quot;.</span>
 
 <span class="sd">    Raises</span>
 <span class="sd">    ------</span>
 <span class="sd">    TypeError</span>
-<span class="sd">        If :paramref:`klimi` is not an integer</span>
+<span class="sd">        If :paramref:`klimit` is not an integer</span>
 <span class="sd">    ValueError</span>
 <span class="sd">        If :paramref:`klimit` is negative or greater than sample size.</span>
 <span class="sd">        If :paramref:`criteria` is not in (&quot;aic&quot;, &quot;bic&quot;, &quot;aicc&quot;)</span>
@@ -419,11 +422,10 @@ document.write(`
 
     <span class="n">y_diff</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">float64</span><span class="p">]</span> <span class="o">=</span> <span class="n">diff</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
     <span class="n">klist</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">int64</span><span class="p">]</span> <span class="o">=</span> <span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">klimit</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
-    <span class="n">kmax</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">klimit</span> <span class="o">+</span> <span class="mi">1</span>
     <span class="n">y_diff_fitted</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">float64</span><span class="p">]</span> <span class="o">=</span> <span class="n">array</span><span class="p">(</span>
-        <span class="p">[</span><span class="n">adfuller_fit</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">kmax</span><span class="o">=</span><span class="n">k</span><span class="p">)[</span><span class="n">kmax</span> <span class="o">-</span> <span class="n">k</span> <span class="p">:]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">klist</span><span class="p">]</span>
+        <span class="p">[</span><span class="n">adfuller_fit</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">kmax</span><span class="o">=</span><span class="n">k</span><span class="p">)[</span><span class="n">klimit</span> <span class="o">-</span> <span class="n">k</span> <span class="p">:]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">klist</span><span class="p">]</span>
     <span class="p">)</span>
-    <span class="n">error</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">float64</span><span class="p">]</span> <span class="o">=</span> <span class="n">y_diff</span> <span class="o">-</span> <span class="n">y_diff_fitted</span>
+    <span class="n">error</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">float64</span><span class="p">]</span> <span class="o">=</span> <span class="n">y_diff</span><span class="p">[</span><span class="n">klimit</span><span class="p">:]</span> <span class="o">-</span> <span class="n">y_diff_fitted</span>
     <span class="n">criteria_values</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">func</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">y</span><span class="p">,</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">error</span><span class="p">,</span> <span class="n">klist</span><span class="p">)]</span>
     <span class="n">koptimal</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">klist</span><span class="p">[</span><span class="n">criteria_values</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">criteria_values</span><span class="p">))]</span>
     <span class="k">return</span> <span class="n">koptimal</span></div>

@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>psytest.info_criteria module &#8212; psytest 0.3.0 documentation</title>
+    <title>psytest.info_criteria module &#8212; psytest 0.3.1 documentation</title>
   
   
   
@@ -31,14 +31,14 @@
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="_static/sphinx_paramlinks.css?v=dd72e65a" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx_paramlinks.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="_static/documentation_options.js?v=83a61292"></script>
+    <script src="_static/documentation_options.js?v=385a908f"></script>
     <script src="_static/doctools.js?v=9bcbadda"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -142,8 +142,8 @@
       
     
     
-    <img src="_static/logo.svg" class="logo__image only-light" alt="psytest 0.3.0 documentation - Home"/>
-    <script>document.write(`<img src="_static/logo.svg" class="logo__image only-dark" alt="psytest 0.3.0 documentation - Home"/>`);</script>
+    <img src="_static/psytest-logo.png" class="logo__image only-light" alt="psytest 0.3.1 documentation - Home"/>
+    <script>document.write(`<img src="_static/psytest-logo-white.png" class="logo__image only-dark" alt="psytest 0.3.1 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -460,14 +460,14 @@ document.write(`
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><span class="target" id="psytest.info_criteria.find_optimal_kmax.params.error"></span><strong>error</strong><a class="paramlink headerlink reference internal" href="#psytest.info_criteria.find_optimal_kmax.params.error">¶</a> (list of <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a>) – List of <cite>m</cite> fitted error values for each model.</p></li>
-<li><p><span class="target" id="psytest.info_criteria.find_optimal_kmax.params.k_list"></span><strong>k_list</strong><a class="paramlink headerlink reference internal" href="#psytest.info_criteria.find_optimal_kmax.params.k_list">¶</a> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a>) – List of <cite>m</cite> values for the number of parameters of each model.</p></li>
+<li><p><span class="target" id="psytest.info_criteria.find_optimal_kmax.params.y"></span><strong>y</strong><a class="paramlink headerlink reference internal" href="#psytest.info_criteria.find_optimal_kmax.params.y">¶</a> (list of <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a>) – List of <cite>m</cite> data values for each model.</p></li>
+<li><p><span class="target" id="psytest.info_criteria.find_optimal_kmax.params.klimit"></span><strong>klimit</strong><a class="paramlink headerlink reference internal" href="#psytest.info_criteria.find_optimal_kmax.params.klimit">¶</a> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><em>int</em></a>) – Maximum number of lags to consider.</p></li>
 <li><p><span class="target" id="psytest.info_criteria.find_optimal_kmax.params.criteria"></span><strong>criteria</strong><a class="paramlink headerlink reference internal" href="#psytest.info_criteria.find_optimal_kmax.params.criteria">¶</a> (<em>&quot;aic&quot;</em><em>, </em><em>&quot;bic&quot;</em><em> or </em><em>&quot;aicc&quot;.</em>) – Information criteria to use for evaluation. Defaults to “bic”.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
-<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.13)"><strong>TypeError</strong></a> – If <a class="reference internal" href="#psytest.info_criteria.find_optimal_kmax.params.klimi" title="psytest.info_criteria.find_optimal_kmax"><code class="xref py py-paramref docutils literal notranslate"><span class="pre">klimi</span></code></a> is not an integer</p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.13)"><strong>TypeError</strong></a> – If <a class="reference internal" href="#psytest.info_criteria.find_optimal_kmax.params.klimit" title="psytest.info_criteria.find_optimal_kmax"><code class="xref py py-paramref docutils literal notranslate"><span class="pre">klimit</span></code></a> is not an integer</p></li>
 <li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.13)"><strong>ValueError</strong></a> – If <a class="reference internal" href="#psytest.info_criteria.find_optimal_kmax.params.klimit" title="psytest.info_criteria.find_optimal_kmax"><code class="xref py py-paramref docutils literal notranslate"><span class="pre">klimit</span></code></a> is negative or greater than sample size.
     If <a class="reference internal" href="#psytest.info_criteria.find_optimal_kmax.params.criteria" title="psytest.info_criteria.find_optimal_kmax"><code class="xref py py-paramref docutils literal notranslate"><span class="pre">criteria</span></code></a> is not in (“aic”, “bic”, “aicc”)</p></li>
 </ul>

@@ -43,7 +43,7 @@ exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 html_theme = "sphinx_book_theme"
 html_static_path = ["_static"]
 html_favicon = "_static/bubbles.gif"
-html_logo = "_static/logo.svg"
+# html_logo = "_static/logo.svg"
 
 html_theme_options = {
     "repository_url": psytest.__url__,  # optional
@@ -54,6 +54,10 @@ html_theme_options = {
     "logo_only": True,
     "home_page_in_toc": True,
     "display_version": False,
+    "logo": {
+        "image_light": "_static/psytest-logo.png",
+        "image_dark": "_static/psytest-logo-white.png",
+    }
 }
 
 autodoc_default_options = {
